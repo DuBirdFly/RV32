@@ -1,3 +1,5 @@
+`include "defines.v"
+
 module InstFetch(
     input                               clk,
     input                               rst,
@@ -12,7 +14,7 @@ module InstFetch(
 
 always @(posedge clk) begin
     if (rst) begin
-        pc <= 0;
+        pc <= 'd0;
     end
     else if (~hold) begin
         if (jump_flag)

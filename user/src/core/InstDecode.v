@@ -2,7 +2,6 @@
 
 module InstructionDecode(
     input                           clk,
-    input                           rst,
     input                           hold,
     
     input       [31:0]              inst,       // from InstructionFetch
