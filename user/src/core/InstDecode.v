@@ -2,7 +2,6 @@
 
 module InstructionDecode(
     input                           clk,
-    input                           hold,
     
     input       [31:0]              inst,       // from InstructionFetch
 
@@ -15,7 +14,7 @@ module InstructionDecode(
 );
 
 always @(posedge clk) begin
-    
+
     case (inst[6:0])
         `OPCODE_I_COMPU:
             case (inst[14:12])
@@ -86,7 +85,7 @@ always @(posedge clk) begin
 
         default: error <= 1'd1;
     endcase
-    
+
 end
 
 endmodule

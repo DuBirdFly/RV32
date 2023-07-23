@@ -1,7 +1,7 @@
 `include "defines.v"
 
 module Excute(
-    input clk,
+    input                               clk,
 
     input       [31:0]                  x_rs1, x_rs2, 
     input       [31:0]                  imm,

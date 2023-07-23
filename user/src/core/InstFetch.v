@@ -12,15 +12,16 @@ module InstFetch(
 
 );
 
+// 优先级: rst > jump_flag > hold
 always @(posedge clk) begin
     if (rst) begin
         pc <= 'd0;
     end
+    else if (jump_flag) begin
+        pc <= jump_addr;
+    end
     else if (~hold) begin
-        if (jump_flag)
-            pc <= jump_addr;
-        else
-            pc <= pc + 'd4;
+        pc <= pc + 'd4;
     end
 end
 
