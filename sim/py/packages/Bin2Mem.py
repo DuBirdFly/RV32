@@ -1,8 +1,9 @@
-import sys
+import sys, os
 
 class Bin2Mem:
 
     def __init__(self, infile, outfile):
+        # 使用绝对路径
         self.infile = infile
         self.outfile = outfile
 
@@ -11,6 +12,15 @@ class Bin2Mem:
         print("正在进行 'Bin文件转Mem' - Bin2Mem.py(run)")
         print(f"Bin文件地址: {sys.argv[1]}")
         print(f"Mem文件地址: {sys.argv[2]}")
+
+        # 如果输出文件所在的目录不存在，则创建目录
+        dirname = os.path.dirname(self.outfile)
+        filename = os.path.basename(self.outfile)
+        if not os.path.exists(dirname):
+            print(f'想要在{dirname}下建立{filename}文件, 但是{dirname}目录不存在')
+            print(f'所以需要创建{dirname}目录')
+            os.makedirs(dirname)
+
         print("--------------------------------------------------", end = '')
 
         # 读取二进制文件内容
