@@ -1,0 +1,12 @@
+# 忽略prj目录下的所有文件, 但保留prj目录
+prj/*
+!prj/.gitkeep
+
+# 忽略sim/output目录下的所有文件, 但保留sim/output目录
+sim/output/*
+!sim/output/.gitkeep
+
+# 忽略 .vscode 目录
+/.vscode
+
+
