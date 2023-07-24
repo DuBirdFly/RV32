@@ -5,18 +5,19 @@ module CoreTop(
     input rst
 );
 
-reg                             hold;
+// hold
+wire                            hold_if, hold_reg, hold_mem;
 
 // IF
 wire                            jump_flag;
 wire    [`InstCatchDepth-1:0]   jump_addr;
-wire    [`InstCatchDepth-1:0]   pc;             // [11:0]
+wire    [`InstCatchDepth-1:0]   pc, pc_d1, pc_d2;             // [11:0]
 
 // InstCatch
 wire    [31:0]                  inst;
 
 // ID
-wire    [4:0]                   rs1, rs2, rd;
+wire    [4:0]                   rs1, rs2, rd, rd_d1, rd_d2;
 wire    [31:0]                  imm;
 wire    [`InstIDDepth-1:0]      instID;
 
@@ -32,22 +33,29 @@ wire    [31:0]                  MEMwrdata;
 
 // MEM
 wire                            MEM_x_rd_vld;
-wire    [31:0]                  MEM_x_rd;
+wire    [31:0]                  MEM_x_rd;                
 
-// delay
-reg     [`InstCatchDepth-1:0]   pc_d1, pc_d2;
-reg     [4:0]                   rd_d1, rd_d2;
+// others
+reg     [2:0]                   cnt;        // 0 ~ 7
 
 always @(posedge clk) begin
     {pc_d2, pc_d1} <= {pc_d1, pc};
     {rd_d2, rd_d1} <= {rd_d1, rd};
 end
 
+always @(posedge clk)
+    if (rst) cnt <= 0;
+    else cnt <= cnt + 1'b1;
+
+assign hold_if = (cnt != 8'd0);
+assign hold_mem = (cnt != 8'd4);
+assign hold_reg = (cnt != 8'd5);
+
 InstFetch u_InstFetch(
     // input
     .clk            ( clk           ),
     .rst            ( rst           ),
-    .hold           ( hold          ),
+    .hold           ( hold_if       ),
     .jump_flag      ( jump_flag     ),
     .jump_addr      ( jump_addr     ),
     // output
@@ -80,7 +88,7 @@ InstructionDecode u_InstructionDecode(
 
 Registers u_Registers(
     .clk            ( clk           ),
-    .hold           ( hold          ),
+    .hold           ( hold_reg      ),
     .rdaddr1        ( rs1           ),
     .rddata1        ( x_rs1         ),
     .rdaddr2        ( rs2           ),
@@ -113,7 +121,7 @@ Excute u_Excute(
 MemoryAccess u_MemoryAccess(
     // input
     .clk           ( clk            ),
-    .hold          ( hold           ),
+    .hold          ( hold_mem       ),
     .EX_x_rd       ( EX_x_rd        ),
     .EX_x_rd_vld   ( EX_x_rd_vld    ),
     .rden          ( MEMrden        ),
