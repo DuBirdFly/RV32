@@ -14,7 +14,7 @@ module Excute(
     // x_rd could be create by ALU or MEM
     output reg  [31:0]                  x_rd,
     output reg                          x_rd_vld,       // x_rd_valid
-    output reg  [`DataCatchDepth-1:0]   MEMaddr,
+    output reg  [31:0]                  MEMaddr,
     output reg  [3:0]                   MEMrden,
     output reg  [3:0]                   MEMwren,
     output reg  [31:0]                  MEMwrdata,
