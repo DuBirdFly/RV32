@@ -29,8 +29,6 @@ class Sim:
         self.ivg_cmd.append("-I")
         tmp = PathFile.get_file_path(path_rtl_dir, "defines.v")
 
-        
-
         if len(tmp) == 0:
             raise FileNotFoundError(f"{path_rtl_dir}文件夹下没有'defines.v'文件")
         elif len(tmp) > 1:
