@@ -16,22 +16,18 @@ wire    [`InstCatchDepth-1:0]   pc;             // [11:0]
 wire    [31:0]                  inst;
 
 // ID
-wire    [4:0]                   rs1;
-wire    [4:0]                   rs2;
-wire    [4:0]                   rd;
+wire    [4:0]                   rs1, rs2, rd;
 wire    [31:0]                  imm;
 wire    [`InstIDDepth-1:0]      instID;
 
 // Regs
-wire    [31:0]                  x_rs1;
-wire    [31:0]                  x_rs2;
+wire    [31:0]                  x_rs1, x_rs2;
 
 // EX
 wire                            EX_x_rd_vld;
 wire    [31:0]                  EX_x_rd;
 wire    [31:0]                  MEMaddr;
-wire    [3:0]                   MEMrden;
-wire    [3:0]                   MEMwren;
+wire    [3:0]                   MEMrden, MEMwren;
 wire    [31:0]                  MEMwrdata;
 
 // MEM
@@ -116,17 +112,17 @@ Excute u_Excute(
 
 MemoryAccess u_MemoryAccess(
     // input
-    .clk             ( clk          ),
-    .hold            ( hold         ),
-    .EX_x_rd         ( EX_x_rd      ),
-    .EX_x_rd_vld     ( EX_x_rd_vld  ),
-    .rden            ( MEMrden      ),
-    .wren            ( MEMwren      ),
-    .wrdata          ( MEMwrdata    ),
-    .addr            ( MEMaddr      ),
-    // output
-    .x_rd_vld        ( MEM_x_rd_vld ),
-    .x_rd            ( MEM_x_rd     )
+    .clk           ( clk            ),
+    .hold          ( hold           ),
+    .EX_x_rd       ( EX_x_rd        ),
+    .EX_x_rd_vld   ( EX_x_rd_vld    ),
+    .rden          ( MEMrden        ),
+    .wren          ( MEMwren        ),
+    .wrdata        ( MEMwrdata      ),
+    .addr          ( MEMaddr[11:0]  ),
+    // output  
+    .x_rd_vld      ( MEM_x_rd_vld   ),
+    .x_rd          ( MEM_x_rd       )
 );
 
 endmodule
