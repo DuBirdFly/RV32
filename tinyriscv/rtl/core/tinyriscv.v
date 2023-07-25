@@ -350,7 +350,7 @@ module tinyriscv(
         .inst_addr_i(id_inst_addr_o),
         .jump_flag_i(ex_jump_flag_o),
         .jump_addr_i(ex_jump_addr_o),
-        .hold_flag_i(ctrl_hold_flag_o),
+        // .hold_flag_i(ctrl_hold_flag_o),      // 没用上
         .div_started_i(ex_div_start_o),
         .data_i(csr_clint_data_o),
         .csr_mtvec(csr_clint_csr_mtvec),

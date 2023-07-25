@@ -1,6 +1,21 @@
 import os, subprocess
 from packages.FileSimilar import FileSimilar
 
+# 函数 ########################################################################
+def cmd_run(cmd):
+    process = subprocess.run(cmd, capture_output=True)
+
+    if process.stdout: print(process.stdout.decode('utf-8'), end='')
+    else: print("stdout: None")
+
+    if process.stderr:
+        print(f"stderr:\n{process.stderr.decode('utf-8')}\n强行终止程序")
+        exit(0)
+    else: print("stderr: None")
+
+    print("-----------------------------------------------------------------------")
+
+# 常数 ########################################################################
 # True: 使用新的测试文件(riscv-compliance)
 # False: 使用旧的测试文件(riscv-isa)
 IS_NEW_TEST = False
@@ -17,22 +32,27 @@ else:
     PATH_BIN_FILE = f"{PATH_REF}/generated/rv32ui-p-add.bin"
     NAME_TB = "tinyriscv_soc_tb_isa.v"
 
-# Bin2Mem.py
+MEM_FILE = f"{PATH_SIM}/output/inst.data"
+# MEM_FILE = f"C:/Users/29378/Desktop/aa/inst.data"
+
+# 指令: Bin2Mem.py ############################################################
 Bin2MemArvg = ["python", f"{PATH_SIM}/py/packages/Bin2Mem.py"]
+
 if IS_NEW_TEST:
     Bin2MemArvg.append(f"{PATH_BIN_FILE}")
 else:
     Bin2MemArvg.append(f"{PATH_BIN_FILE}")
-Bin2MemArvg.append(f"{PATH_SIM}/output/inst.data")
+Bin2MemArvg.append(MEM_FILE)
 
 cmd = ' '.join(Bin2MemArvg)
 
-process = subprocess.run(cmd, capture_output=True)
+print("PROCESS : 'Bin文件转Mem' - Bin2Mem.py(run)")
+print(f"Bin文件地址: {PATH_BIN_FILE}")
+print(f"Mem文件地址: {MEM_FILE}")
 
-if process.stdout: print(process.stdout.decode('utf-8'))
-if process.stderr: print(process.stderr.decode('utf-8'))
+cmd_run(cmd)
 
-# Sim.py
+# 指令: Sim.py ################################################################
 SimArvg = ["python", f"{PATH_SIM}/py/packages/Sim.py"]
 SimArvg.append(f"{PATH_SIM}/output/vvp_script.vvp")
 SimArvg.append(f"{PATH_SIM}/output/vvp_log.log")
@@ -45,12 +65,11 @@ else:
 
 cmd = ' '.join(SimArvg)
 
-process = subprocess.run(cmd, capture_output=True)
+print("PROCESS : '仿真' - Sim.py(run)")
 
-if process.stdout: print(process.stdout.decode('utf-8'))
-if process.stderr: print(process.stderr.decode('utf-8'))
+cmd_run(cmd)
 
-# FileSimilar
+# 指令: FileSimilar.py ########################################################
 if IS_NEW_TEST:
 
     path_ref_dir = os.path.dirname(PATH_BIN_FILE).replace('build_generated', 'riscv-test-suite')

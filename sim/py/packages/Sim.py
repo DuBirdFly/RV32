@@ -26,14 +26,13 @@ class Sim:
 
         # 指定rtl文件夹的头文件(rtl/core/defines.v)路径, '-I' --> includedir
         # 注意: 路径是文件夹路径, 而不是defines.v这个文件的路径
-        self.ivg_cmd.append("-I")
         tmp = PathFile.get_file_path(path_rtl_dir, "defines.v")
-
         if len(tmp) == 0:
-            raise FileNotFoundError(f"{path_rtl_dir}文件夹下没有'defines.v'文件")
+            sys.stdout.write(f"INFO: {path_rtl_dir}文件夹下没有'defines.v'文件, 所以iverilog不指定'-I'参数")
         elif len(tmp) > 1:
-            raise FileNotFoundError(f"{path_rtl_dir}文件夹下有多个'defines.v'文件")
+            sys.stderr.write(f"ERROR: {path_rtl_dir}文件夹下有多个'defines.v'文件\n")
         else:
+            self.ivg_cmd.append("-I")
             tmp = os.path.dirname(tmp[0])
             self.ivg_cmd.append(tmp)
 
@@ -63,7 +62,8 @@ class Sim:
 
         process = subprocess.run(cmd, capture_output=True)
 
-        if process.stderr: print(process.stderr.decode('utf-8'))
+        if process.stderr:
+            raise Exception(process.stderr.decode('utf-8'))
 
     def run_vvp(self):
         # 执行vvp指令 (可能能生成vcd波形文件)
@@ -74,26 +74,30 @@ class Sim:
         cmd = ' '.join(self.vvp_cmd)
 
         # vvp_log文件用于存储vvp的输出信息(stdout和stderr), 主要是verilog-$display的输出
-        with open(self.path_log, 'w') as vvp_log:
-            result = subprocess.run(cmd, stdout=vvp_log, stderr=vvp_log)
+        process = subprocess.run(cmd, capture_output=True)
+
+        if process.stdout: 
+            str = process.stdout.decode('utf-8')
+            sys.stdout.write(str)
+            with open(self.path_log, 'w') as vvp_log:
+                vvp_log.write(str)
+
+        if process.stderr:
+            raise Exception(process.stderr.decode('utf-8'))
 
     def run(self):
+        
         self.gen_vvp_script()
         self.run_vvp()
 
 if __name__ == "__main__":
 
     if len(sys.argv) == 5:
-        # argv[0] --> Sim.py(本文件)的绝对路径
-        path_this_file = sys.argv[0]
-        # argv[1] --> 生成的vvp_script.vvp脚本中间文件的绝对路径
-        path_vvp_script = sys.argv[1]
-        # argv[2] --> 希望生成的vvp_log.log文件的绝对路径
-        path_log = sys.argv[2]
-        # argv[3] --> testbench顶层模块的绝对路径
-        path_tb_top = sys.argv[3]
-        # argv[4] --> rtl文件夹的绝对路径
-        path_rtl_dir = sys.argv[4]
+        # path_this_file = sys.argv[0]    # argv[0] --> Sim.py(本文件)的绝对路径
+        path_vvp_script = sys.argv[1]   # argv[1] --> 生成的vvp_script.vvp脚本中间文件的绝对路径
+        path_log = sys.argv[2]          # argv[2] --> 希望生成的vvp_log.log文件的绝对路径
+        path_tb_top = sys.argv[3]       # argv[3] --> testbench顶层模块的绝对路径
+        path_rtl_dir = sys.argv[4]      # argv[4] --> rtl文件夹的绝对路径
 
         sim = Sim(path_vvp_script, path_log, path_tb_top, path_rtl_dir)
         sim.run()
