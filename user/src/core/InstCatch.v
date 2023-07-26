@@ -8,7 +8,7 @@ module InstCatch (
     input       [31:0]                  wrdata,
     // read pc register
     input       [`InstCatchDepth-1:0]   rdaddr,
-    output reg  [31:0]                  rddata
+    output wire [31:0]                  rddata
 );
 
 ramGen #(
