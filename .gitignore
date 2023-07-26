@@ -3,3 +3,5 @@
 prj/xilinx
 sim/output
 sim/py/packages/__pycache__
+*.str
+.Xil
