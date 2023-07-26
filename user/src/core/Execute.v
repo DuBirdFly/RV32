@@ -63,7 +63,7 @@ always @(posedge clk) begin
             {MEMrden, MEMwren} <= 8'b0000_0000;
             // data
             jump_addr <= pc + imm;
-            x_rd <= pc_d2 + 'd4;
+            x_rd <= pc + 'd4;
         end
         `ID_LW: begin
             // ctrl
