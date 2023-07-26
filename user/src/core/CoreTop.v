@@ -19,6 +19,7 @@ wire    [31:0]                  inst;
 
 // ID
 wire    [4:0]                   rs1, rs2, rd, rd_d1, rd_d2;
+reg     [4:0]                   rd_d1_d1, rd_d2_d1;
 wire    [31:0]                  imm;
 wire    [`InstIDDepth-1:0]      instID;
 
