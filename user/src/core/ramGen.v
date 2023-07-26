@@ -3,29 +3,24 @@ module ramGen#(
     parameter Depth = 10        // 2**Depth
 )(
     input                   clk,
-    // read
-    input                   wren,
-    input       [Depth-1:0] wraddr,
-    input       [Width-1:0] wrdata,
+    input       [Depth-1:0] addr,
     // write
-    input                   rden,
-    input       [Depth-1:0] rdaddr,
+    input                   wren,
+    input       [Width-1:0] wrdata,
+    // read
     output reg  [Width-1:0] rddata
 );
 
-(*ram_style="block"*)
-reg [Width-1:0] ram [(2**Depth)-1 : 0];
+reg [Width-1 : 0] ram [(2**Depth)-1 : 0];
 
 always @(posedge clk) begin
     if (wren) begin
-        ram[wraddr] <= wrdata;
+        ram[addr] <= wrdata;
     end
 end
 
 always @(posedge clk) begin
-    if (rden) begin
-        rddata <= ram[rdaddr];
-    end
+    rddata <= ram[addr];
 end
 
 endmodule

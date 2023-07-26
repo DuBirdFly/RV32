@@ -1,14 +1,14 @@
 `include "defines.v"
 
 module InstFetch(
-    input                               clk,
-    input                               rst,
-    input                               hold,
+    input               clk,
+    input               rst,
+    input               hold,
 
-    input wire                          jump_flag,
-    input wire  [`InstCatchDepth-1:0]   jump_addr,
+    input wire          jump_flag,
+    input wire  [31:0]  jump_addr,
 
-    output reg  [`InstCatchDepth-1:0]   pc
+    output reg  [31:0]  pc
 
 );
 

@@ -1,4 +1,5 @@
 `include "defines.v"
+`include "./hold_gen.v"
 
 module CoreTop(
     input                       clk,
@@ -10,9 +11,9 @@ wire                            hold_if, hold_reg, hold_mem;
 
 // IF
 wire                            jump_flag;
-wire    [`InstCatchDepth-1:0]   jump_addr;      // [11:0]
-wire    [`InstCatchDepth-1:0]   pc;
-reg     [`InstCatchDepth-1:0]   pc_d1, pc_d2;             
+wire    [31:0]                  jump_addr;      
+wire    [31:0]                  pc;
+reg     [31:0]                  pc_d1, pc_d2;             
 
 // InstCatch
 wire    [31:0]                  inst;
@@ -37,21 +38,18 @@ wire    [31:0]                  MEMwrdata;
 wire                            MEM_x_rd_vld;
 wire    [31:0]                  MEM_x_rd;                
 
-// others
-reg     [2:0]                   cnt;        // 0 ~ 7
-
 always @(posedge clk) begin
     {pc_d2, pc_d1} <= {pc_d1, pc};
     {rd_d2, rd_d1} <= {rd_d1, rd};
 end
 
-always @(posedge clk)
-    if (rst) cnt <= 0;
-    else cnt <= cnt + 1'b1;
-
-assign hold_if = (cnt != 8'd0);
-assign hold_mem = (cnt != 8'd4);
-assign hold_reg = (cnt != 8'd5);
+hold_gen u_hold_gen(
+    .clk            ( clk       ),
+    .rst            ( rst       ),
+    .hold_if        ( hold_if   ),
+    .hold_mem       ( hold_mem  ),
+    .hold_reg       ( hold_reg  )
+);
 
 InstFetch u_InstFetch(
     // input
@@ -67,12 +65,9 @@ InstFetch u_InstFetch(
 InstCatch u_InstCatch(
     // input
     .clk            ( clk           ),
-    .wren           ( 1'b0          ),
-    .wraddr         ( 'd0           ),
-    .wrdata         ( 'd0           ),
-    .rdaddr         ( pc[`InstCatchDepth-1:2] ),
+    .addr           ( pc[`InstCatchDepth-1:2] ),
     // output
-    .rddata         ( inst          )
+    .inst           ( inst          )
 );
 
 InstructionDecode u_InstructionDecode(
@@ -100,7 +95,7 @@ Registers u_Registers(
     .wrdata         ( MEM_x_rd      )
 );
 
-Excute u_Excute(
+Execute u_Execute(
     // input
     .clk           ( clk            ),
     .x_rs1         ( x_rs1          ),
@@ -111,8 +106,8 @@ Excute u_Excute(
     .jump_flag     ( jump_flag      ),
     .jump_addr     ( jump_addr      ),
     // output
-    .x_rd          ( EX_x_rd        ),
-    .x_rd_vld      ( EX_x_rd_vld    ),
+    .EX_x_rd       ( EX_x_rd        ),
+    .EX_x_rd_vld   ( EX_x_rd_vld    ),
     .MEMaddr       ( MEMaddr        ),
     .MEMrden       ( MEMrden        ),
     .MEMwren       ( MEMwren        ),

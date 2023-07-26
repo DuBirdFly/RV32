@@ -29,7 +29,7 @@ module MemoryAccess(
     input       [3:0]   rden,
     input       [3:0]   wren,
     input       [31:0]  wrdata,
-    input       [11:0]  addr,
+    input       [`DataCatchDepth - 1:0]  addr,
 
     output reg          x_rd_vld,           // 时序逻辑 (打1拍)
     output reg  [31:0]  x_rd                // 组合逻辑 (从Catch中读出的数据后组合逻辑拼接)
@@ -64,12 +64,10 @@ end
 
 DataCatch u_DataCatch(      
     .clk        ( clk                   ),
-    .rden       ( rden                  ),
     .wren       ( hold ? 4'b0000 : wren ),
     .wrdata     ( wrdata                ),
-    .addr       ( addr[11:2]            ),
+    .addr       ( addr                  ),
     .rddata     ( oDataCatch            )
 );
-
 
 endmodule
