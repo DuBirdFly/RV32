@@ -10,8 +10,9 @@ wire                            hold_if, hold_reg, hold_mem;
 
 // IF
 wire                            jump_flag;
-wire    [`InstCatchDepth-1:0]   jump_addr;
-wire    [`InstCatchDepth-1:0]   pc, pc_d1, pc_d2;             // [11:0]
+wire    [`InstCatchDepth-1:0]   jump_addr;      // [11:0]
+wire    [`InstCatchDepth-1:0]   pc;
+reg     [`InstCatchDepth-1:0]   pc_d1, pc_d2;             
 
 // InstCatch
 wire    [31:0]                  inst;
