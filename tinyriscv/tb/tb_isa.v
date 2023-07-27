@@ -61,7 +61,7 @@ module tinyriscv_soc_tb;
 
     // generate wave file, used by gtkwave
     initial begin
-        $dumpfile("sim/output/tinyriscv_soc_tb.vcd");
+        $dumpfile(`VCD_FILE);
         $dumpvars(0, tinyriscv_soc_tb);
     end
 
