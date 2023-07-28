@@ -1,17 +1,22 @@
-import math, os
+import math, sys, os
 
 class FileSimilar:
 
     def __init__(self, file1_path, file2_path):
+
+        sys.stdout.write(f"文件1的路径为: {file1_path}\n")
+        sys.stdout.write(f"文件2的路径为: {file2_path}\n")
+
+        if not os.path.exists(file1_path):
+            raise Exception(f'文件1不存在: {file1_path}\n')
+        elif not os.path.exists(file2_path):
+            raise Exception(f'文件2不存在: {file2_path}\n')
+
         self.file1_path = file1_path
         self.file2_path = file2_path
 
-        # 计算两个文件的相似度
-        self.similarity = self.calculate_similarity(file1_path, file2_path)
-        
-
-    @classmethod
-    def cos_similarity(cls, v1, v2):
+    @staticmethod
+    def cos_similarity(v1, v2):
         # 计算余弦相似度 (v1, v2为向量)
         
         # 向量点乘
@@ -25,13 +30,12 @@ class FileSimilar:
         else:
             return dot_product / (magnitude1 * magnitude2)
 
-    @classmethod
-    def calculate_similarity(cls, file1_path, file2_path):
+    def run(self):
         # 计算两个文件的相似度, 最大为1.0, 最小为0.0
 
         # 读取文件内容
-        with open(file1_path, 'r') as f: file1_content = f.read()
-        with open(file2_path, 'r') as f: file2_content = f.read()
+        with open(self.file1_path, 'r') as f: file1_content = f.read()
+        with open(self.file2_path, 'r') as f: file2_content = f.read()
 
         # 转化为向量
         file1_words = file1_content.split()
@@ -41,21 +45,17 @@ class FileSimilar:
         file2_vector = [file2_words.count(word) for word in all_words]
 
         # 计算余弦相似度
-        similarity = cls.cos_similarity(file1_vector, file2_vector)
+        similarity = self.cos_similarity(file1_vector, file2_vector)
 
-        # 返回相似度
-        return similarity
+        sys.stdout.write("文件相似度为 = {:.2%}\n".format(similarity))
 
 if __name__ == "__main__":
-    PATH_CWD = os.getcwd().replace('\\', '/')
-    PATH_SIM = f"{PATH_CWD}/sim"
-    PATH_REF = f"{PATH_SIM}/riscv-compliance"
-    NAME_INST_SET = "rv32i"
-    NAME_BIN = "I-JAL-01"
+    
+    sys.stdout.write("----------------------------------\n")
+    sys.stdout.write("---- PROCESS : FileSimilar.py ----\n")
+    sys.stdout.write("----------------------------------\n")
 
-    ref_file = f"{PATH_REF}/riscv-test-suite/{NAME_INST_SET}/references/{NAME_BIN}.reference_output"
-    my_file = f"{PATH_SIM}/output/signature.output"
-
-    similarity = FileSimilar(ref_file, my_file).similarity
-
-    print(f"文件相似度为 = ", '{:.2%}'.format(similarity))
+    if len(sys.argv) == 3:
+        FileSimilar(sys.argv[1], sys.argv[2]).run()
+    else:
+        raise Exception("ERROR, 指令结构错误")
