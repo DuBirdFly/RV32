@@ -57,7 +57,7 @@ with open(path_dump, 'r') as f:
             used_ins.append(first_word)
 
 used_ins = list(set(used_ins))
-print(f"所有用到的指令: \n{used_ins}")
+print(f"所有用到的指令(含伪指令): \n{used_ins}")
 
 ############################################################
 
@@ -79,7 +79,7 @@ for ins in used_ins:
 used_ins_final = used_ins_true + [pseu2true[ins_pseu] for ins_pseu in used_ins_pseu]
 used_ins_final = sorted(list(set(used_ins_final)))  # 去重并排序
 
-print(f"所有用到的指令: \n{used_ins_final}")
+print(f"所有实际用到的指令(不含伪指令): \n{used_ins_final}")
 print(f"所有用到的未知指令: \n{used_ins_unkonw}")
 
 
