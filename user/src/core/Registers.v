@@ -4,17 +4,22 @@ module Registers (
     input               clk,
     input               hold,
     // read
-    input       [31:0]  rdaddr1,
+    input       [ 4:0]  rdaddr1,
     output reg  [31:0]  rddata1,
-    input       [31:0]  rdaddr2,
+    input       [ 4:0]  rdaddr2,
     output reg  [31:0]  rddata2,
     // write
     input               wen,        // 写使能信号
-    input       [31:0]  wraddr,
+    input       [ 4:0]  wraddr,
     input       [31:0]  wrdata
 );
 
-// (* ram_style="distributed" *)
+/*
+    $readmemh: The behaviour for reg[...] mem[N:0]; $readmemh("...", mem);
+    changed in the 1364-2005 standard. 
+    To avoid ambiguity, use mem[0:N] or $readmemh("...", mem, start, stop);
+    Defaulting to 1364-2005 behavior.
+*/
 reg [31:0] regfile [0:31]; // 32个32位寄存器
 
 // ug949: xilinx-ram上电初值为0

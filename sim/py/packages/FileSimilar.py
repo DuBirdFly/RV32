@@ -4,9 +4,6 @@ class FileSimilar:
 
     def __init__(self, file1_path, file2_path):
 
-        sys.stdout.write(f"文件1的路径为: {file1_path}\n")
-        sys.stdout.write(f"文件2的路径为: {file2_path}\n")
-
         if not os.path.exists(file1_path):
             raise Exception(f'文件1不存在: {file1_path}\n')
         elif not os.path.exists(file2_path):
@@ -33,6 +30,13 @@ class FileSimilar:
     def run(self):
         # 计算两个文件的相似度, 最大为1.0, 最小为0.0
 
+        sys.stdout.write("----------------------------------\n")
+        sys.stdout.write("---- PROCESS : FileSimilar.py ----\n")
+        sys.stdout.write("----------------------------------\n")
+
+        sys.stdout.write(f"文件1的路径为: {self.file1_path}\n")
+        sys.stdout.write(f"文件2的路径为: {self.file2_path}\n")
+
         # 读取文件内容
         with open(self.file1_path, 'r') as f: file1_content = f.read()
         with open(self.file2_path, 'r') as f: file2_content = f.read()
@@ -51,10 +55,6 @@ class FileSimilar:
 
 if __name__ == "__main__":
     
-    sys.stdout.write("----------------------------------\n")
-    sys.stdout.write("---- PROCESS : FileSimilar.py ----\n")
-    sys.stdout.write("----------------------------------\n")
-
     if len(sys.argv) == 3:
         FileSimilar(sys.argv[1], sys.argv[2]).run()
     else:

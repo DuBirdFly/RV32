@@ -53,14 +53,14 @@ class Sim:
             raise Exception(process.stderr.decode('utf-8'))
 
     def run(self):
+        sys.stdout.write("----------------------------------\n")
+        sys.stdout.write("-------- PROCESS : Sim.py --------\n")
+        sys.stdout.write("----------------------------------\n")
+
         self.run_cmd(self.ivg_cmd)
         self.run_cmd(self.vvp_cmd)
 
 if __name__ == "__main__":
-
-    sys.stdout.write("----------------------------------\n")
-    sys.stdout.write("-------- PROCESS : Sim.py --------\n")
-    sys.stdout.write("----------------------------------\n")
 
     if len(sys.argv) == 5:  # sys.argv[0] 是本文件的路径
         Sim(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4]).run()

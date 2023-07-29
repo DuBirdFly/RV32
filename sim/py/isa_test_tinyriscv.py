@@ -1,21 +1,10 @@
 import os, subprocess
-# from packages.FileSimilar import FileSimilar
-
-# 函数 ########################################################################
-def run_cmd(cmd):
-    process = subprocess.run(cmd, capture_output=True)
-
-    if process.stdout: print(process.stdout.decode('utf-8'), end='')
-    else: print("stdout: None")
-
-    if process.stderr:
-        print(f"stderr:\n{process.stderr.decode('utf-8')}\n强行终止程序")
-        exit(0)
+from packages.MyFuc import run_cmd
 
 # 常数 ########################################################################
 # True: 使用新的测试文件(riscv-compliance)
 # False: 使用旧的测试文件(riscv-isa)
-IS_NEW_TEST = True
+IS_NEW_TEST = False
 
 PATH_CWD = os.getcwd().replace('\\', '/')
 PATH_SIM = f"{PATH_CWD}/sim"
@@ -23,11 +12,9 @@ PATH_SIM = f"{PATH_CWD}/sim"
 if IS_NEW_TEST:
     PATH_REF = f"{PATH_SIM}/riscv-compliance"
     PATH_BIN_FILE = f"{PATH_REF}/build_generated/rv32i/I-ADD-01.elf.bin"
-    NAME_TB = "tinyriscv_soc_tb_compliance.v"
 else:
     PATH_REF = f"{PATH_SIM}/riscv-isa"
     PATH_BIN_FILE = f"{PATH_REF}/generated/rv32ui-p-add.bin"
-    NAME_TB = "tinyriscv_soc_tb_isa.v"
 
 MEM_FILE = f"{PATH_SIM}/output/inst.data"
 # MEM_FILE = f"C:/Users/29378/Desktop/aa/inst.data"

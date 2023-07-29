@@ -27,7 +27,6 @@ wire [31:0] x27 = u_CoreTop.u_Registers.regfile[27];
 integer r;
 
 initial begin
-    $display("~~~~~~~~~~~~~~ Simulation Start ~~~~~~~~~~~~~~");
     #200;
 
     // wait sim end, when x26 == 1
@@ -53,7 +52,7 @@ initial begin
     #500000
     if (x26 == 32'd0)
         $display("Time Out.");
-        $display("The x26 register cannot become 1 for a long time", x3);
+        $display("The x26 register cannot become 1 for a very long time");
     $finish;
 end
 

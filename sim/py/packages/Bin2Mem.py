@@ -5,9 +5,6 @@ class Bin2Mem:
     def __init__(self, filepath_in, filepath_out):
         # filepath_out 使用绝对路径
 
-        sys.stdout.write(f"Bin文件地址: {filepath_in}\n")
-        sys.stdout.write(f"Mem文件地址: {filepath_out}\n")
-
         if not os.path.exists(filepath_in):
             raise Exception(f'指定的Bin文件{filepath_in}不存在\n')
         
@@ -24,6 +21,12 @@ class Bin2Mem:
         self.filepath_out = filepath_out
 
     def run(self):
+
+        sys.stdout.write("----------------------------------\n")
+        sys.stdout.write("------ PROCESS : Bin2Mem.py ------\n")
+        sys.stdout.write("----------------------------------\n")
+        sys.stdout.write(f"Bin文件地址: {self.filepath_in}\n")
+        sys.stdout.write(f"Mem文件地址: {self.filepath_out}\n")
 
         # 读取二进制文件内容
         with open(self.filepath_in, 'rb') as f:
@@ -44,10 +47,6 @@ class Bin2Mem:
             f.write(hex_str)
 
 if __name__ == "__main__":
-
-    sys.stdout.write("----------------------------------\n")
-    sys.stdout.write("------ PROCESS : Bin2Mem.py ------\n")
-    sys.stdout.write("----------------------------------\n")
 
     if len(sys.argv) == 3:
         Bin2Mem(sys.argv[1], sys.argv[2]).run()
