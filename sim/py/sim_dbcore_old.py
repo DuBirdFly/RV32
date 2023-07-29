@@ -1,7 +1,7 @@
 import os, subprocess
 
 from packages.Bin2Mem import Bin2Mem
-
+from packages.MyFuc import run_cmd
 from packages.Sim import Sim
 
 # 固定路径
@@ -32,4 +32,9 @@ FILE_PH_TBTOP = f"{DIR_PH_CWD}/user/sim/tb_CoreTop.v"
 DIR_PH_RTL = f"{DIR_PH_CWD}/user/src/core"
 Sim(FILE_PH_VVP, DIR_PH_INC, FILE_PH_TBTOP, DIR_PH_RTL).run()
 
-
+# 指令: GtkWave
+for filename in os.listdir(DIR_PH_OUT):
+    if filename.endswith(".vcd"):
+        cmd = ["gtkwave", f"{DIR_PH_OUT}/{filename}"]
+        run_cmd(cmd)
+        break           # 只打开第一个.vcd文件

@@ -2,6 +2,8 @@ import subprocess, os, sys
 
 
 def run_cmd(cmd):
+    # cmd可以是str, 也可以是list
+
     process = subprocess.run(cmd, capture_output=True)
 
     if process.stdout: print(process.stdout.decode('utf-8'), end='')

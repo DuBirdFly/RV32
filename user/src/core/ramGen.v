@@ -11,7 +11,7 @@ module ramGen#(
     output reg  [Width-1:0] rddata
 );
 
-reg [Width-1 : 0] ram [(2**Depth)-1 : 0];
+reg [Width-1 : 0] ram [0 : (2**Depth)-1];
 
 always @(posedge clk) begin
     if (wren) begin
