@@ -21,7 +21,6 @@ A: 不完全一样。sh指令用于存储halfword，即16位（或者说2个字�
 
 module MemoryAccess(
     input               clk,
-    input               hold,
 
     input               EX_x_rd_vld,
     input       [31:0]  EX_x_rd,

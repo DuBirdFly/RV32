@@ -2,7 +2,6 @@
 
 module Registers (
     input               clk,
-    input               hold,
     // read
     input       [ 4:0]  rdaddr1,
     output reg  [31:0]  rddata1,
@@ -30,7 +29,7 @@ end
 
 // 同步写
 always @(posedge clk) begin
-    if (wen && wraddr != 0 && ~hold)                // 0号寄存器不可写, hold状态不可写
+    if (wen && wraddr != 0 )                // 0号寄存器不可写, hold状态不可写
         regfile[wraddr] <= wrdata;          
 end
 

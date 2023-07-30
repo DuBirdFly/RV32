@@ -9,8 +9,8 @@ module Execute(
     input       [31:0]                  pc,
 
     // jump
-    output reg                          jump_flag,
-    output reg  [31:0]                  jump_addr,
+    output reg                          EX_jump_flag,
+    output reg  [31:0]                  EX_jump_addr,
     // x_rd
     output reg  [31:0]                  EX_x_rd,        // create by ALU
     // x_rd or MEM
@@ -28,7 +28,7 @@ always @(posedge clk) begin
     case (instID)
         `ID_ADDI: begin
             // ctrl
-            jump_flag <= 1'b0;
+            EX_jump_flag <= 1'b0;
             EX_x_rd_vld <= 1'b1;
             {MEMrden, MEMwren} <= 8'b0000_0000;
             // data
@@ -36,7 +36,7 @@ always @(posedge clk) begin
         end
         `ID_ADD: begin
             // ctrl
-            jump_flag <= 1'b0;
+            EX_jump_flag <= 1'b0;
             EX_x_rd_vld <= 1'b1;
             {MEMrden, MEMwren} <= 8'b0000_0000;
             // data
@@ -44,7 +44,7 @@ always @(posedge clk) begin
         end
         `ID_LUI: begin
             // ctrl
-            jump_flag <= 1'b0;
+            EX_jump_flag <= 1'b0;
             EX_x_rd_vld <= 1'b1;
             {MEMrden, MEMwren} <= 8'b0000_0000;
             // data
@@ -52,24 +52,24 @@ always @(posedge clk) begin
         end
         `ID_BNE: begin
             // ctrl
-            jump_flag <= (x_rs1 != x_rs2);
+            EX_jump_flag <= (x_rs1 != x_rs2);
             EX_x_rd_vld <= 1'b0;
             {MEMrden, MEMwren} <= 8'b0000_0000;
             // data
-            jump_addr <= pc + imm;
+            EX_jump_addr <= pc + imm;
         end
         `ID_JAL: begin
             // ctrl
-            jump_flag <= 1'b1;
+            EX_jump_flag <= 1'b1;
             EX_x_rd_vld <= 1'b1;
             {MEMrden, MEMwren} <= 8'b0000_0000;
             // data
-            jump_addr <= pc + imm;
+            EX_jump_addr <= pc + imm;
             EX_x_rd <= pc + 'd4;
         end
         `ID_LW: begin
             // ctrl
-            jump_flag <= 1'b0;
+            EX_jump_flag <= 1'b0;
             EX_x_rd_vld <= 1'b1;
             {MEMrden, MEMwren} <= 8'b1111_0000;
             // data
@@ -77,7 +77,7 @@ always @(posedge clk) begin
         end
         `ID_SW: begin
             // ctrl
-            jump_flag <= 1'b0;
+            EX_jump_flag <= 1'b0;
             EX_x_rd_vld <= 1'b0;
             {MEMrden, MEMwren} <= 8'b0000_1111;
             // data
