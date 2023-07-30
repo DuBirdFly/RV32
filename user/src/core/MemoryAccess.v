@@ -64,7 +64,7 @@ end
 
 DataCatch u_DataCatch(      
     .clk        ( clk                   ),
-    .wren       ( hold ? 4'b0000 : wren ),
+    .wren       ( wren                  ),
     .wrdata     ( wrdata                ),
     .addr       ( addr                  ),
     .rddata     ( oDataCatch            )

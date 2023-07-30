@@ -2,8 +2,8 @@
 
 `include "defines.v"
 
-`define SIGNATURE_OUTPUT "sim/output/signature.txt"
-`define ROM_DATA_FILE "sim/output/inst.data"
+// `define SIGNATURE_OUTPUT "sim/output/signature.txt"
+`define ROM_DATA_FILE "D:/PrjWorkspace/rv32/sim/output/inst.data"
 `define VCD_FILE "sim/output/dubirdCore_tb.vcd"
 
 module tb_CoreTop();
@@ -49,7 +49,7 @@ end
 
 // sim timeout, it means x26 never be 1'b1
 initial begin
-    #500000
+    #5000
     if (x26 == 32'd0)
         $display("Time Out.");
         $display("The x26 register cannot become 1 for a very long time");
