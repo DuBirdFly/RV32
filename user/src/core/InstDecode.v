@@ -32,7 +32,7 @@ end
 
 
 
-
+// TODO: 转为组合逻辑
 always @(posedge clk) begin
     case (inst[6:0])
         `OPCODE_I_COMPU:
