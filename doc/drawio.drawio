@@ -1,71 +1,41 @@
 <mxfile host="65bd71144e">
     <diagram id="YQ9wzQnn78EDyqOodPP7" name="第 1 页">
-        <mxGraphModel dx="1366" dy="1197" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1920" pageHeight="1200" math="0" shadow="0">
+        <mxGraphModel dx="342" dy="299" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1920" pageHeight="1200" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
                 <mxCell id="214" value="MEM" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=default;fontFamily=Fira Code;fontSize=12;fontColor=default;fillColor=default;verticalAlign=top;" parent="1" vertex="1">
-                    <mxGeometry x="1099.8600000000001" y="120" width="450" height="360" as="geometry"/>
+                    <mxGeometry x="1249.8600000000001" y="130" width="450" height="360" as="geometry"/>
                 </mxCell>
                 <mxCell id="39" value="EX&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=default;fontFamily=Fira Code;fontSize=12;fontColor=default;fillColor=default;" parent="1" vertex="1">
-                    <mxGeometry x="719.86" y="190" width="208.44" height="180" as="geometry"/>
+                    <mxGeometry x="840" y="200" width="238.3" height="210" as="geometry"/>
                 </mxCell>
-                <mxCell id="37" style="edgeStyle=orthogonalEdgeStyle;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontFamily=Fira Code;" parent="1" source="21" target="30" edge="1">
+                <mxCell id="37" style="edgeStyle=orthogonalEdgeStyle;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;fontFamily=Fira Code;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="21" target="30" edge="1">
                     <mxGeometry relative="1" as="geometry">
-                        <Array as="points">
-                            <mxPoint x="531" y="360"/>
-                            <mxPoint x="530" y="360"/>
-                            <mxPoint x="530" y="390"/>
-                        </Array>
-                        <mxPoint x="408.30000000000007" y="350" as="targetPoint"/>
+                        <Array as="points"/>
+                        <mxPoint x="700" y="320" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="63" style="edgeStyle=orthogonalEdgeStyle;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0.018;entryY=0.586;entryDx=0;entryDy=0;entryPerimeter=0;fontFamily=Fira Code;" parent="1" source="24" target="49" edge="1">
                     <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="678.3000000000001" y="287" as="targetPoint"/>
+                        <mxPoint x="758.3000000000001" y="297" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="62" style="edgeStyle=orthogonalEdgeStyle;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontFamily=Fira Code;" parent="1" source="25" target="50" edge="1">
                     <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="658.3000000000001" y="249" as="targetPoint"/>
+                        <mxPoint x="738.3000000000001" y="259" as="targetPoint"/>
                         <Array as="points"/>
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="60" style="edgeStyle=orthogonalEdgeStyle;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;fontFamily=Fira Code;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="100" target="48" edge="1">
                     <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="518.3000000000001" y="185" as="sourcePoint"/>
-                        <Array as="points">
-                            <mxPoint x="699.86" y="210"/>
-                            <mxPoint x="699.86" y="210"/>
-                        </Array>
-                        <mxPoint x="709.86" y="200" as="targetPoint"/>
-                    </mxGeometry>
-                </mxCell>
-                <mxCell id="69" style="edgeStyle=orthogonalEdgeStyle;jumpStyle=gap;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;fontFamily=Fira Code;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="52" target="13" edge="1">
-                    <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="-210.14" y="210" as="targetPoint"/>
-                        <Array as="points">
-                            <mxPoint x="970" y="200"/>
-                            <mxPoint x="970" y="150"/>
-                            <mxPoint x="90" y="150"/>
-                            <mxPoint x="90" y="220"/>
-                        </Array>
-                    </mxGeometry>
-                </mxCell>
-                <mxCell id="70" style="edgeStyle=orthogonalEdgeStyle;jumpStyle=gap;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;fontFamily=Fira Code;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="46" target="14" edge="1">
-                    <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="-40.139999999999986" y="270" as="targetPoint"/>
-                        <Array as="points">
-                            <mxPoint x="980" y="220"/>
-                            <mxPoint x="980" y="140"/>
-                            <mxPoint x="80" y="140"/>
-                            <mxPoint x="80" y="240"/>
-                        </Array>
-                        <mxPoint x="919.82" y="270" as="sourcePoint"/>
+                        <mxPoint x="598.3000000000001" y="195" as="sourcePoint"/>
+                        <Array as="points"/>
+                        <mxPoint x="750" y="210" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="99" value="" style="group;fontFamily=Fira Code;" parent="1" vertex="1" connectable="0">
-                    <mxGeometry x="465.80000000000007" y="200" width="20" height="20" as="geometry"/>
+                    <mxGeometry x="505.80000000000007" y="200" width="20" height="20" as="geometry"/>
                 </mxCell>
                 <mxCell id="100" value="" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Fira Code;" parent="99" vertex="1">
                     <mxGeometry width="20" height="20" as="geometry"/>
@@ -73,101 +43,52 @@
                 <mxCell id="101" value="" style="triangle;whiteSpace=wrap;html=1;fontFamily=Fira Code;" parent="99" vertex="1">
                     <mxGeometry y="3.333333333333333" width="10" height="13.333333333333332" as="geometry"/>
                 </mxCell>
-                <mxCell id="106" value="" style="group;fontFamily=Fira Code;" parent="1" vertex="1" connectable="0">
-                    <mxGeometry x="550" y="330" width="170" height="80" as="geometry"/>
-                </mxCell>
-                <mxCell id="95" value="&lt;span style=&quot;font-size: 12px;&quot;&gt;Regs&lt;br&gt;&lt;br&gt;&lt;/span&gt;" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;hachureGap=4;fontFamily=Fira Code;fontSize=20;" parent="106" vertex="1">
-                    <mxGeometry x="12.5" width="120" height="80" as="geometry"/>
-                </mxCell>
-                <mxCell id="30" value="rdaddr1, 2" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=default;fontFamily=Fira Code;fontSize=12;fontColor=default;fillColor=default;glass=0;shadow=0;" parent="106" vertex="1">
-                    <mxGeometry x="-7.96" y="50" width="80" height="20" as="geometry"/>
-                </mxCell>
-                <mxCell id="33" value="rddata1, 2" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=default;fontFamily=Fira Code;fontSize=12;fontColor=default;fillColor=default;glass=0;shadow=0;" parent="106" vertex="1">
-                    <mxGeometry x="85" y="50" width="85" height="20" as="geometry"/>
-                </mxCell>
-                <mxCell id="111" value="" style="group;fontFamily=Fira Code;" parent="1" vertex="1" connectable="0">
-                    <mxGeometry x="388.30000000000007" y="230" width="175" height="100" as="geometry"/>
-                </mxCell>
-                <mxCell id="18" value="ID" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=default;fontFamily=Fira Code;fontSize=12;fontColor=default;fillColor=default;" parent="111" vertex="1">
-                    <mxGeometry width="175" height="100" as="geometry"/>
-                </mxCell>
-                <mxCell id="20" value="inst" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=default;fontFamily=Fira Code;fontSize=12;fontColor=default;fillColor=default;glass=0;shadow=0;" parent="111" vertex="1">
-                    <mxGeometry width="60" height="20" as="geometry"/>
-                </mxCell>
-                <mxCell id="21" value="rs1, rs2" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=default;fontFamily=Fira Code;fontSize=12;fontColor=default;fillColor=default;glass=0;shadow=0;" parent="111" vertex="1">
-                    <mxGeometry x="110" y="80" width="65" height="20" as="geometry"/>
-                </mxCell>
-                <mxCell id="22" value="rd" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=default;fontFamily=Fira Code;fontSize=12;fontColor=default;fillColor=default;glass=0;shadow=0;" parent="111" vertex="1">
-                    <mxGeometry x="110" width="65" height="20" as="geometry"/>
-                </mxCell>
-                <mxCell id="24" value="instID" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=default;fontFamily=Fira Code;fontSize=12;fontColor=default;fillColor=default;glass=0;shadow=0;" parent="111" vertex="1">
-                    <mxGeometry x="110" y="40" width="65" height="20" as="geometry"/>
-                </mxCell>
-                <mxCell id="25" value="imm" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=default;fontFamily=Fira Code;fontSize=12;fontColor=default;fillColor=default;glass=0;shadow=0;" parent="111" vertex="1">
-                    <mxGeometry x="110" y="19" width="65" height="20" as="geometry"/>
-                </mxCell>
                 <mxCell id="45" value="x_rs1, 2" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=default;fontFamily=Fira Code;fontSize=12;fontColor=default;fillColor=default;glass=0;shadow=0;" parent="1" vertex="1">
-                    <mxGeometry x="719.86" y="350" width="62.04" height="20" as="geometry"/>
+                    <mxGeometry x="838.98" y="370" width="62.04" height="20" as="geometry"/>
                 </mxCell>
-                <mxCell id="46" value="jump_addr" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=default;fontFamily=Fira Code;fontSize=12;fontColor=default;fillColor=default;glass=0;shadow=0;" parent="1" vertex="1">
-                    <mxGeometry x="850.34" y="210" width="77.96" height="20" as="geometry"/>
+                <mxCell id="46" value="EX_jmp_addr" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=#006EAF;fontFamily=Fira Code;fontSize=12;fontColor=#ffffff;fillColor=#1ba1e2;glass=0;shadow=0;" parent="1" vertex="1">
+                    <mxGeometry x="979.52" y="280" width="98.3" height="20" as="geometry"/>
                 </mxCell>
                 <mxCell id="291" style="edgeStyle=orthogonalEdgeStyle;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontFamily=Fira Code;" parent="1" source="47" target="290" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <Array as="points">
-                            <mxPoint x="1009.86" y="250"/>
-                            <mxPoint x="1009.86" y="160"/>
+                            <mxPoint x="1140" y="249"/>
+                            <mxPoint x="1140" y="209"/>
                         </Array>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="47" value="x_rd_vld" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=default;fontFamily=Fira Code;fontSize=12;fontColor=default;fillColor=default;glass=0;shadow=0;" parent="1" vertex="1">
-                    <mxGeometry x="850.34" y="240" width="77.96" height="20" as="geometry"/>
+                <mxCell id="47" value="EX_x_rd_vld" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=#3700CC;fontFamily=Fira Code;fontSize=12;fontColor=#ffffff;fillColor=#6a00ff;glass=0;shadow=0;" parent="1" vertex="1">
+                    <mxGeometry x="980.04" y="239" width="98.3" height="20" as="geometry"/>
                 </mxCell>
                 <mxCell id="48" value="pc" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=default;fontFamily=Fira Code;fontSize=12;fontColor=default;fillColor=default;glass=0;shadow=0;" parent="1" vertex="1">
-                    <mxGeometry x="719.86" y="200" width="60" height="20" as="geometry"/>
+                    <mxGeometry x="840" y="200" width="60" height="20" as="geometry"/>
                 </mxCell>
                 <mxCell id="49" value="instID" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=default;fontFamily=Fira Code;fontSize=12;fontColor=default;fillColor=default;glass=0;shadow=0;" parent="1" vertex="1">
-                    <mxGeometry x="719.86" y="269" width="60" height="20" as="geometry"/>
+                    <mxGeometry x="840" y="279" width="60" height="20" as="geometry"/>
                 </mxCell>
                 <mxCell id="50" value="imm" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=default;fontFamily=Fira Code;fontSize=12;fontColor=default;fillColor=default;glass=0;shadow=0;" parent="1" vertex="1">
-                    <mxGeometry x="719.86" y="249" width="60" height="20" as="geometry"/>
+                    <mxGeometry x="840" y="259" width="60" height="20" as="geometry"/>
                 </mxCell>
-                <mxCell id="52" value="jump_flag" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=default;fontFamily=Fira Code;fontSize=12;fontColor=default;fillColor=default;glass=0;shadow=0;" parent="1" vertex="1">
-                    <mxGeometry x="850.34" y="190" width="77.96" height="20" as="geometry"/>
+                <mxCell id="52" value="EX_jmp_vld" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=#006EAF;fontFamily=Fira Code;fontSize=12;fontColor=#ffffff;fillColor=#1ba1e2;glass=0;shadow=0;" parent="1" vertex="1">
+                    <mxGeometry x="979.48" y="260" width="98.34" height="20" as="geometry"/>
                 </mxCell>
-                <mxCell id="161" value="" style="group;fontFamily=Fira Code;" parent="1" vertex="1" connectable="0">
-                    <mxGeometry x="818.3000000000001" y="70" width="20" height="20" as="geometry"/>
-                </mxCell>
-                <mxCell id="162" value="" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Fira Code;" parent="161" vertex="1">
-                    <mxGeometry width="20" height="20" as="geometry"/>
-                </mxCell>
-                <mxCell id="163" value="" style="triangle;whiteSpace=wrap;html=1;fontFamily=Fira Code;" parent="161" vertex="1">
-                    <mxGeometry y="3.333333333333333" width="10" height="13.333333333333332" as="geometry"/>
-                </mxCell>
-                <mxCell id="168" style="edgeStyle=orthogonalEdgeStyle;jumpStyle=gap;html=1;exitX=1;exitY=0.25;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontFamily=Fira Code;" parent="1" source="22" target="163" edge="1">
+                <mxCell id="169" style="edgeStyle=orthogonalEdgeStyle;jumpStyle=gap;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontFamily=Fira Code;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" parent="1" source="381" target="184" edge="1">
                     <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1220.3000000000002" y="120.19999999999999" as="targetPoint"/>
                         <Array as="points">
-                            <mxPoint x="649.86" y="235"/>
-                            <mxPoint x="649.86" y="80"/>
+                            <mxPoint x="1130" y="210"/>
+                            <mxPoint x="1130" y="90"/>
                         </Array>
-                    </mxGeometry>
-                </mxCell>
-                <mxCell id="169" style="edgeStyle=orthogonalEdgeStyle;jumpStyle=gap;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontFamily=Fira Code;" parent="1" source="162" target="184" edge="1">
-                    <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="1070.3000000000002" y="110.19999999999999" as="targetPoint"/>
-                        <Array as="points">
-                            <mxPoint x="860.34" y="80"/>
-                            <mxPoint x="860.34" y="80"/>
-                        </Array>
+                        <mxPoint x="1100" y="200" as="sourcePoint"/>
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="172" style="edgeStyle=orthogonalEdgeStyle;jumpStyle=gap;html=1;fontFamily=Fira Code;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="233" target="218" edge="1">
                     <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="1019.86" y="330" as="sourcePoint"/>
-                        <mxPoint x="1069.8600000000001" y="290" as="targetPoint"/>
+                        <mxPoint x="1169.8600000000001" y="340" as="sourcePoint"/>
+                        <mxPoint x="1219.8600000000001" y="300" as="targetPoint"/>
                         <Array as="points">
-                            <mxPoint x="1069.8600000000001" y="360"/>
-                            <mxPoint x="1069.8600000000001" y="360"/>
+                            <mxPoint x="1219.8600000000001" y="370"/>
+                            <mxPoint x="1219.8600000000001" y="370"/>
                         </Array>
                     </mxGeometry>
                 </mxCell>
@@ -179,27 +100,27 @@
                 <mxCell id="236" style="edgeStyle=orthogonalEdgeStyle;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontSize=10;fontFamily=Fira Code;" parent="1" source="170" target="233" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <Array as="points">
-                            <mxPoint x="949.86" y="360"/>
+                            <mxPoint x="1099.8600000000001" y="370"/>
                         </Array>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="170" value="MEMaddr" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=default;fontFamily=Fira Code;fontSize=12;fontColor=default;fillColor=default;glass=0;shadow=0;" parent="1" vertex="1">
-                    <mxGeometry x="829.86" y="350" width="97.96" height="20" as="geometry"/>
+                <mxCell id="170" value="EX_MEMaddr[31:0]" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=default;fontFamily=Fira Code;fontSize=12;fontColor=default;fillColor=default;glass=0;shadow=0;" parent="1" vertex="1">
+                    <mxGeometry x="940" y="360" width="137.82" height="20" as="geometry"/>
                 </mxCell>
                 <mxCell id="185" style="edgeStyle=orthogonalEdgeStyle;jumpStyle=gap;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;fontFamily=Fira Code;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="181" target="200" edge="1">
                     <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="1049.8600000000001" y="260" as="targetPoint"/>
+                        <mxPoint x="1240" y="230" as="targetPoint"/>
                         <Array as="points">
-                            <mxPoint x="1019.86" y="270"/>
-                            <mxPoint x="1019.86" y="190"/>
+                            <mxPoint x="1250" y="230"/>
+                            <mxPoint x="1250" y="230"/>
                         </Array>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="181" value="x_rd" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=default;fontFamily=Fira Code;fontSize=12;fontColor=default;fillColor=default;glass=0;shadow=0;" parent="1" vertex="1">
-                    <mxGeometry x="850.34" y="260" width="77.96" height="20" as="geometry"/>
+                <mxCell id="181" value="EX_x_rd" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=#3700CC;fontFamily=Fira Code;fontSize=12;fontColor=#ffffff;fillColor=#6a00ff;glass=0;shadow=0;" parent="1" vertex="1">
+                    <mxGeometry x="980.04" y="220" width="98.3" height="20" as="geometry"/>
                 </mxCell>
                 <mxCell id="182" value="" style="group;fontFamily=Fira Code;" parent="1" vertex="1" connectable="0">
-                    <mxGeometry x="1314.8600000000001" y="70" width="20" height="20" as="geometry"/>
+                    <mxGeometry x="1464.8600000000001" y="80" width="20" height="20" as="geometry"/>
                 </mxCell>
                 <mxCell id="183" value="" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Fira Code;" parent="182" vertex="1">
                     <mxGeometry width="20" height="20" as="geometry"/>
@@ -208,37 +129,42 @@
                     <mxGeometry y="3.333333333333333" width="10" height="13.333333333333332" as="geometry"/>
                 </mxCell>
                 <mxCell id="313" style="edgeStyle=orthogonalEdgeStyle;jumpStyle=gap;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontFamily=Fira Code;" parent="1" source="200" target="312" edge="1">
-                    <mxGeometry relative="1" as="geometry"/>
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="1400" y="229"/>
+                            <mxPoint x="1400" y="200"/>
+                        </Array>
+                    </mxGeometry>
                 </mxCell>
                 <mxCell id="200" value="EX_x_rd" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=default;fontFamily=Fira Code;fontSize=12;fontColor=default;fillColor=default;glass=0;shadow=0;" parent="1" vertex="1">
-                    <mxGeometry x="1100.3000000000002" y="180" width="99.56" height="20" as="geometry"/>
+                    <mxGeometry x="1249.8600000000001" y="220" width="99.56" height="20" as="geometry"/>
                 </mxCell>
                 <mxCell id="203" style="edgeStyle=orthogonalEdgeStyle;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontFamily=Fira Code;" parent="1" source="201" target="202" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <Array as="points">
-                            <mxPoint x="1099.8600000000001" y="340"/>
+                            <mxPoint x="1249.8600000000001" y="350"/>
                         </Array>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="201" value="MEMwrdata" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=default;fontFamily=Fira Code;fontSize=12;fontColor=default;fillColor=default;glass=0;shadow=0;" parent="1" vertex="1">
-                    <mxGeometry x="829.86" y="330" width="97.96" height="20" as="geometry"/>
+                <mxCell id="201" value="EX_MEMwrdata[31:0]" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=default;fontFamily=Fira Code;fontSize=12;fontColor=default;fillColor=default;glass=0;shadow=0;" parent="1" vertex="1">
+                    <mxGeometry x="940" y="340" width="137.82" height="20" as="geometry"/>
                 </mxCell>
                 <mxCell id="364" style="edgeStyle=orthogonalEdgeStyle;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=-0.005;entryY=0.597;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="202" target="337" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <Array as="points">
-                            <mxPoint x="1229.8600000000001" y="340"/>
-                            <mxPoint x="1229.8600000000001" y="375"/>
+                            <mxPoint x="1379.8600000000001" y="350"/>
+                            <mxPoint x="1379.8600000000001" y="385"/>
                         </Array>
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="202" value="wrdata" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=default;fontFamily=Fira Code;fontSize=12;fontColor=default;fillColor=default;glass=0;shadow=0;" parent="1" vertex="1">
-                    <mxGeometry x="1099.8600000000001" y="330" width="99.56" height="20" as="geometry"/>
+                    <mxGeometry x="1249.8600000000001" y="340" width="99.56" height="20" as="geometry"/>
                 </mxCell>
                 <mxCell id="218" value="addr" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=default;fontFamily=Fira Code;fontSize=12;fontColor=default;fillColor=default;glass=0;shadow=0;" parent="1" vertex="1">
-                    <mxGeometry x="1100.6" y="350" width="99.26" height="20" as="geometry"/>
+                    <mxGeometry x="1250.6" y="360" width="99.26" height="20" as="geometry"/>
                 </mxCell>
                 <mxCell id="235" value="" style="group;fontFamily=Fira Code;" parent="1" vertex="1" connectable="0">
-                    <mxGeometry x="979.86" y="350" width="22" height="22" as="geometry"/>
+                    <mxGeometry x="1129.8600000000001" y="360" width="22" height="22" as="geometry"/>
                 </mxCell>
                 <mxCell id="233" value="" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;sketch=0;strokeColor=default;fontSize=10;fontFamily=Fira Code;" parent="235" vertex="1">
                     <mxGeometry width="20" height="20" as="geometry"/>
@@ -250,87 +176,84 @@
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="237" value="减去'h1000,&lt;br&gt;或只取[11:0]&lt;br&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;sketch=0;fontSize=10;fontFamily=Fira Code;" parent="1" vertex="1">
-                    <mxGeometry x="948.86" y="375" width="84" height="30" as="geometry"/>
+                    <mxGeometry x="1098.8600000000001" y="385" width="84" height="30" as="geometry"/>
                 </mxCell>
                 <mxCell id="363" style="edgeStyle=orthogonalEdgeStyle;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=-0.005;entryY=0.546;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="288" target="337" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <Array as="points">
-                            <mxPoint x="1239.8600000000001" y="320"/>
-                            <mxPoint x="1239.8600000000001" y="365"/>
-                            <mxPoint x="1268.8600000000001" y="365"/>
+                            <mxPoint x="1389.8600000000001" y="330"/>
+                            <mxPoint x="1389.8600000000001" y="375"/>
+                            <mxPoint x="1418.8600000000001" y="375"/>
                         </Array>
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="288" value="wren[3:0]" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=default;fontFamily=Fira Code;fontSize=12;fontColor=default;fillColor=default;glass=0;shadow=0;" parent="1" vertex="1">
-                    <mxGeometry x="1099.8600000000001" y="310" width="100" height="20" as="geometry"/>
+                    <mxGeometry x="1249.8600000000001" y="320" width="100" height="20" as="geometry"/>
                 </mxCell>
                 <mxCell id="319" style="edgeStyle=orthogonalEdgeStyle;jumpStyle=gap;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontFamily=Fira Code;" parent="1" source="289" target="305" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <Array as="points">
-                            <mxPoint x="1249.8600000000001" y="300"/>
-                            <mxPoint x="1249.8600000000001" y="229"/>
+                            <mxPoint x="1399.8600000000001" y="310"/>
+                            <mxPoint x="1399.8600000000001" y="239"/>
                         </Array>
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="361" style="edgeStyle=orthogonalEdgeStyle;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" parent="1" source="289" target="337" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <Array as="points">
-                            <mxPoint x="1249.8600000000001" y="300"/>
-                            <mxPoint x="1249.8600000000001" y="355"/>
+                            <mxPoint x="1399.8600000000001" y="310"/>
+                            <mxPoint x="1399.8600000000001" y="365"/>
                         </Array>
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="289" value="rden[3:0]" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=default;fontFamily=Fira Code;fontSize=12;fontColor=default;fillColor=default;glass=0;shadow=0;" parent="1" vertex="1">
-                    <mxGeometry x="1099.8600000000001" y="290" width="99.56" height="20" as="geometry"/>
-                </mxCell>
-                <mxCell id="328" style="edgeStyle=orthogonalEdgeStyle;jumpStyle=gap;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontFamily=Fira Code;" parent="1" source="290" target="327" edge="1">
-                    <mxGeometry relative="1" as="geometry"/>
+                    <mxGeometry x="1249.8600000000001" y="300" width="99.56" height="20" as="geometry"/>
                 </mxCell>
                 <mxCell id="290" value="EX_x_rd_vld" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=default;fontFamily=Fira Code;fontSize=12;fontColor=default;fillColor=default;glass=0;shadow=0;" parent="1" vertex="1">
-                    <mxGeometry x="1100.3000000000002" y="150" width="99.56" height="20" as="geometry"/>
+                    <mxGeometry x="1249.8600000000001" y="199" width="99.56" height="20" as="geometry"/>
                 </mxCell>
                 <mxCell id="298" style="edgeStyle=orthogonalEdgeStyle;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontFamily=Fira Code;" parent="1" source="292" target="288" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <Array as="points">
-                            <mxPoint x="1099.8600000000001" y="320"/>
+                            <mxPoint x="1249.8600000000001" y="330"/>
                         </Array>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="292" value="MEMwren[3:0]" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=default;fontFamily=Fira Code;fontSize=12;fontColor=default;fillColor=default;glass=0;shadow=0;" parent="1" vertex="1">
-                    <mxGeometry x="829.86" y="310" width="98.48" height="20" as="geometry"/>
+                <mxCell id="292" value="EX_MEMwren[3:0]" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=default;fontFamily=Fira Code;fontSize=12;fontColor=default;fillColor=default;glass=0;shadow=0;" parent="1" vertex="1">
+                    <mxGeometry x="960" y="320" width="118.34" height="20" as="geometry"/>
                 </mxCell>
                 <mxCell id="297" style="edgeStyle=orthogonalEdgeStyle;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;fontFamily=Fira Code;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="293" target="289" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <Array as="points">
-                            <mxPoint x="1069.8600000000001" y="300"/>
-                            <mxPoint x="1069.8600000000001" y="300"/>
+                            <mxPoint x="1219.8600000000001" y="310"/>
+                            <mxPoint x="1219.8600000000001" y="310"/>
                         </Array>
-                        <mxPoint x="1049.8600000000001" y="300" as="targetPoint"/>
+                        <mxPoint x="1199.8600000000001" y="310" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="293" value="MEMrden[3:0]" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=default;fontFamily=Fira Code;fontSize=12;fontColor=default;fillColor=default;glass=0;shadow=0;" parent="1" vertex="1">
-                    <mxGeometry x="829.86" y="290" width="97.96" height="20" as="geometry"/>
+                <mxCell id="293" value="EX_MEMrden[3:0]" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=default;fontFamily=Fira Code;fontSize=12;fontColor=default;fillColor=default;glass=0;shadow=0;" parent="1" vertex="1">
+                    <mxGeometry x="960" y="300" width="117.82" height="20" as="geometry"/>
                 </mxCell>
                 <mxCell id="335" style="edgeStyle=orthogonalEdgeStyle;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontFamily=Fira Code;" parent="1" source="299" target="331" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
                 <mxCell id="299" value="x_rd_vld" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=default;fontFamily=Fira Code;fontSize=12;fontColor=default;fillColor=default;glass=0;shadow=0;" parent="1" vertex="1">
-                    <mxGeometry x="1471.9" y="150" width="77.96" height="20" as="geometry"/>
+                    <mxGeometry x="1621.9" y="160" width="77.96" height="20" as="geometry"/>
                 </mxCell>
                 <mxCell id="336" style="edgeStyle=orthogonalEdgeStyle;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontFamily=Fira Code;" parent="1" source="300" target="333" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
                 <mxCell id="300" value="x_rd" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=default;fontFamily=Fira Code;fontSize=12;fontColor=default;fillColor=default;glass=0;shadow=0;" parent="1" vertex="1">
-                    <mxGeometry x="1471.9" y="170" width="77.96" height="20" as="geometry"/>
+                    <mxGeometry x="1621.9" y="180" width="77.96" height="20" as="geometry"/>
                 </mxCell>
                 <mxCell id="322" style="edgeStyle=orthogonalEdgeStyle;jumpStyle=gap;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;fontFamily=Fira Code;" parent="1" source="301" target="300" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
                 <mxCell id="301" value="" style="shape=trapezoid;perimeter=trapezoidPerimeter;whiteSpace=wrap;html=1;fixedSize=1;direction=east;size=10;fontFamily=Fira Code;" parent="1" vertex="1">
-                    <mxGeometry x="1490.88" y="219" width="40" height="20" as="geometry"/>
+                    <mxGeometry x="1640.88" y="229" width="40" height="20" as="geometry"/>
                 </mxCell>
                 <mxCell id="303" value="" style="group;fontFamily=Fira Code;" parent="1" vertex="1" connectable="0">
-                    <mxGeometry x="1314.8600000000001" y="219" width="20" height="20" as="geometry"/>
+                    <mxGeometry x="1464.8600000000001" y="229" width="20" height="20" as="geometry"/>
                 </mxCell>
                 <mxCell id="304" value="" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Fira Code;" parent="303" vertex="1">
                     <mxGeometry width="20" height="20" as="geometry"/>
@@ -339,7 +262,7 @@
                     <mxGeometry y="3.333333333333333" width="10" height="13.333333333333332" as="geometry"/>
                 </mxCell>
                 <mxCell id="310" value="" style="group;fontFamily=Fira Code;" parent="1" vertex="1" connectable="0">
-                    <mxGeometry x="1314.8600000000001" y="180" width="20" height="20" as="geometry"/>
+                    <mxGeometry x="1464.8600000000001" y="190" width="20" height="20" as="geometry"/>
                 </mxCell>
                 <mxCell id="311" value="" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Fira Code;" parent="310" vertex="1">
                     <mxGeometry width="20" height="20" as="geometry"/>
@@ -347,41 +270,26 @@
                 <mxCell id="312" value="" style="triangle;whiteSpace=wrap;html=1;fontFamily=Fira Code;" parent="310" vertex="1">
                     <mxGeometry y="3.333333333333333" width="10" height="13.333333333333332" as="geometry"/>
                 </mxCell>
-                <mxCell id="325" value="" style="group;fontFamily=Fira Code;" parent="1" vertex="1" connectable="0">
-                    <mxGeometry x="1314.8600000000001" y="150" width="20" height="20" as="geometry"/>
-                </mxCell>
-                <mxCell id="326" value="" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Fira Code;" parent="325" vertex="1">
-                    <mxGeometry width="20" height="20" as="geometry"/>
-                </mxCell>
-                <mxCell id="327" value="" style="triangle;whiteSpace=wrap;html=1;fontFamily=Fira Code;" parent="325" vertex="1">
-                    <mxGeometry y="3.333333333333333" width="10" height="13.333333333333332" as="geometry"/>
-                </mxCell>
-                <mxCell id="329" style="edgeStyle=orthogonalEdgeStyle;jumpStyle=gap;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontFamily=Fira Code;" parent="1" source="326" target="299" edge="1">
-                    <mxGeometry relative="1" as="geometry"/>
-                </mxCell>
                 <mxCell id="330" value="&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;Regs" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=default;fontFamily=Fira Code;fontSize=12;fontColor=default;fillColor=default;" parent="1" vertex="1">
-                    <mxGeometry x="1619.8600000000001" y="120" width="130" height="80" as="geometry"/>
+                    <mxGeometry x="1769.8600000000001" y="130" width="130" height="80" as="geometry"/>
                 </mxCell>
                 <mxCell id="331" value="wen" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=default;fontFamily=Fira Code;fontSize=12;fontColor=default;fillColor=default;glass=0;shadow=0;" parent="1" vertex="1">
-                    <mxGeometry x="1619.8600000000001" y="150" width="77.96" height="20" as="geometry"/>
+                    <mxGeometry x="1769.8600000000001" y="160" width="77.96" height="20" as="geometry"/>
                 </mxCell>
                 <mxCell id="332" value="wraddr" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=default;fontFamily=Fira Code;fontSize=12;fontColor=default;fillColor=default;glass=0;shadow=0;" parent="1" vertex="1">
-                    <mxGeometry x="1619.8600000000001" y="130" width="77.96" height="20" as="geometry"/>
+                    <mxGeometry x="1769.8600000000001" y="140" width="77.96" height="20" as="geometry"/>
                 </mxCell>
                 <mxCell id="333" value="wrdata" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=default;fontFamily=Fira Code;fontSize=12;fontColor=default;fillColor=default;glass=0;shadow=0;" parent="1" vertex="1">
-                    <mxGeometry x="1619.8600000000001" y="170" width="77.96" height="20" as="geometry"/>
+                    <mxGeometry x="1769.8600000000001" y="180" width="77.96" height="20" as="geometry"/>
                 </mxCell>
                 <mxCell id="334" style="edgeStyle=orthogonalEdgeStyle;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontFamily=Fira Code;" parent="1" source="183" target="332" edge="1">
                     <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="1589.8600000000001" y="80.33333333333337" as="targetPoint"/>
+                        <mxPoint x="1739.8600000000001" y="90.33333333333337" as="targetPoint"/>
                         <Array as="points">
-                            <mxPoint x="1569.8600000000001" y="80"/>
-                            <mxPoint x="1569.8600000000001" y="140"/>
+                            <mxPoint x="1719.8600000000001" y="90"/>
+                            <mxPoint x="1719.8600000000001" y="150"/>
                         </Array>
                     </mxGeometry>
-                </mxCell>
-                <mxCell id="347" style="edgeStyle=orthogonalEdgeStyle;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;fontFamily=Fira Code;" parent="1" source="33" target="45" edge="1">
-                    <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
                 <mxCell id="351" style="edgeStyle=orthogonalEdgeStyle;jumpStyle=gap;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0.75;entryY=1;entryDx=0;entryDy=0;fontFamily=Fira Code;" parent="1" source="285" target="301" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
@@ -402,9 +310,9 @@
                 <mxCell id="353" style="edgeStyle=orthogonalEdgeStyle;jumpStyle=gap;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0.25;entryY=1;entryDx=0;entryDy=0;fontFamily=Fira Code;" parent="1" source="311" target="301" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <Array as="points">
-                            <mxPoint x="1439.8600000000001" y="190"/>
-                            <mxPoint x="1439.8600000000001" y="280"/>
-                            <mxPoint x="1500.8600000000001" y="280"/>
+                            <mxPoint x="1589.8600000000001" y="200"/>
+                            <mxPoint x="1589.8600000000001" y="290"/>
+                            <mxPoint x="1650.8600000000001" y="290"/>
                         </Array>
                     </mxGeometry>
                 </mxCell>
@@ -413,13 +321,13 @@
                         <mxPoint x="-13" y="-1" as="offset"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="372" style="edgeStyle=none;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="108" target="101">
+                <mxCell id="372" style="edgeStyle=none;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="108" target="101" edge="1">
                     <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="259.86" y="199.94202898550725" as="targetPoint"/>
+                        <mxPoint x="339.86" y="209.94202898550725" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="362" value="" style="group" parent="1" vertex="1" connectable="0">
-                    <mxGeometry x="1269.8600000000001" y="250" width="140" height="210" as="geometry"/>
+                    <mxGeometry x="1419.8600000000001" y="260" width="140" height="210" as="geometry"/>
                 </mxCell>
                 <mxCell id="337" value="DataCatch" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=default;fontFamily=Fira Code;fontSize=12;fontColor=default;fillColor=default;verticalAlign=top;" parent="362" vertex="1">
                     <mxGeometry width="140" height="210" as="geometry"/>
@@ -499,9 +407,9 @@
                 <mxCell id="315" style="edgeStyle=orthogonalEdgeStyle;jumpStyle=gap;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontFamily=Fira Code;" parent="1" source="218" target="285" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <Array as="points">
-                            <mxPoint x="1149.8600000000001" y="430"/>
+                            <mxPoint x="1299.8600000000001" y="440"/>
                         </Array>
-                        <mxPoint x="1069.8600000000001" y="370" as="targetPoint"/>
+                        <mxPoint x="1219.8600000000001" y="380" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="324" value="[11:2]" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontFamily=Fira Code;" parent="315" vertex="1" connectable="0">
@@ -509,38 +417,187 @@
                         <mxPoint x="30" as="offset"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="373" style="edgeStyle=none;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="9" target="20">
+                <mxCell id="405" style="edgeStyle=orthogonalEdgeStyle;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0.25;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="33" target="404">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="374" value="" style="group" vertex="1" connectable="0" parent="1">
-                    <mxGeometry x="130" y="200" width="200" height="100" as="geometry"/>
+                <mxCell id="381" value="EX_rd" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=#3700CC;fontFamily=Fira Code;fontSize=12;fontColor=#ffffff;fillColor=#6a00ff;glass=0;shadow=0;" vertex="1" parent="1">
+                    <mxGeometry x="980.04" y="200" width="98.3" height="20" as="geometry"/>
                 </mxCell>
-                <mxCell id="5" value="IF" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=default;fontFamily=Fira Code;fontSize=12;fontColor=default;fillColor=default;verticalAlign=top;" parent="374" vertex="1">
-                    <mxGeometry width="200" height="100" as="geometry"/>
+                <mxCell id="387" value="" style="group" vertex="1" connectable="0" parent="1">
+                    <mxGeometry x="940" y="200" width="20" height="20" as="geometry"/>
                 </mxCell>
-                <mxCell id="13" value="jump_flag" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=default;fontFamily=Fira Code;fontSize=12;fontColor=default;fillColor=default;glass=0;shadow=0;" parent="374" vertex="1">
-                    <mxGeometry y="10" width="70" height="20" as="geometry"/>
+                <mxCell id="383" value="" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Fira Code;" vertex="1" parent="387">
+                    <mxGeometry width="20" height="20" as="geometry"/>
                 </mxCell>
-                <mxCell id="14" value="jump_addr" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=default;fontFamily=Fira Code;fontSize=12;fontColor=default;fillColor=default;glass=0;shadow=0;" parent="374" vertex="1">
-                    <mxGeometry y="30" width="70" height="20" as="geometry"/>
+                <mxCell id="384" value="" style="triangle;whiteSpace=wrap;html=1;fontFamily=Fira Code;" vertex="1" parent="387">
+                    <mxGeometry y="3.333333333333343" width="10" height="13.333333333333332" as="geometry"/>
                 </mxCell>
-                <mxCell id="108" value="pc&lt;span style=&quot;font-size: 11px; background-color: rgb(24, 20, 29);&quot;&gt;[31:0]&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=default;fontFamily=Fira Code;fontSize=12;fontColor=default;fillColor=default;glass=0;shadow=0;" parent="374" vertex="1">
-                    <mxGeometry x="139.95999999999998" width="60.04" height="20" as="geometry"/>
+                <mxCell id="388" style="edgeStyle=orthogonalEdgeStyle;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="383" target="381">
+                    <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="360" value="rst" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=#2D7600;fontFamily=Fira Code;fontSize=12;fontColor=#ffffff;fillColor=#60a917;glass=0;shadow=0;" parent="374" vertex="1">
-                    <mxGeometry y="80" width="40" height="20" as="geometry"/>
+                <mxCell id="391" style="edgeStyle=orthogonalEdgeStyle;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="389" target="384">
+                    <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="371" value="" style="group" vertex="1" connectable="0" parent="374">
-                    <mxGeometry x="80" y="29" width="120" height="60" as="geometry"/>
+                <mxCell id="389" value="rd" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=default;fontFamily=Fira Code;fontSize=12;fontColor=default;fillColor=default;glass=0;shadow=0;" vertex="1" parent="1">
+                    <mxGeometry x="840" y="240" width="60" height="20" as="geometry"/>
                 </mxCell>
-                <mxCell id="4" value="InstCatch" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=default;fontFamily=Fira Code;fontSize=12;fontColor=default;fillColor=default;verticalAlign=middle;" parent="371" vertex="1">
-                    <mxGeometry width="119.99644693788153" height="60" as="geometry"/>
+                <mxCell id="390" style="edgeStyle=orthogonalEdgeStyle;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="22" target="389">
+                    <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="8" value="rdaddr[9:0]" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=default;fontFamily=Fira Code;fontSize=12;fontColor=default;fillColor=default;glass=0;shadow=0;" parent="371" vertex="1">
-                    <mxGeometry y="40" width="80" height="20" as="geometry"/>
+                <mxCell id="395" style="edgeStyle=orthogonalEdgeStyle;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="392" target="20">
+                    <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="9" value="inst" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=default;fontFamily=Fira Code;fontSize=12;fontColor=default;fillColor=default;glass=0;shadow=0;" parent="371" vertex="1">
-                    <mxGeometry x="67.60198881364735" width="52.398011186352626" height="20" as="geometry"/>
+                <mxCell id="392" value="" style="shape=trapezoid;perimeter=trapezoidPerimeter;whiteSpace=wrap;html=1;fixedSize=1;direction=south;size=10;fontFamily=Fira Code;" vertex="1" parent="1">
+                    <mxGeometry x="360" y="249.98" width="20" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="5" value="IF" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=default;fontFamily=Fira Code;fontSize=12;fontColor=default;fillColor=default;verticalAlign=top;" parent="1" vertex="1">
+                    <mxGeometry x="100" y="200" width="200" height="130" as="geometry"/>
+                </mxCell>
+                <mxCell id="13" value="jmp_vld" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=#006EAF;fontFamily=Fira Code;fontSize=12;fontColor=#ffffff;fillColor=#1ba1e2;glass=0;shadow=0;" parent="1" vertex="1">
+                    <mxGeometry x="100" y="220" width="70" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="14" value="jmp_addr" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=#006EAF;fontFamily=Fira Code;fontSize=12;fontColor=#ffffff;fillColor=#1ba1e2;glass=0;shadow=0;" parent="1" vertex="1">
+                    <mxGeometry x="100" y="240" width="70" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="108" value="pc&lt;span style=&quot;font-size: 11px; background-color: rgb(24, 20, 29);&quot;&gt;[31:0]&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=default;fontFamily=Fira Code;fontSize=12;fontColor=default;fillColor=default;glass=0;shadow=0;" parent="1" vertex="1">
+                    <mxGeometry x="239.95999999999998" y="200" width="60.04" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="4" value="InstCatch" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=default;fontFamily=Fira Code;fontSize=12;fontColor=default;fillColor=default;verticalAlign=middle;" parent="1" vertex="1">
+                    <mxGeometry x="180" y="265" width="120" height="65" as="geometry"/>
+                </mxCell>
+                <mxCell id="8" value="rdaddr[9:0]" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=default;fontFamily=Fira Code;fontSize=12;fontColor=default;fillColor=default;glass=0;shadow=0;" parent="1" vertex="1">
+                    <mxGeometry x="180" y="265" width="90" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="409" style="edgeStyle=orthogonalEdgeStyle;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0.75;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="9" target="392">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="320" y="319.98" as="sourcePoint"/>
+                        <Array as="points">
+                            <mxPoint x="320" y="320"/>
+                            <mxPoint x="320" y="280"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="413" value="0" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="409">
+                    <mxGeometry x="0.5845" relative="1" as="geometry">
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="9" value="inst" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=default;fontFamily=Fira Code;fontSize=12;fontColor=default;fillColor=default;glass=0;shadow=0;" parent="1" vertex="1">
+                    <mxGeometry x="247.60198881364735" y="310" width="52.398011186352626" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="398" style="edgeStyle=orthogonalEdgeStyle;html=1;entryX=0.25;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" target="392">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="320" y="240" as="sourcePoint"/>
+                        <Array as="points">
+                            <mxPoint x="320" y="240"/>
+                            <mxPoint x="320" y="260"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="399" value="nop" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="398">
+                    <mxGeometry x="0.2899" relative="1" as="geometry">
+                        <mxPoint x="-19" y="-30" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="412" value="1" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="398">
+                    <mxGeometry x="0.169" relative="1" as="geometry">
+                        <mxPoint x="5" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="433" style="edgeStyle=orthogonalEdgeStyle;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;fontFamily=Fira Code;" edge="1" parent="1" source="400" target="392">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="120" y="350"/>
+                            <mxPoint x="370" y="350"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="400" value="hold" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=#A50040;fontFamily=Fira Code;fontSize=12;fontColor=#ffffff;fillColor=#d80073;glass=0;shadow=0;" vertex="1" parent="1">
+                    <mxGeometry x="100" y="310" width="40" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="406" style="edgeStyle=orthogonalEdgeStyle;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="404" target="45">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="404" value="" style="shape=trapezoid;perimeter=trapezoidPerimeter;whiteSpace=wrap;html=1;fixedSize=1;direction=south;size=10;fontFamily=Fira Code;" vertex="1" parent="1">
+                    <mxGeometry x="770" y="360" width="20" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="415" style="edgeStyle=orthogonalEdgeStyle;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0.75;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="414" target="404">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="419" style="edgeStyle=orthogonalEdgeStyle;html=1;exitX=0.75;exitY=0;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;fontFamily=Fira Code;" edge="1" parent="1" source="416" target="404">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="422" value="" style="group" vertex="1" connectable="0" parent="1">
+                    <mxGeometry x="625" y="295" width="140" height="95" as="geometry"/>
+                </mxCell>
+                <mxCell id="95" value="&lt;span style=&quot;font-size: 12px;&quot;&gt;Regs&lt;br&gt;&lt;/span&gt;" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;hachureGap=4;fontFamily=Fira Code;fontSize=20;fontStyle=2" parent="422" vertex="1">
+                    <mxGeometry width="140" height="95" as="geometry"/>
+                </mxCell>
+                <mxCell id="30" value="rdaddr1, 2" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=default;fontFamily=Fira Code;fontSize=12;fontColor=default;fillColor=default;glass=0;shadow=0;" parent="422" vertex="1">
+                    <mxGeometry y="25" width="81.25" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="33" value="REGS_rddata1, 2" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=default;fontFamily=Fira Code;fontSize=12;fontColor=default;fillColor=default;glass=0;shadow=0;" parent="422" vertex="1">
+                    <mxGeometry y="65" width="118.75" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="414" value="EX_x_rd" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=#3700CC;fontFamily=Fira Code;fontSize=12;fontColor=#ffffff;fillColor=#6a00ff;glass=0;shadow=0;" vertex="1" parent="1">
+                    <mxGeometry x="640" y="400" width="78.75" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="425" value="" style="group" vertex="1" connectable="0" parent="1">
+                    <mxGeometry x="480" y="400" width="390" height="140" as="geometry"/>
+                </mxCell>
+                <mxCell id="420" value="&lt;span style=&quot;font-size: 12px;&quot;&gt;OpdForword&lt;br&gt;&lt;br&gt;&lt;/span&gt;" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;hachureGap=4;fontFamily=Fira Code;fontSize=20;fontStyle=2" vertex="1" parent="425">
+                    <mxGeometry width="108.75" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="416" value="&lt;font face=&quot;Fira Code&quot;&gt;if (EX_x_rd_vld &amp;amp;&amp;amp;&amp;nbsp;&lt;/font&gt;&lt;span style=&quot;font-family: &amp;quot;Fira Code&amp;quot;;&quot;&gt;EX_rd == rs1&lt;/span&gt;&lt;font face=&quot;Fira Code&quot;&gt;)&lt;br&gt;&amp;nbsp; &amp;nbsp; x_rs1 = EX_rd; x_rs2 = REGS_rddata2;&lt;br&gt;else if (&lt;/font&gt;&lt;span style=&quot;font-family: &amp;quot;Fira Code&amp;quot;;&quot;&gt;EX_x_rd_vld &amp;amp;&amp;amp;&amp;nbsp;&lt;/span&gt;&lt;font face=&quot;Fira Code&quot;&gt;EX_rd == rs2)&lt;br&gt;&amp;nbsp; &amp;nbsp; x_rs1 = REGS_rddata1; x_rs2 = EX_rd;&lt;br&gt;else&lt;br&gt;&lt;/font&gt;&lt;span style=&quot;font-family: &amp;quot;Fira Code&amp;quot;;&quot;&gt;&amp;nbsp; &amp;nbsp; x_rs1 = REGS_rddata1;&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;font-family: &amp;quot;Fira Code&amp;quot;;&quot;&gt;x_rs2 = RESG_rddata2;&lt;/span&gt;&lt;font face=&quot;Fira Code&quot;&gt;&lt;br&gt;&lt;/font&gt;" style="text;html=1;strokeColor=default;fillColor=default;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;" vertex="1" parent="425">
+                    <mxGeometry x="30.44999999999999" y="40" width="359.55" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="18" value="ID" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=default;fontFamily=Fira Code;fontSize=12;fontColor=default;fillColor=default;" parent="1" vertex="1">
+                    <mxGeometry x="428.30000000000007" y="240" width="175" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="410" style="edgeStyle=orthogonalEdgeStyle;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.484;entryY=0.118;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="20" target="375">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="20" value="inst" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=default;fontFamily=Fira Code;fontSize=12;fontColor=default;fillColor=default;glass=0;shadow=0;" parent="1" vertex="1">
+                    <mxGeometry x="428.30000000000007" y="260" width="60" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="21" value="rs1,2" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=default;fontFamily=Fira Code;fontSize=12;fontColor=default;fillColor=default;glass=0;shadow=0;" parent="1" vertex="1">
+                    <mxGeometry x="530" y="320" width="73.3" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="22" value="rd" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=default;fontFamily=Fira Code;fontSize=12;fontColor=default;fillColor=default;glass=0;shadow=0;" parent="1" vertex="1">
+                    <mxGeometry x="538.3000000000001" y="240" width="65" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="24" value="instID" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=default;fontFamily=Fira Code;fontSize=12;fontColor=default;fillColor=default;glass=0;shadow=0;" parent="1" vertex="1">
+                    <mxGeometry x="538.3000000000001" y="280" width="65" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="25" value="imm" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=default;fontFamily=Fira Code;fontSize=12;fontColor=default;fillColor=default;glass=0;shadow=0;" parent="1" vertex="1">
+                    <mxGeometry x="538.3000000000001" y="259" width="65" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="375" value="&lt;span style=&quot;font-size: 12px;&quot;&gt;&lt;i&gt;OPCODE_JAL&lt;br&gt;&lt;/i&gt;&lt;br&gt;&lt;/span&gt;" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;hachureGap=4;fontFamily=Fira Code;fontSize=20;" vertex="1" parent="1">
+                    <mxGeometry x="405" y="280" width="110" height="85" as="geometry"/>
+                </mxCell>
+                <mxCell id="378" value="" style="group;fontStyle=2" vertex="1" connectable="0" parent="1">
+                    <mxGeometry x="400" y="280" width="120" height="85" as="geometry"/>
+                </mxCell>
+                <mxCell id="376" value="jmp_vld" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=#006EAF;fontFamily=Fira Code;fontSize=12;fontColor=#ffffff;fillColor=#1ba1e2;glass=0;shadow=0;" vertex="1" parent="378">
+                    <mxGeometry x="25" y="45" width="70" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="377" value="jmp_addr" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=#006EAF;fontFamily=Fira Code;fontSize=12;fontColor=#ffffff;fillColor=#1ba1e2;glass=0;shadow=0;" vertex="1" parent="378">
+                    <mxGeometry x="25" y="65" width="70" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="428" value="" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;sketch=0;strokeColor=#d79b00;fontSize=10;fontFamily=Fira Code;fillColor=#ffcd28;gradientColor=#ffa500;" vertex="1" parent="1">
+                    <mxGeometry x="950" y="325" width="10" height="10" as="geometry"/>
+                </mxCell>
+                <mxCell id="431" value="" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;sketch=0;strokeColor=#d79b00;fontSize=10;fontFamily=Fira Code;fillColor=#ffcd28;gradientColor=#ffa500;" vertex="1" parent="1">
+                    <mxGeometry x="950" y="305" width="10" height="10" as="geometry"/>
+                </mxCell>
+                <mxCell id="432" value="" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;sketch=0;strokeColor=#d79b00;fontSize=10;fontFamily=Fira Code;fillColor=#ffcd28;gradientColor=#ffa500;" vertex="1" parent="1">
+                    <mxGeometry x="970.04" y="245" width="10" height="10" as="geometry"/>
+                </mxCell>
+                <mxCell id="434" value="" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;sketch=0;strokeColor=#d79b00;fontSize=10;fontFamily=Fira Code;fillColor=#ffcd28;gradientColor=#ffa500;" vertex="1" parent="1">
+                    <mxGeometry x="969.48" y="264.98" width="10" height="10" as="geometry"/>
+                </mxCell>
+                <mxCell id="435" value="inst_vld" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=#d79b00;fontFamily=Fira Code;fontSize=12;fillColor=#ffcd28;glass=0;shadow=0;gradientColor=#ffa500;" vertex="1" parent="1">
+                    <mxGeometry x="840" y="299" width="60" height="20" as="geometry"/>
                 </mxCell>
             </root>
         </mxGraphModel>

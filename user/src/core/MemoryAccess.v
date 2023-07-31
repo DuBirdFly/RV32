@@ -56,17 +56,17 @@ end
 
 // 打拍器
 always @(posedge clk) begin
-    x_rd_vld <= EX_x_rd_vld;
+    x_rd_vld <= EX_x_rd_vld || (rden != 4'b0000);
     EX_x_rd_d1 <= EX_x_rd;
     rden_d1 <= rden;
 end
 
 DataCatch u_DataCatch(      
-    .clk        ( clk                   ),
-    .wren       ( wren                  ),
-    .wrdata     ( wrdata                ),
-    .addr       ( addr                  ),
-    .rddata     ( oDataCatch            )
+    .clk        ( clk           ),
+    .wren       ( wren          ),
+    .wrdata     ( wrdata        ),
+    .addr       ( addr          ),
+    .rddata     ( oDataCatch    )
 );
 
 endmodule

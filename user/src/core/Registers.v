@@ -4,9 +4,9 @@ module Registers (
     input               clk,
     // read
     input       [ 4:0]  rdaddr1,
-    output reg  [31:0]  rddata1,
+    output reg  [31:0]  REGS_rddata1,
     input       [ 4:0]  rdaddr2,
-    output reg  [31:0]  rddata2,
+    output reg  [31:0]  REGS_rddata2,
     // write
     input               wen,        // 写使能信号
     input       [ 4:0]  wraddr,
@@ -36,17 +36,17 @@ end
 // 异步读
 always @(*) begin
     if (rdaddr1 == wraddr && wen)                   // 写后读
-        rddata1 = wrdata;
+        REGS_rddata1 = wrdata;
     else
-        rddata1 = regfile[rdaddr1];
+        REGS_rddata1 = regfile[rdaddr1];
 end
 
 // 异步读
 always @(*) begin
     if (rdaddr2 == wraddr && wen)
-        rddata2 = wrdata;
+        REGS_rddata2 = wrdata;
     else 
-        rddata2 = regfile[rdaddr2];
+        REGS_rddata2 = regfile[rdaddr2];
 end
 
 endmodule
