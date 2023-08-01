@@ -14,6 +14,7 @@ module Registers (
 );
 
 /*
+FROM IVERILOG:
     $readmemh: The behaviour for reg[...] mem[N:0]; $readmemh("...", mem);
     changed in the 1364-2005 standard. 
     To avoid ambiguity, use mem[0:N] or $readmemh("...", mem, start, stop);
@@ -33,16 +34,16 @@ always @(posedge clk) begin
         regfile[wraddr] <= wrdata;          
 end
 
-// 异步读
-always @(*) begin
-    if (rdaddr1 == wraddr && wen)                   // 写后读
+// 同步读
+always @(posedge clk) begin
+    if (rdaddr1 == wraddr && wen)
         REGS_rddata1 = wrdata;
     else
         REGS_rddata1 = regfile[rdaddr1];
 end
 
-// 异步读
-always @(*) begin
+// 同步读
+always @(posedge clk) begin
     if (rdaddr2 == wraddr && wen)
         REGS_rddata2 = wrdata;
     else 

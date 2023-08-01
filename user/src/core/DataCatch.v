@@ -5,7 +5,7 @@ module DataCatch (
 
     input       [3:0]                   wren,
     input       [31:0]                  wrdata,
-    input       [`DataCatchDepth - 1:0] addr,       // [11:0]
+    input       [31:0]                  addr,
 
     output wire [31:0]                  rddata
 
@@ -13,9 +13,7 @@ module DataCatch (
 
 // 由于rv32是以1Byte为最小内存访问粒度的, 所以32bits被拆成了4个8bits (u0/1/2/3_ramGen)
 // 所以每个ramGen的深度是访存深度的1/4
-localparam RAM_DEPTH = `DataCatchDepth - 2;         // = 12-2 = 10
-
-wire [RAM_DEPTH - 1:0] ram_addr;                    // [9:0]
+wire [`DataCatchDepth - 3:0] ram_addr;                    // [9:0]
 
 // 这里最低位只到2是因为32bits被拆成了4个8bits
 assign ram_addr = addr[`DataCatchDepth - 1 : 2];    // [11:2]
