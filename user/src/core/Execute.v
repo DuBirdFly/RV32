@@ -68,8 +68,7 @@ always @(posedge clk) begin
             `ID_LW: begin
                 // ctrl
                 EX_jmp_vld <= 1'b0;
-                // 虽然说确实x_rd_vld, 但是这个vld不是EX造成的
-                EX_x_rd_vld <= 1'b0;
+                EX_x_rd_vld <= 1'b0;    // 虽然说确实 x_rd_vld, 但是这个vld不是EX造成的, 留给MEM阶段拉高EX_x_rd_vld
                 {EX_MEMrden, EX_MEMwren} <= 8'b1111_0000;
                 // data
                 EX_MEMaddr <= x_rs1 + imm;
