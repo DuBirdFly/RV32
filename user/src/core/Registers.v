@@ -35,7 +35,7 @@ always @(posedge clk) begin
 end
 
 // 同步读
-always @(posedge clk) begin
+always @(*) begin
     if (rdaddr1 == wraddr && wen)
         REGS_rddata1 = wrdata;
     else
@@ -43,7 +43,7 @@ always @(posedge clk) begin
 end
 
 // 同步读
-always @(posedge clk) begin
+always @(*) begin
     if (rdaddr2 == wraddr && wen)
         REGS_rddata2 = wrdata;
     else 

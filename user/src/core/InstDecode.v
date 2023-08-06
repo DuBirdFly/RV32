@@ -5,18 +5,13 @@ module InstructionDecode(
     
     input       [31:0]              inst,                   // from IF
 
-    // 反馈输入：用于load-use型数据冒险判断是否需要插入nop
-    input                           rs1_d1, rs2_d1, rd_d1,  // delay 1 clk后反馈的数据
-    input                           instID_d1,              // delay 1 clk后反馈的数据
-
     // 正常输出
     output wire [4:0]               ID_rs1, ID_rs2, ID_rd,  // 读32位寄存器地址1, 2; 写32位寄存器地址
     output reg  [31:0]              ID_imm,                 // 32位的立即数 (大概率要符号拓展)
     output reg  [`InstIDDepth-1:0]  ID_instID,              // define的instID, 如: ID_ADDI=8'd2; ID_BNE=8'd33
 
     // 控制冒险: 无条件跳转 (只有 OPCODE_J_JAL 才会触发， 立即反馈到 IF， 此时的jmp_addr = imm)
-    output wire                     ID_jmp_vld,              // 生成跳转信号, to IF
-    output reg                      ID_nop                   // 生成NOP信号, to IF
+    output wire                     ID_jmp_vld               // 生成跳转信号, to IF
 );
 
 // rs1, rs2, rd 都是固定位置的
@@ -26,15 +21,6 @@ assign ID_rd = inst[11:7];
 
 // 处理无条件跳转型数据冒险: 立即反馈到 IF， 执行跳转
 assign ID_jmp_vld = (inst[6:0] == `OPCODE_J_JAL);
-
-// 处理load-use型数据冒险: 立即反馈到 IF， 插入NOP
-// 当前指令的rs(rs1_d1, rs2_d1)与上一条'Load类型'指令(instID_d1)的rd(rd_d1)相同 --> 则插入NOP
-always @(*) begin
-    if ((instID_d1 == `ID_LW) && (rs1_d1 == rd_d1 || rs2_d1 == rd_d1))
-        ID_nop = 1'b1;
-    else
-        ID_nop = 1'b0;
-end
 
 // 转为组合逻辑
 always @(*) begin
@@ -92,10 +78,6 @@ always @(*) begin
             endcase
 
     endcase
-
 end
-
-
-
 
 endmodule
