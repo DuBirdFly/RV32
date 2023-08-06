@@ -91,7 +91,7 @@ always @(posedge clk) begin
             end
         endcase
     end
-    else begin          // !inst_vld --> 一般出现于"B"型指令和"jalr"指令
+    else begin          // !inst_vld --> 一般出现于"B"型指令和"jalr"指令出现之后的 2 拍
         // ctrl
         EX_jmp_vld <= 1'b0;
         EX_x_rd_vld <= 1'b0;
