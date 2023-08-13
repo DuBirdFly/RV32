@@ -36,5 +36,5 @@
 
 // J-TYPE
 `define OPCODE_J_JAL 7'b1101111
-// `define ID_JAL 8'd38    !!! 无条件跳转的旁路电路设计优化
+`define ID_JAL 8'd38
 

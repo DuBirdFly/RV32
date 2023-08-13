@@ -4,14 +4,14 @@ module InstFetch(
     input               clk,
     input               rst,
 
-    input               hold_IF,    // 导致下一拍的pc不变
+    input               hold,    // 导致下一拍的pc不变
     input  wire         nop,
 
     input  wire         jmp_vld,
     input  wire [31:0]  jmp_addr,
 
-    output reg  [31:0]  pc,
-    output wire [31:0]  inst
+    output reg  [31:0]  IF_pc,
+    output wire [31:0]  IF_inst
 
 );
 
@@ -19,14 +19,14 @@ reg     [31:0]  cnt;
 reg     [`InstCatchDepth-3:0]  rdaddr;   // addr[9:0] -> [11:2], 组合逻辑
 wire    [31:0]  rddata;
 
-assign inst = nop ? 32'h00000013 : rddata;
+assign IF_inst = nop ? 32'h00000013 : rddata;
 
 always @(posedge clk) begin
     if (rst)
         cnt <= 'd4;
     else if (jmp_vld)
         cnt <= jmp_addr + 'd4;
-    else if (hold_IF)
+    else if (hold)
         cnt <= cnt;
     else
         cnt <= cnt + 'd4;
@@ -43,19 +43,19 @@ end
 
 always @(posedge clk) begin
     if (rst)
-        pc <= 'd0;
+        IF_pc <= 'd0;
     else if (jmp_vld)
-        pc <= jmp_addr;
-    else if (hold_IF)
-        pc <= pc;
+        IF_pc <= jmp_addr;
+    else if (hold)
+        IF_pc <= IF_pc;
     else
-        pc <= cnt;
+        IF_pc <= cnt;
 end
 
 InstCatch u_InstCatch(
     .clk      ( clk    ),
     .addr     ( rdaddr ),
-    .inst     ( rddata )
+    .IF_inst     ( rddata )
 );
 
 endmodule

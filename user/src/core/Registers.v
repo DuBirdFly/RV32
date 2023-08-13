@@ -3,14 +3,14 @@
 module Registers (
     input               clk,
     // read
-    input       [ 4:0]  rdaddr1,
+    input       [ 4:0]  REGS_rdaddr1,
     output reg  [31:0]  REGS_rddata1,
-    input       [ 4:0]  rdaddr2,
+    input       [ 4:0]  REGS_rdaddr2,
     output reg  [31:0]  REGS_rddata2,
     // write
-    input               wen,        // 写使能信号
-    input       [ 4:0]  wraddr,
-    input       [31:0]  wrdata
+    input               REGS_wen,        // 写使能信号
+    input       [ 4:0]  REGS_wraddr,
+    input       [31:0]  REGS_wrdata
 );
 
 /*
@@ -30,24 +30,24 @@ end
 
 // 同步写
 always @(posedge clk) begin
-    if (wen && wraddr != 0 )                // 0号寄存器不可写, hold状态不可写
-        regfile[wraddr] <= wrdata;          
+    if (REGS_wen && REGS_wraddr != 0 )                // 0号寄存器不可写, hold状态不可写
+        regfile[REGS_wraddr] <= REGS_wrdata;          
 end
 
-// 同步读
+// 异步读
 always @(*) begin
-    if (rdaddr1 == wraddr && wen)
-        REGS_rddata1 = wrdata;
+    if (REGS_rdaddr1 == REGS_wraddr && REGS_wen)
+        REGS_rddata1 = REGS_wrdata;
     else
-        REGS_rddata1 = regfile[rdaddr1];
+        REGS_rddata1 = regfile[REGS_rdaddr1];
 end
 
-// 同步读
+// 异步读
 always @(*) begin
-    if (rdaddr2 == wraddr && wen)
-        REGS_rddata2 = wrdata;
+    if (REGS_rdaddr2 == REGS_wraddr && REGS_wen)
+        REGS_rddata2 = REGS_wrdata;
     else 
-        REGS_rddata2 = regfile[rdaddr2];
+        REGS_rddata2 = regfile[REGS_rdaddr2];
 end
 
 endmodule
