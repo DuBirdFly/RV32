@@ -1,6 +1,6 @@
 `include "defines.v"
 
-module OpdForword(
+module OpdForward(
     // from EX
     input      [ 4:0]   EX_rd,
     input      [31:0]   EX_x_rd,                // mabye not used
