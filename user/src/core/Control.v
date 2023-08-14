@@ -1,3 +1,6 @@
+`include "../inc/defines.v"
+// `include "defines.v"
+
 module Control(
     // load-use型数据冒险
     input       [4:0]               ID_rs1, ID_rs2, 
