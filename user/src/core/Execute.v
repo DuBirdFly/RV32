@@ -1,5 +1,5 @@
+// `include "../inc/defines.v"
 `include "defines.v"
-
 module Execute(
     input                               clk,
     input                               inst_vld,

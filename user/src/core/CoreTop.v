@@ -1,8 +1,9 @@
+// `include "../inc/defines.v"
 `include "defines.v"
 
 module CoreTop(
-    input                       clk,
-    input                       rst
+    input  clk,
+    input  rst
 );
 
 // Instruction Fetch -------------------------------------

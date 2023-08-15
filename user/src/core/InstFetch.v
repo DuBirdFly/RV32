@@ -1,3 +1,4 @@
+// `include "../inc/defines.v"
 `include "defines.v"
 
 module InstFetch(
