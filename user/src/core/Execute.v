@@ -54,8 +54,34 @@ always @(posedge clk) begin
                 EX_jmp_vld <= (x_rs1 != x_rs2);
                 EX_jmp_addr <= pc + imm;
             end
+            `ID_BEQ: begin
+                EX_jmp_vld <= (x_rs1 == x_rs2);
+                EX_jmp_addr <= pc + imm;
+            end
+            `ID_BGE: begin
+                EX_jmp_vld <= ($signed(x_rs1) >= $signed(x_rs2));
+                EX_jmp_addr <= pc + imm;
+            end
+            `ID_BGEU: begin
+                EX_jmp_vld <= (x_rs1 >= x_rs2);
+                EX_jmp_addr <= pc + imm;
+            end
+            `ID_BLT: begin
+                EX_jmp_vld <= ($signed(x_rs1) < $signed(x_rs2));
+                EX_jmp_addr <= pc + imm;
+            end
+            `ID_BLTU: begin
+                EX_jmp_vld <= (x_rs1 < x_rs2);
+                EX_jmp_addr <= pc + imm;
+            end
             `ID_JAL: begin
                 // 无条件跳转早在IF2ID阶段就已经确定, 所以无需EX_jmp_vld
+                EX_x_rd_vld <= 1'b1;
+                EX_x_rd <= pc + 'd4;
+            end
+            `ID_JALR: begin
+                EX_jmp_vld <= 1'b1;
+                EX_jmp_addr <= (x_rs1 + imm) & (~32'd1);
                 EX_x_rd_vld <= 1'b1;
                 EX_x_rd <= pc + 'd4;
             end

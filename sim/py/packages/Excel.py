@@ -12,14 +12,14 @@ ins_true = []                                   # 存储所有有效指令
 ins_has_code = []                               # 已经写好代码的指令
 pseu2true = {}                                  # 构建伪指令到真指令的映射字典
 
-for i in range(1, 85):
+for i in range(1, 86):
     if (i < 49):
-        ins_true.append(sheet['B'][i].value)        # type: ignore
-        if (sheet['C'][i].value == 'Y'):            # type: ignore
-            ins_has_code.append(sheet['B'][i].value)# type: ignore
+        ins_true.append(sheet['C'][i].value)        # type: ignore
+        if (sheet['D'][i].value == 'Y'):            # type: ignore
+            ins_has_code.append(sheet['C'][i].value)# type: ignore
     else:
-        val1 = sheet['B'][i].value                  # type: ignore
-        val2 = sheet['M'][i].value.split(" ")[0]    # type: ignore
+        val1 = sheet['C'][i].value                  # type: ignore
+        val2 = sheet['N'][i].value.split(" ")[0]    # type: ignore
         pseu2true[val1] = val2
 
 # print(f"所有真指令: \n{ins_true}")
@@ -33,7 +33,7 @@ SIM = CWD + '/sim'
 IS_NEW_TEST = False
 
 if IS_NEW_TEST: path_dump = SIM + '/riscv-compliance/build_generated/rv32i/I-ADD-01.elf.objdump'
-else: path_dump = SIM + '/riscv-isa/generated/rv32ui-p-auipc.dump'
+else: path_dump = SIM + '/riscv-isa/generated/rv32ui-p-jal.dump'
 
 used_ins = []                              # 存储所有用到的真实指令
 

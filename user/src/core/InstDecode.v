@@ -16,8 +16,8 @@ module InstructionDecode(
 );
 
 // rs1, rs2, rd 都是固定位置的
-assign ID_rs1 = inst[19:15];
 assign ID_rs2 = inst[24:20];
+assign ID_rs1 = inst[19:15];
 assign ID_rd = inst[11:7];
 
 // 处理无条件跳转型数据冒险: 立即反馈到 IF， 执行跳转
@@ -68,11 +68,36 @@ always @(*) begin
                     ID_imm = { {19{inst[31]}}, inst[31], inst[7], inst[30:25], inst[11:8], 1'b0 };
                     ID_instID = `ID_BNE;
                 end
+                `FUNCT3_BEQ: begin
+                    ID_imm = { {19{inst[31]}}, inst[31], inst[7], inst[30:25], inst[11:8], 1'b0 };
+                    ID_instID = `ID_BEQ;
+                end
+                `FUNCT3_BGE: begin
+                    ID_imm = { {19{inst[31]}}, inst[31], inst[7], inst[30:25], inst[11:8], 1'b0 };
+                    ID_instID = `ID_BGE;
+                end
+                `FUNCT3_BGEU: begin
+                    ID_imm = { {19{inst[31]}}, inst[31], inst[7], inst[30:25], inst[11:8], 1'b0 };
+                    ID_instID = `ID_BGEU;
+                end
+                `FUNCT3_BLT: begin
+                    ID_imm = { {19{inst[31]}}, inst[31], inst[7], inst[30:25], inst[11:8], 1'b0 };
+                    ID_instID = `ID_BLT;
+                end
+                `FUNCT3_BLTU: begin
+                    ID_imm = { {19{inst[31]}}, inst[31], inst[7], inst[30:25], inst[11:8], 1'b0 };
+                    ID_instID = `ID_BLTU;
+                end
             endcase
 
         `OPCODE_J_JAL: begin
             ID_imm = { {12{inst[31]}}, inst[19:12], inst[20], inst[30:21], 1'b0 };
             ID_instID = `ID_JAL;
+        end
+
+        `OPCODE_J_JALR: begin
+            ID_imm = { {20{inst[31]}}, inst[31:20] };
+            ID_instID = `ID_JALR;
         end
 
         `OPCODE_I_LW:

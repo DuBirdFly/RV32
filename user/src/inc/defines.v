@@ -46,7 +46,27 @@
 `define FUNCT3_BNE 3'b001
 `define ID_BNE 8'd33
 
+`define FUNCT3_BEQ 3'b000
+`define ID_BEQ 8'd32
+
+`define FUNCT3_BGE 3'b101
+`define ID_BGE 8'd34
+
+`define FUNCT3_BGEU 3'b111
+`define ID_BGEU 8'd35
+
+`define FUNCT3_BLT 3'b100
+`define ID_BLT 8'd36
+
+`define FUNCT3_BLTU 3'b110
+`define ID_BLTU 8'd37
+
 // J-TYPE
 `define OPCODE_J_JAL 7'b1101111
 `define ID_JAL 8'd38
 
+`define OPCODE_J_JALR 7'b1100111
+// 不知道FUNCT3_JALR到底是010还是000
+// 但是反正OPCODE是唯一的1100111, 就注释掉不管了
+// `define FUNCT3_JALR 3'b010
+`define ID_JALR 8'd39
