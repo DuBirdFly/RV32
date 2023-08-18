@@ -44,13 +44,11 @@ always @(*) begin
         `OPCODE_R:
             case (inst[14:12])
                 `FUNCT3_ADD: begin
-                    ID_instID = `ID_ADD;
+                    if (inst[30] == 1'b0)   ID_instID = `ID_ADD;
+                    else                    ID_instID = `ID_SUB;
                 end
                 `FUNCT3_AND: begin
                     ID_instID = `ID_AND;
-                end
-                `FUNCT3_SUB: begin
-                    ID_instID = `ID_SUB;
                 end
             endcase
 

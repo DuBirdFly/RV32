@@ -12,6 +12,7 @@ module Control(
     // jmp型数据冒险-无条件跳转
     input                           ID_jmp_vld,
     input       [31:0]              ID_imm,
+    input       [31:0]              ID_pc,
     // jmp型数据冒险-条件跳转
     input                           EX_jmp_vld,
     input       [31:0]              EX_jmp_addr,
@@ -48,7 +49,7 @@ always @(*) begin
     end
     else if (ID_jmp_vld) begin
         jmp_vld_IF = 1'b1;
-        jmp_addr_IF = ID_imm;
+        jmp_addr_IF = ID_imm + ID_pc;
     end
     else begin
         jmp_vld_IF = 1'b0;

@@ -161,6 +161,7 @@ Control u_Control(
     // input
     .ID_jmp_vld       ( ID_jmp_vld    ),
     .ID_imm           ( ID_imm        ),
+    .ID_pc            ( IF_pc         ),
     .EX_jmp_vld       ( EX_jmp_vld    ),
     .EX_jmp_addr      ( EX_jmp_addr   ),
     // output

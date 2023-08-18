@@ -31,7 +31,8 @@
 `define FUNCT3_AND 3'b111
 `define ID_AND 8'd13
 
-`define FUNCT3_SUB 3'b000
+// SUB的funct3和add一样
+// `define FUNCT3_SUB 3'b000
 `define ID_SUB 8'd12
 
 // U-TYPE
