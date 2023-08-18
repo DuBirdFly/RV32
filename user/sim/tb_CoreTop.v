@@ -30,26 +30,28 @@ initial begin
     #200;
 
     // wait sim end, when x26 == 1
-    wait(x26 == 32'b1)   
-    #150;
+    wait(x26 == 32'b1);
+
+    $display("x26 == 32'b1!!!!!!!!");
+
+    #(PERIOD*(1.5));
 
     if (x27 == 32'b1) begin
         $display("TEST SIM PASS");
     end 
     else begin
         $display("TEST SIM FAIL");
-
-        $display("x3 = %2d (global pointer, the fail test_number)\n", x3);
+        $display("x3(global pointer) = %2d (the fail test_number)\n", x3);
         
         for (r = 0; r < 32; r = r + 1)
             $display("x%2d = 0x%x", r, u_CoreTop.u_Registers.regfile[r]);
     end
-
+    $finish;
 end
 
 // sim timeout, it means x26 never be 1'b1
 initial begin
-    #5000
+    #(PERIOD*1500);
     if (x26 == 32'd0)
         $display("Time Out.");
         $display("The x26 register cannot become 1 for a very long time");
@@ -58,7 +60,7 @@ end
 
 // read mem data to instCache
 initial begin
-    $readmemh (`ROM_DATA_FILE, u_CoreTop.u_InstCatch.u_ramGen.ram);
+    $readmemh (`ROM_DATA_FILE, u_CoreTop.u_InstFetch.u_InstCatch.u_ramGen.ram);
 end
 
 // generate wave file, used by gtkwave or vscode-WaveTrace

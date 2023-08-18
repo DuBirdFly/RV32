@@ -2,6 +2,8 @@
 `include "defines.v"
 
 module Control(
+    input                           clk,
+
     // load-use型数据冒险
     input       [4:0]               ID_rs1, ID_rs2, 
     input       [4:0]               ID_rd_d1,
@@ -42,11 +44,11 @@ end
 always @(*) begin
     if (EX_jmp_vld) begin
         jmp_vld_IF = 1'b1;
-        jmp_addr_IF = ID_imm;
+        jmp_addr_IF = EX_jmp_addr;
     end
     else if (ID_jmp_vld) begin
         jmp_vld_IF = 1'b1;
-        jmp_addr_IF = EX_jmp_addr;
+        jmp_addr_IF = ID_imm;
     end
     else begin
         jmp_vld_IF = 1'b0;

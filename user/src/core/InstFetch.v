@@ -54,9 +54,9 @@ always @(posedge clk) begin
 end
 
 InstCatch u_InstCatch(
-    .clk      ( clk    ),
-    .addr     ( rdaddr ),
-    .IF_inst     ( rddata )
+    .clk        ( clk    ),
+    .addr       ( rdaddr ),
+    .inst       ( rddata )
 );
 
 endmodule

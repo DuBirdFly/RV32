@@ -33,7 +33,7 @@ wire                        ID_jmp_vld;
 
 InstructionDecode u_InstructionDecode(
     .clk            ( clk         ),
-    .inst           ( inst        ),
+    .inst           ( IF_inst     ),
     .ID_rs1         ( ID_rs1      ),
     .ID_rs2         ( ID_rs2      ),
     .ID_rd          ( ID_rd       ),
@@ -82,9 +82,9 @@ Registers u_Registers(
 
 // Execute -----------------------------------------------
 wire                        inst_vld_EX;
-wire  [31:0]                OF_x_rs1, OF_x_rs2;
+wire [31:0]                 OF_x_rs1, OF_x_rs2;
 
-wire                        EX_rd;
+wire [4:0]                  EX_rd;
 wire                        EX_jmp_vld;
 wire [31:0]                 EX_jmp_addr;
 wire                        EX_x_rd_vld;
@@ -135,8 +135,6 @@ assign REGS_wraddr = ID_rd_d3;
 assign REGS_wrdata = MEM_x_rd;
 
 // Operand Forwarding -------------------------------------
-wire [31:0]             OF_x_rs1, OF_x_rs2;
-
 OpdForward u_OpdForward(
     .EX_rd            ( EX_rd         ),
     .EX_x_rd          ( EX_x_rd       ),
@@ -150,11 +148,8 @@ OpdForward u_OpdForward(
 );
 
 // Control -----------------------------------------------
-
-// outports wire
-wire inst_vld_EX;
-
 Control u_Control(
+    .clk              ( clk           ),
     // input
     .ID_rs1           ( ID_rs1        ),
     .ID_rs2           ( ID_rs2        ),

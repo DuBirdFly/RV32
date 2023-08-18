@@ -13,19 +13,36 @@ module OpdForward(
     output reg [31:0]   OF_x_rs1, OF_x_rs2
 );
 
+// always @(*) begin
+//     if (EX_x_rd_vld && EX_rd == REGS_rdaddr1) begin
+//         OF_x_rs1 = EX_x_rd;
+//         OF_x_rs2 = REGS_rddata2;
+//     end
+//     else if (EX_x_rd_vld && EX_rd == REGS_rdaddr2) begin
+//         OF_x_rs1 = REGS_rddata1;
+//         OF_x_rs2 = EX_x_rd;
+//     end
+//     else begin
+//         OF_x_rs1 = REGS_rddata1;
+//         OF_x_rs2 = REGS_rddata2;
+//     end
+// end
+
+// OF_x_rs1
 always @(*) begin
-    if (EX_x_rd_vld && EX_rd == REGS_rdaddr1) begin
+    if (EX_x_rd_vld && EX_rd == REGS_rdaddr1 && EX_rd != 5'd0)
         OF_x_rs1 = EX_x_rd;
-        OF_x_rs2 = REGS_rddata2;
-    end
-    else if (EX_x_rd_vld && EX_rd == REGS_rdaddr2) begin
+    else
         OF_x_rs1 = REGS_rddata1;
-        OF_x_rs2 = EX_x_rd;
-    end
-    else begin
-        OF_x_rs1 = REGS_rddata1;
-        OF_x_rs2 = REGS_rddata2;
-    end
 end
+
+// OF_x_rs2
+always @(*) begin
+    if (EX_x_rd_vld && EX_rd == REGS_rdaddr2 && EX_rd != 5'd0)
+        OF_x_rs2 = EX_x_rd;
+    else
+        OF_x_rs2 = REGS_rddata2;
+end
+
 
 endmodule
