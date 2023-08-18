@@ -1,46 +1,39 @@
 import openpyxl, os, re
 
 CWD = os.getcwd().replace('\\', '/')
-
 path_excel = CWD + '/doc/ins_set.xlsx'
 
-SIM = CWD + '/sim'
-
 ############################################################
-
-sheet = openpyxl.load_workbook(path_excel).active       # 打开Excel文件, 获取工作表
+workbook = openpyxl.load_workbook(path_excel)   # 打开Excel文件
+sheet = workbook.active                         # 获取工作表
 
 # 获取指定列的值，并将其存储到列表中
 ins_true = []                                   # 存储所有有效指令
-ins_pseu = []                                   # 存储所有伪指令(pseudo instruction)   
-ins_pseu_true = []                              # 存储所有伪指令中的真指令
+ins_has_code = []                               # 已经写好代码的指令
 pseu2true = {}                                  # 构建伪指令到真指令的映射字典
 
-for cell in sheet['B'][1:49]:                   # type: ignore
-    ins_true.append(cell.value)
-
-for cell in sheet['B'][50:84]:                  # type: ignore
-    ins_pseu.append(cell.value)
-
-for cell in sheet['F'][50:84]:                  # type: ignore
-    ins_pseu_true.append(cell.value)
-
-for i, ins_pseu in enumerate(ins_pseu):
-    pseu2true[ins_pseu] = ins_pseu_true[i]
+for i in range(1, 85):
+    if (i < 49):
+        ins_true.append(sheet['B'][i].value)        # type: ignore
+        if (sheet['C'][i].value == 'Y'):            # type: ignore
+            ins_has_code.append(sheet['B'][i].value)# type: ignore
+    else:
+        val1 = sheet['B'][i].value                  # type: ignore
+        val2 = sheet['M'][i].value.split(" ")[0]    # type: ignore
+        pseu2true[val1] = val2
 
 # print(f"所有真指令: \n{ins_true}")
-# print(f"伪指令到真指令的映射字典: \n{pseu2true}")
+# print(f"所有已经写好代码的指令: \n{ins_has_code}")
+# print(f"伪指令到真指令的映射字典: \n{pseu2true}\n")
 
 ############################################################
-
 # True: 使用新的测试文件(riscv-compliance)
 # False: 使用旧的测试文件(riscv-isa)
+SIM = CWD + '/sim'
 IS_NEW_TEST = False
 
-if IS_NEW_TEST:
-    path_dump = SIM + '/riscv-compliance/build_generated/rv32i/I-ADD-01.elf.objdump'
-else:
-    path_dump = SIM + '/riscv-isa/generated/rv32ui-p-add.dump'
+if IS_NEW_TEST: path_dump = SIM + '/riscv-compliance/build_generated/rv32i/I-ADD-01.elf.objdump'
+else: path_dump = SIM + '/riscv-isa/generated/rv32ui-p-auipc.dump'
 
 used_ins = []                              # 存储所有用到的真实指令
 
@@ -57,7 +50,7 @@ with open(path_dump, 'r') as f:
             used_ins.append(first_word)
 
 used_ins = list(set(used_ins))
-print(f"所有用到的指令(含伪指令): \n{used_ins}")
+print(f"dump文件用到的指令(含伪指令): \n{used_ins}\n")
 
 ############################################################
 
@@ -77,10 +70,17 @@ for ins in used_ins:
 
 # 统计所有用到的真指令，包括used_ins_true[]和used_ins_pseu{}中的真指令部分
 used_ins_final = used_ins_true + [pseu2true[ins_pseu] for ins_pseu in used_ins_pseu]
-used_ins_final = sorted(list(set(used_ins_final)))  # 去重并排序
+used_ins_final = list(set(used_ins_final))  # 去重
 
-print(f"所有实际用到的指令(不含伪指令): \n{used_ins_final}")
-print(f"所有用到的未知指令: \n{used_ins_unkonw}")
+print(f"所有实际用到的真指令: \n{used_ins_final}\n")
+print(f"所有用到的未知指令: \n{used_ins_unkonw}\n")
 
+############################################################
+ins_uncode = []
 
+for ins in used_ins_final:
+    if ins not in ins_has_code:
+        ins_uncode.append(ins)
+
+print(f"所有未写代码的指令: \n{ins_uncode}\n")
 

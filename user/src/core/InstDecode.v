@@ -32,8 +32,12 @@ always @(*) begin
         `OPCODE_I_COMPU:
             case (inst[14:12])
                 `FUNCT3_ADDI: begin
-                    ID_imm = { {20{inst[31]}}, inst[31:20] };     // 符号扩展
+                    ID_imm = { {20{inst[31]}}, inst[31:20] };
                     ID_instID = `ID_ADDI;
+                end
+                `FUNCT3_ANDI: begin
+                    ID_imm = { {20{inst[31]}}, inst[31:20] };
+                    ID_instID = `ID_ANDI;
                 end
             endcase
 
@@ -42,11 +46,22 @@ always @(*) begin
                 `FUNCT3_ADD: begin
                     ID_instID = `ID_ADD;
                 end
+                `FUNCT3_AND: begin
+                    ID_instID = `ID_AND;
+                end
+                `FUNCT3_SUB: begin
+                    ID_instID = `ID_SUB;
+                end
             endcase
 
         `OPCODE_U_LUI: begin
             ID_imm = {  inst[31:12] , 12'd0 }; 
             ID_instID = `ID_LUI;
+        end
+
+        `OPCODE_U_AUIPC: begin
+            ID_imm = {  inst[31:12] , 12'd0 }; 
+            ID_instID = `ID_AUIPC;
         end
 
         `OPCODE_B:

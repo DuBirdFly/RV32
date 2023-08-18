@@ -11,6 +11,9 @@
 `define FUNCT3_ADDI 3'b000
 `define ID_ADDI 8'd2
 
+`define FUNCT3_ANDI 3'b111
+`define ID_ANDI 8'd3
+
 // I-TYPE of Load Instructions
 `define OPCODE_I_LW 7'b0000011
 `define FUNCT3_LW 3'b010
@@ -25,9 +28,17 @@
 `define FUNCT3_ADD 3'b000
 `define ID_ADD 8'd11
 
+`define FUNCT3_AND 3'b111
+`define ID_AND 8'd13
+
+`define FUNCT3_SUB 3'b000
+`define ID_SUB 8'd12
+
 // U-TYPE
 `define OPCODE_U_LUI 7'b0110111
 `define ID_LUI 8'd21
+`define OPCODE_U_AUIPC 7'b0010111
+`define ID_AUIPC 8'd23
 
 // B-TYPE
 `define OPCODE_B 7'b1100011

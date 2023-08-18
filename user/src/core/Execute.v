@@ -31,46 +31,49 @@ always @(posedge clk) begin
     if (inst_vld) begin
         case (instID)
             `ID_ADDI: begin
-                // ctrl
                 EX_x_rd_vld <= 1'b1;
-                // data
                 EX_x_rd <= x_rs1 + imm;
             end
             `ID_ADD: begin
-                // ctrl
                 EX_x_rd_vld <= 1'b1;
-                // data
                 EX_x_rd <= x_rs1 + x_rs2;
             end
-            `ID_LUI: begin
-                // ctrl
+            `ID_ANDI: begin
                 EX_x_rd_vld <= 1'b1;
-                // data
-                EX_x_rd <= imm;
+                EX_x_rd <= x_rs1 & imm;
+            end
+            `ID_AND: begin
+                EX_x_rd_vld <= 1'b1;
+                EX_x_rd <= x_rs1 & x_rs2;
+            end
+            `ID_SUB: begin
+                EX_x_rd_vld <= 1'b1;
+                EX_x_rd <= x_rs1 - x_rs2;
             end
             `ID_BNE: begin
-                // ctrl
                 EX_jmp_vld <= (x_rs1 != x_rs2);
-                // data
                 EX_jmp_addr <= pc + imm;
             end
             `ID_JAL: begin
-                // ctrl, 无条件跳转早在IF2ID阶段就已经确定, 所以无需EX_jmp_vld
+                // 无条件跳转早在IF2ID阶段就已经确定, 所以无需EX_jmp_vld
                 EX_x_rd_vld <= 1'b1;
-                // data
                 EX_x_rd <= pc + 'd4;
             end
+            `ID_LUI: begin
+                EX_x_rd_vld <= 1'b1;
+                EX_x_rd <= imm;
+            end
+            `ID_AUIPC: begin
+                EX_x_rd_vld <= 1'b1;
+                EX_x_rd <= pc + imm;
+            end
             `ID_LW: begin
-                // ctrl
                 // 虽然说确实 x_rd_vld, 但是这个vld不是EX造成的, 留给MEM阶段拉高EX_x_rd_vld
                 {EX_MEMrden, EX_MEMwren} <= 8'b1111_0000;
-                // data
                 EX_MEMaddr <= x_rs1 + imm;
             end
             `ID_SW: begin
-                // ctrl
                 {EX_MEMrden, EX_MEMwren} <= 8'b0000_1111;
-                // data
                 EX_MEMaddr <= x_rs1 + imm;
                 EX_MEMwrdata <= x_rs2;
             end

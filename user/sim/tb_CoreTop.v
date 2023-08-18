@@ -32,12 +32,10 @@ initial begin
     // wait sim end, when x26 == 1
     wait(x26 == 32'b1);
 
-    $display("x26 == 32'b1!!!!!!!!");
-
     #(PERIOD*(1.5));
 
     if (x27 == 32'b1) begin
-        $display("TEST SIM PASS");
+        $display("TEST SIM PASS~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
     end 
     else begin
         $display("TEST SIM FAIL");
