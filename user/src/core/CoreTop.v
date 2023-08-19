@@ -32,7 +32,7 @@ wire [`InstIDDepth-1:0]     ID_instID;
 wire                        ID_jmp_vld;
 
 InstructionDecode u_InstructionDecode(
-    .clk            ( clk         ),
+    // .clk            ( clk         ),
     .inst           ( IF_inst     ),
     .ID_rs1         ( ID_rs1      ),
     .ID_rs2         ( ID_rs2      ),

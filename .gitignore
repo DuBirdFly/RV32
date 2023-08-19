@@ -1,6 +1,7 @@
 
 .vscode
 prj/xilinx
+prj/quartus
 sim/output
 sim/py/packages/__pycache__
 *.str

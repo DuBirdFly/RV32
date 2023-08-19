@@ -49,7 +49,7 @@ end
 
 // sim timeout, it means x26 never be 1'b1
 initial begin
-    #(PERIOD*1500);
+    #(PERIOD*1600);
     $display("Time Out.");
     $display("The x26 register cannot become 1 for a very long time");
     $finish;

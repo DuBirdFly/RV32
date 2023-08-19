@@ -2,7 +2,7 @@
 `include "defines.v"
 
 module InstructionDecode(
-    input                           clk,
+    // input                           clk,
     
     input       [31:0]              inst,                   // from IF
 
