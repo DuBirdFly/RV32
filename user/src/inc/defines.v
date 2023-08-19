@@ -8,6 +8,7 @@
 
 // I-TYPE of Computational Instructions
 `define OPCODE_I_COMPU 7'b0010011
+
 `define FUNCT3_ADDI 3'b000
 `define ID_ADDI 8'd2
 
@@ -15,11 +16,17 @@
 `define ID_ANDI 8'd3
 
 // I-TYPE of Load Instructions
-`define OPCODE_I_LW 7'b0000011
+`define OPCODE_I_LOAD 7'b0000011
+
 `define FUNCT3_LW 3'b010
 `define ID_LW 8'd28
 
-`define OPCODE_I_SW 7'b0100011
+`define FUNCT3_LH 3'b001
+`define ID_LH 8'd26
+
+// I-TYPE of Store Instructions
+`define OPCODE_I_STORE 7'b0100011
+
 `define FUNCT3_SW 3'b010
 `define ID_SW 8'd31
 
@@ -31,18 +38,19 @@
 `define FUNCT3_AND 3'b111
 `define ID_AND 8'd13
 
-// SUB的funct3和add一样
-// `define FUNCT3_SUB 3'b000
+// FUNCT3_SUB = FUNCT3_ADD = 3'b000
 `define ID_SUB 8'd12
 
 // U-TYPE
 `define OPCODE_U_LUI 7'b0110111
 `define ID_LUI 8'd21
+
 `define OPCODE_U_AUIPC 7'b0010111
 `define ID_AUIPC 8'd23
 
 // B-TYPE
 `define OPCODE_B 7'b1100011
+
 `define FUNCT3_BNE 3'b001
 `define ID_BNE 8'd33
 
@@ -66,7 +74,4 @@
 `define ID_JAL 8'd38
 
 `define OPCODE_J_JALR 7'b1100111
-// 不知道FUNCT3_JALR到底是010还是000
-// 但是反正OPCODE是唯一的1100111, 就注释掉不管了
-// `define FUNCT3_JALR 3'b010
 `define ID_JALR 8'd39

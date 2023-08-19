@@ -6,7 +6,6 @@ module InstFetch(
     input               rst,
 
     input               hold,    // 导致下一拍的pc不变
-    input  wire         nop,
 
     input  wire         jmp_vld,
     input  wire [31:0]  jmp_addr,
@@ -20,7 +19,7 @@ reg     [31:0]  cnt;
 reg     [`InstCatchDepth-3:0]  rdaddr;   // addr[9:0] -> [11:2], 组合逻辑
 wire    [31:0]  rddata;
 
-assign IF_inst = nop ? 32'h00000013 : rddata;
+assign IF_inst = rddata;
 
 always @(posedge clk) begin
     if (rst)

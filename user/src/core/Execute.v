@@ -18,8 +18,10 @@ module Execute(
     // MEM
     output reg  [31:0]                  EX_MEMaddr,
     output reg  [3:0]                   EX_MEMrden,
+    output reg                          EX_MEMrden_SEXT,// lb/lbu, lh/lhu, 区分是否需要符号拓展
     output reg  [3:0]                   EX_MEMwren,
     output reg  [31:0]                  EX_MEMwrdata
+
 );
 
 always @(posedge clk) begin
@@ -27,6 +29,7 @@ always @(posedge clk) begin
     EX_jmp_vld <= 1'b0;
     EX_x_rd_vld <= 1'b0;
     {EX_MEMrden, EX_MEMwren} <= 8'b0000_0000;
+    EX_MEMrden_SEXT <= 1'b0;
     // 控制信号与数据信号的特殊值
     if (inst_vld) begin
         case (instID)
@@ -97,6 +100,11 @@ always @(posedge clk) begin
                 // 虽然说确实 x_rd_vld, 但是这个vld不是EX造成的, 留给MEM阶段拉高EX_x_rd_vld
                 {EX_MEMrden, EX_MEMwren} <= 8'b1111_0000;
                 EX_MEMaddr <= x_rs1 + imm;
+            end
+            `ID_LH: begin
+                {EX_MEMrden, EX_MEMwren} <= 8'b0011_0000;
+                EX_MEMaddr <= x_rs1 + imm;
+                EX_MEMrden_SEXT <= 1'b1;
             end
             `ID_SW: begin
                 {EX_MEMrden, EX_MEMwren} <= 8'b0000_1111;

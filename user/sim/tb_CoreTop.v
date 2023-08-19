@@ -49,33 +49,37 @@ end
 
 // sim timeout, it means x26 never be 1'b1
 initial begin
-    #(PERIOD*1500);
+    #(PERIOD*2000);
     $display("Time Out.");
     $display("The x26 register cannot become 1 for a very long time");
+    for (r = 0; r < 64; r = r + 1)
+        // u_CoreTop.u_InstFetch.u_InstCatch.u_ramGen.ram[r]
+        $display("ram[%2d] = 0x%x", r, u_CoreTop.u_InstFetch.u_InstCatch.u_ramGen.ram[r]);
     $finish;
 end
 
 // read mem data to instCache/dataCache
-reg [31:0] ram_bin [0:2048];
-reg [31:0] reg32;
+// reg [31:0] ram_bin [0:2048];
+// reg [31:0] reg32;
 initial begin
-    $readmemh (`ROM_DATA_FILE, ram_bin);
-    for (r = 0; r < 1024; r = r + 1)
-        u_CoreTop.u_InstFetch.u_InstCatch.u_ramGen.ram[r] = ram_bin[r];
-    for (r = 0; r < 1024; r = r + 1) begin
-        reg32 = ram_bin[r+1024];
-        u_CoreTop.u_MemoryAccess.u_DataCatch.u3_ramGen.ram[r] = reg32[31:24];
-        u_CoreTop.u_MemoryAccess.u_DataCatch.u2_ramGen.ram[r] = reg32[23:16];
-        u_CoreTop.u_MemoryAccess.u_DataCatch.u1_ramGen.ram[r] = reg32[15:8];
-        u_CoreTop.u_MemoryAccess.u_DataCatch.u0_ramGen.ram[r] = reg32[7:0];
-    end
+    $readmemh(`ROM_DATA_FILE, u_CoreTop.u_InstFetch.u_InstCatch.u_ramGen.ram);
+    // $readmemh (`ROM_DATA_FILE, ram_bin);
+    // for (r = 0; r < 1024; r = r + 1)
+    //     u_CoreTop.u_InstFetch.u_InstCatch.u_ramGen.ram[r] = ram_bin[r];
+    // for (r = 0; r < 1024; r = r + 1) begin
+    //     reg32 = ram_bin[r+1024];
+    //     u_CoreTop.u_MemoryAccess.u_DataCatch.u3_ramGen.ram[r] = reg32[31:24];
+    //     u_CoreTop.u_MemoryAccess.u_DataCatch.u2_ramGen.ram[r] = reg32[23:16];
+    //     u_CoreTop.u_MemoryAccess.u_DataCatch.u1_ramGen.ram[r] = reg32[15:8];
+    //     u_CoreTop.u_MemoryAccess.u_DataCatch.u0_ramGen.ram[r] = reg32[7:0];
+    // end
 end
 
 // generate wave file, used by gtkwave or vscode-WaveTrace
-// initial begin
-//     $dumpfile(`VCD_FILE);
-//     $dumpvars(0, tb_CoreTop);
-// end
+initial begin
+    $dumpfile(`VCD_FILE);
+    $dumpvars(0, tb_CoreTop);
+end
 
 CoreTop u_CoreTop(
     .clk     ( clk  ),

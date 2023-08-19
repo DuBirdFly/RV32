@@ -28,6 +28,7 @@ module MemoryAccess(
 
     input       [3:0]   rden,
     input       [3:0]   wren,
+    input               rden_SEXT,
     input       [31:0]  wrdata,
     input       [31:0]  addr,
 
@@ -43,16 +44,30 @@ wire [31:0] oDataCatch;                     // output of DataCatch
 
 // 组合逻辑(从Catch中读出的数据后组合逻辑拼接)
 always @(*) begin
-    case (rden_d1)
-        4'b0001: MEM_x_rd = {24'h000000, oDataCatch[7:0]};
-        4'b0010: MEM_x_rd = {24'h000000, oDataCatch[15:8]};
-        4'b0100: MEM_x_rd = {24'h000000, oDataCatch[23:16]};
-        4'b1000: MEM_x_rd = {24'h000000, oDataCatch[31:24]};
-        4'b0011: MEM_x_rd = {16'h0000, oDataCatch[15:0]};
-        4'b1100: MEM_x_rd = {16'h0000, oDataCatch[31:16]};
-        4'b1111: MEM_x_rd = oDataCatch;
-        default: MEM_x_rd = EX_x_rd_d1;
-    endcase
+    if (rden_SEXT) begin
+        case (rden_d1)
+            4'b0001: MEM_x_rd = {{24{oDataCatch[7]}},  oDataCatch[7:0]};
+            4'b0010: MEM_x_rd = {{24{oDataCatch[15]}}, oDataCatch[15:8]};
+            4'b0100: MEM_x_rd = {{24{oDataCatch[23]}}, oDataCatch[23:16]};
+            4'b1000: MEM_x_rd = {{24{oDataCatch[31]}}, oDataCatch[31:24]};
+            4'b0011: MEM_x_rd = {{16{oDataCatch[15]}}, oDataCatch[15:0]};
+            4'b1100: MEM_x_rd = {{16{oDataCatch[31]}}, oDataCatch[31:16]};
+            4'b1111: MEM_x_rd = oDataCatch;
+            default: MEM_x_rd = EX_x_rd_d1;
+        endcase
+    end
+    else begin
+        case (rden_d1)
+            4'b0001: MEM_x_rd = {{24{1'b0}}, oDataCatch[7:0]};
+            4'b0010: MEM_x_rd = {{24{1'b0}}, oDataCatch[15:8]};
+            4'b0100: MEM_x_rd = {{24{1'b0}}, oDataCatch[23:16]};
+            4'b1000: MEM_x_rd = {{24{1'b0}}, oDataCatch[31:24]};
+            4'b0011: MEM_x_rd = {{16{1'b0}}, oDataCatch[15:0]};
+            4'b1100: MEM_x_rd = {{16{1'b0}}, oDataCatch[31:16]};
+            4'b1111: MEM_x_rd = oDataCatch;
+            default: MEM_x_rd = EX_x_rd_d1;
+        endcase
+    end
 end
 
 // 打拍器

@@ -7,7 +7,7 @@ module CoreTop(
 );
 
 // Instruction Fetch -------------------------------------
-wire                        hold_IF, nop_IF;
+wire                        hold_IF;
 wire                        jmp_vld_IF;
 wire [31:0]                 jmp_addr_IF;
 
@@ -18,7 +18,6 @@ InstFetch u_InstFetch(
     .clk         ( clk          ),
     .rst         ( rst          ),
     .hold        ( hold_IF      ),
-    .nop         ( nop_IF       ),
     .jmp_vld     ( jmp_vld_IF   ),
     .jmp_addr    ( jmp_addr_IF  ),
     .IF_pc       ( IF_pc        ),
@@ -91,6 +90,7 @@ wire                        EX_x_rd_vld;
 wire [31:0]                 EX_x_rd;
 wire [31:0]                 EX_MEMaddr;
 wire [3:0]                  EX_MEMrden, EX_MEMwren;
+wire                        EX_MEMrden_SEXT;
 wire [31:0]                 EX_MEMwrdata;
 
 assign EX_rd = ID_rd_d2;
@@ -109,6 +109,7 @@ Execute u_Execute(
     .EX_x_rd          ( EX_x_rd       ),
     .EX_MEMaddr       ( EX_MEMaddr    ),
     .EX_MEMrden       ( EX_MEMrden    ),
+    .EX_MEMrden_SEXT  ( EX_MEMrden_SEXT ),
     .EX_MEMwren       ( EX_MEMwren    ),
     .EX_MEMwrdata     ( EX_MEMwrdata  )
 );
@@ -122,6 +123,7 @@ MemoryAccess u_MemoryAccess(
     .EX_x_rd_vld      ( EX_x_rd_vld   ),
     .EX_x_rd          ( EX_x_rd       ),
     .rden             ( EX_MEMrden    ),
+    .rden_SEXT        ( EX_MEMrden_SEXT ),
     .wren             ( EX_MEMwren    ),
     .wrdata           ( EX_MEMwrdata  ),
     .addr             ( EX_MEMaddr    ),
@@ -157,7 +159,6 @@ Control u_Control(
     .ID_instID_d1     ( ID_instID_d1  ),
     // output
     .hold_IF          ( hold_IF       ),
-    .nop_IF           ( nop_IF        ),
     // input
     .ID_jmp_vld       ( ID_jmp_vld    ),
     .ID_imm           ( ID_imm        ),

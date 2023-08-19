@@ -100,15 +100,19 @@ always @(*) begin
             ID_instID = `ID_JALR;
         end
 
-        `OPCODE_I_LW:
+        `OPCODE_I_LOAD:
             case (inst[14:12])
                 `FUNCT3_LW: begin
                     ID_imm = { {20{inst[31]}}, inst[31:20] };
                     ID_instID = `ID_LW;
                 end
+                `FUNCT3_LH: begin
+                    ID_imm = { {20{inst[31]}}, inst[31:20] };
+                    ID_instID = `ID_LH;
+                end
             endcase
 
-        `OPCODE_I_SW:
+        `OPCODE_I_STORE:
             case (inst[14:12])
                 `FUNCT3_SW: begin
                     ID_imm = { {20{inst[31]}}, inst[31:25], inst[11:7] };
