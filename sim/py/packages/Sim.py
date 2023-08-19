@@ -48,21 +48,15 @@ class Sim:
         process = subprocess.run(cmd, capture_output=True)
         if process.stdout:
             # ivg和vvp指令输出自带一个'\n',所以不用再加一个'\n'
-            sys.stdout.write(process.stdout.decode('utf-8'))
+            return process.stdout.decode('utf-8')
         if process.stderr:
             raise Exception(process.stderr.decode('utf-8'))
 
     def run(self):
-        sys.stdout.write("----------------------------------\n")
-        sys.stdout.write("-------- PROCESS : Sim.py --------\n")
-        sys.stdout.write("----------------------------------\n")
-
-        self.run_cmd(self.ivg_cmd)
-        self.run_cmd(self.vvp_cmd)
+        str1 = self.run_cmd(self.ivg_cmd)
+        str2 = self.run_cmd(self.vvp_cmd)
+        return str(str1) + str(str2)
 
 if __name__ == "__main__":
 
-    if len(sys.argv) == 5:  # sys.argv[0] 是本文件的路径
-        Sim(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4]).run()
-    else:
-        raise Exception("Sim.py: 参数数量错误\n")
+    pass

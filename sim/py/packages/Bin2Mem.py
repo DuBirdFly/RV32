@@ -22,12 +22,6 @@ class Bin2Mem:
 
     def run(self):
 
-        sys.stdout.write("----------------------------------\n")
-        sys.stdout.write("------ PROCESS : Bin2Mem.py ------\n")
-        sys.stdout.write("----------------------------------\n")
-        sys.stdout.write(f"Bin文件地址: {self.filepath_in}\n")
-        sys.stdout.write(f"Mem文件地址: {self.filepath_out}\n")
-
         # 读取二进制文件内容
         with open(self.filepath_in, 'rb') as f:
             bin_content = f.read()
@@ -43,7 +37,7 @@ class Bin2Mem:
             hex_str += '{:08X}'.format(num) + '\n'
 
         # 将格式化后的16进制字符串写入到txt文件中
-        with open(self.filepath_out, 'w') as f:
+        with open(self.filepath_out, 'w', encoding='utf-8') as f:
             f.write(hex_str)
 
 if __name__ == "__main__":
