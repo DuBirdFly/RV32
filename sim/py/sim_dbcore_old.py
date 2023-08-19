@@ -20,7 +20,7 @@ FILE_PH_MEM = f"{DIR_PH_OUT}/inst.data"
 
 # 可改路径
 DIR_PH_REF = f"{DIR_PH_SIM}/riscv-isa"
-FILE_PH_BIN = f"{DIR_PH_REF}/generated/rv32ui-p-jalr.bin"
+FILE_PH_BIN = f"{DIR_PH_REF}/generated/rv32ui-p-lw.bin"
 
 # 指令: Bin2Mem.py 
 Bin2Mem(FILE_PH_BIN, FILE_PH_MEM).run()
