@@ -39,12 +39,13 @@ module MemoryAccess(
 
 reg [31:0] EX_x_rd_d1;                      // EX_x_rd打一拍
 reg [3:0] rden_d1;                          // rden打一拍
+reg rden_SEXT_d1;
 
 wire [31:0] oDataCatch;                     // output of DataCatch
 
 // 组合逻辑(从Catch中读出的数据后组合逻辑拼接)
 always @(*) begin
-    if (rden_SEXT) begin
+    if (rden_SEXT_d1) begin
         case (rden_d1)
             4'b0001: MEM_x_rd = {{24{oDataCatch[7]}},  oDataCatch[7:0]};
             4'b0010: MEM_x_rd = {{24{oDataCatch[15]}}, oDataCatch[15:8]};
@@ -75,6 +76,7 @@ always @(posedge clk) begin
     MEM_x_rd_vld <= EX_x_rd_vld;
     EX_x_rd_d1 <= EX_x_rd;
     rden_d1 <= rden;
+    rden_SEXT_d1 <= rden_SEXT;
 end
 
 DataCatch u_DataCatch(      

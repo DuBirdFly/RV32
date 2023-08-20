@@ -3,8 +3,8 @@
 
 module InstructionDecode(
     input       [31:0]              inst,                   // from IF
-
     // 正常输出
+    output wire [6:0]               ID_opcode,
     output wire [4:0]               ID_rs1, ID_rs2, ID_rd,  // 读32位寄存器地址1, 2; 写32位寄存器地址
     output reg                      ID_rs1_vld, ID_rs2_vld, ID_rd_vld,
     output reg  [31:0]              ID_imm,                 // 32位的立即数 (大概率要符号拓展)
@@ -14,20 +14,21 @@ module InstructionDecode(
     output wire                     ID_jmp_vld               // 生成跳转信号, to IF
 );
 
-// rs1, rs2, rd 都是固定位置的
+// rs1, rs2, rd, opcode 都是固定位置的
 assign ID_rs2 = inst[24:20];
 assign ID_rs1 = inst[19:15];
 assign ID_rd = inst[11:7];
+assign ID_opcode = inst[6:0];
 
 // 处理无条件跳转型数据冒险: 立即反馈到 IF， 执行跳转
-assign ID_jmp_vld = (inst[6:0] == `OPCODE_J_JAL);
+assign ID_jmp_vld = (ID_opcode == `OPCODE_J_JAL);
 
 // 转为组合逻辑
 always @(*) begin
     ID_imm = 32'b0;
     ID_instID = 'd0;
 
-    case (inst[6:0])
+    case (ID_opcode)
         `OPCODE_I_COMPU:begin
             {ID_rs1_vld, ID_rs2_vld, ID_rd_vld} = 3'b101;
             case (inst[14:12])
@@ -92,15 +93,13 @@ always @(*) begin
 
         `OPCODE_I_LOAD: begin
             {ID_rs1_vld, ID_rs2_vld, ID_rd_vld} = 3'b101;
+            ID_imm = { {20{inst[31]}}, inst[31:20] };
             case (inst[14:12])
-                `FUNCT3_LW: begin
-                    ID_imm = { {20{inst[31]}}, inst[31:20] };
-                    ID_instID = `ID_LW;
-                end
-                `FUNCT3_LH: begin
-                    ID_imm = { {20{inst[31]}}, inst[31:20] };
-                    ID_instID = `ID_LH;
-                end
+                `FUNCT3_LW: ID_instID = `ID_LW;
+                `FUNCT3_LH: ID_instID = `ID_LH;
+                `FUNCT3_LB: ID_instID = `ID_LB;
+                `FUNCT3_LHU: ID_instID = `ID_LHU;
+                `FUNCT3_LBU: ID_instID = `ID_LBU;
             endcase
         end
 

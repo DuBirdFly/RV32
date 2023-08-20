@@ -24,6 +24,15 @@
 `define FUNCT3_LH 3'b001
 `define ID_LH 8'd26
 
+`define FUNCT3_LB 3'b000
+`define ID_LB 8'd24
+
+`define FUNCT3_LHU 3'b101
+`define ID_LHU 8'd27
+
+`define FUNCT3_LBU 3'b100
+`define ID_LBU 8'd25
+
 // I-TYPE of Store Instructions
 `define OPCODE_I_STORE 7'b0100011
 

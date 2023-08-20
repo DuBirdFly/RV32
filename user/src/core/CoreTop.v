@@ -25,6 +25,7 @@ InstFetch u_InstFetch(
 );
 
 // Instruction Decode ------------------------------------
+wire [6:0]                  ID_opcode;
 wire [4:0]                  ID_rs1, ID_rs2, ID_rd;
 wire                        ID_rs1_vld, ID_rs2_vld, ID_rd_vld;
 wire [31:0]                 ID_imm;
@@ -33,6 +34,7 @@ wire                        ID_jmp_vld;
 
 InstructionDecode u_InstructionDecode(
     .inst           ( IF_inst     ),
+    .ID_opcode      ( ID_opcode   ),
     // regs_addr and regs addr vld
     .ID_rs1         ( ID_rs1      ),
     .ID_rs2         ( ID_rs2      ),
@@ -48,6 +50,7 @@ InstructionDecode u_InstructionDecode(
 
 // Signal Delay ------------------------------------------
 reg [31:0]                  IF_pc_d1;
+reg [6:0]                   ID_opcode_d1;
 reg [4:0]                   ID_rs1_d1, ID_rs2_d1;
 reg [4:0]                   ID_rd_d1, ID_rd_d2, ID_rd_d3;
 reg [31:0]                  ID_imm_d1;
@@ -55,6 +58,7 @@ reg [`InstIDDepth-1:0]      ID_instID_d1;
 
 always @(posedge clk) begin
     IF_pc_d1 <= IF_pc;
+    ID_opcode_d1 <= ID_opcode;
     {ID_rs1_d1, ID_rs2_d1} <= {ID_rs1, ID_rs2};
     {ID_rd_d3, ID_rd_d2, ID_rd_d1} <= {ID_rd_d2, ID_rd_d1, ID_rd};
     ID_imm_d1 <= ID_imm;
@@ -163,7 +167,7 @@ Control u_Control(
     .ID_rs1_vld       ( ID_rs1_vld    ),
     .ID_rs2_vld       ( ID_rs2_vld    ),
     .ID_rd_d1         ( ID_rd_d1      ),
-    .ID_instID_d1     ( ID_instID_d1  ),
+    .ID_opcode_d1     ( ID_opcode_d1  ),
     // output
     .hold_IF          ( hold_IF       ),
     // input

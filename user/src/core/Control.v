@@ -8,7 +8,7 @@ module Control(
     input       [4:0]               ID_rs1, ID_rs2,
     input                           ID_rs1_vld, ID_rs2_vld,
     input       [4:0]               ID_rd_d1,
-    input       [`InstIDDepth-1:0]  ID_instID_d1,
+    input       [6:0]               ID_opcode_d1,
     output wire                     hold_IF,
     // jmp型数据冒险-无条件跳转
     input                           ID_jmp_vld,
@@ -31,9 +31,9 @@ reg hold_IF_d1;
 // 这叫load-use型数据冒险, 必须有一次硬件阻塞.
 always @(posedge clk) hold_IF_d1 = hold_IF;
 assign hold_IF = ((ID_rs1 == ID_rd_d1 && ID_rs1_vld) || (ID_rs2 == ID_rd_d1 && ID_rs2_vld)) &&
-                 (ID_instID_d1 == `ID_LW) &&
+                 (ID_opcode_d1 == 7'b000_0011) &&
                  (~hold_IF_d1);
-
+ 
 // 无条件跳转: 由于跳转的地址在IF2ID阶段就已经确定(我设计于ID的组合逻辑), 
 // 所以通过设计旁路电路, 将计算结果更早地送入PC, 这种方法被称为缩短分支延迟
 // 条件跳转: 正常跳转

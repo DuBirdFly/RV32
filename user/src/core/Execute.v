@@ -24,6 +24,9 @@ module Execute(
 
 );
 
+wire [31:0] EX_MEMaddr_comb;
+assign EX_MEMaddr_comb = x_rs1 + imm;
+
 always @(posedge clk) begin
     // 控制信号的一般值 (经过我的测试,这种写法是支持的)
     EX_x_rd_vld <= 1'b0;
@@ -99,17 +102,45 @@ always @(posedge clk) begin
             `ID_LW: begin
                 EX_x_rd_vld <= 1'b1;
                 {EX_MEMrden, EX_MEMwren} <= 8'b1111_0000;
-                EX_MEMaddr <= x_rs1 + imm;
+                EX_MEMaddr <= EX_MEMaddr_comb;
             end
             `ID_LH: begin
                 EX_x_rd_vld <= 1'b1;
-                {EX_MEMrden, EX_MEMwren} <= 8'b0011_0000;
-                EX_MEMaddr <= x_rs1 + imm;
+                {EX_MEMrden, EX_MEMwren} <= EX_MEMaddr_comb[1] ? 8'b1100_0000 : 8'b0011_0000;
+                EX_MEMaddr <= EX_MEMaddr_comb;
                 EX_MEMrden_SEXT <= 1'b1;
+            end
+            `ID_LHU: begin
+                EX_x_rd_vld <= 1'b1;
+                {EX_MEMrden, EX_MEMwren} <= EX_MEMaddr_comb[1] ? 8'b1100_0000 : 8'b0011_0000;
+                EX_MEMaddr <= EX_MEMaddr_comb;
+                EX_MEMrden_SEXT <= 1'b0;
+            end
+            `ID_LB: begin
+                EX_x_rd_vld <= 1'b1;
+                case(EX_MEMaddr_comb[1:0])
+                    3'b00: {EX_MEMrden, EX_MEMwren} <= 8'b0001_0000;
+                    3'b01: {EX_MEMrden, EX_MEMwren} <= 8'b0010_0000;
+                    3'b10: {EX_MEMrden, EX_MEMwren} <= 8'b0100_0000;
+                    3'b11: {EX_MEMrden, EX_MEMwren} <= 8'b1000_0000;
+                endcase
+                EX_MEMaddr <= EX_MEMaddr_comb;
+                EX_MEMrden_SEXT <= 1'b1;
+            end
+            `ID_LBU: begin
+                EX_x_rd_vld <= 1'b1;
+                case(EX_MEMaddr_comb[1:0])
+                    3'b00: {EX_MEMrden, EX_MEMwren} <= 8'b0001_0000;
+                    3'b01: {EX_MEMrden, EX_MEMwren} <= 8'b0010_0000;
+                    3'b10: {EX_MEMrden, EX_MEMwren} <= 8'b0100_0000;
+                    3'b11: {EX_MEMrden, EX_MEMwren} <= 8'b1000_0000;
+                endcase
+                EX_MEMaddr <= EX_MEMaddr_comb;
+                EX_MEMrden_SEXT <= 1'b0;
             end
             `ID_SW: begin
                 {EX_MEMrden, EX_MEMwren} <= 8'b0000_1111;
-                EX_MEMaddr <= x_rs1 + imm;
+                EX_MEMaddr <= EX_MEMaddr_comb;
                 EX_MEMwrdata <= x_rs2;
             end
         endcase

@@ -37,12 +37,12 @@ def sim_all_inst(inst : str):
     return str
 
 ###############################################################################
-insts = ["addi", "andi", "add", "sub", "and", "auipc", "lw", "sw", 
+insts = ["addi", "andi", "add", "sub", "and", "auipc", "lw", "sw", "lh", "lb", "lhu", "lbu", 
          "beq", "bne", "bge", "bgeu", "blt", "bltu", "jal", "jalr"]
 
-inst = "lh"
+inst = "lbu"
 
-isSimAll = False
+isSimAll = True
 
 if isSimAll:
     for inst in insts:
