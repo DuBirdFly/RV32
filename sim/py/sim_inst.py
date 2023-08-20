@@ -37,10 +37,14 @@ def sim_all_inst(inst : str):
     return str
 
 ###############################################################################
-insts = ["addi", "andi", "add", "sub", "and", "auipc", "lw", "sw", "lh", "lb", "lhu", "lbu", 
-         "beq", "bne", "bge", "bgeu", "blt", "bltu", "jal", "jalr"]
+insts = ["addi", "andi", "ori", "xori", "slti", "sltiu", "slli", "srli", "srai",
+         "add", "sub", "and", "or", "xor", "sll", "srl", "sra", "slt", "sltu",
+         "lb", "lbu", "lh", "lhu", "lw", "sb", "sh", "sw", 
+         "beq", "bne", "bge", "bgeu", "blt", "bltu", "jal", "jalr",
+         "lui", "auipc"
+         ]
 
-inst = "lbu"
+inst = "srai"
 
 isSimAll = True
 

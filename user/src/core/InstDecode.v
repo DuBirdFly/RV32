@@ -31,26 +31,30 @@ always @(*) begin
     case (ID_opcode)
         `OPCODE_I_COMPU:begin
             {ID_rs1_vld, ID_rs2_vld, ID_rd_vld} = 3'b101;
+            ID_imm = { {20{inst[31]}}, inst[31:20] };
             case (inst[14:12])
-                `FUNCT3_ADDI: begin
-                    ID_imm = { {20{inst[31]}}, inst[31:20] };
-                    ID_instID = `ID_ADDI;
-                end
-                `FUNCT3_ANDI: begin
-                    ID_imm = { {20{inst[31]}}, inst[31:20] };
-                    ID_instID = `ID_ANDI;
-                end
+                `FUNCT3_ADDI: ID_instID = `ID_ADDI;
+                `FUNCT3_ANDI: ID_instID = `ID_ANDI;
+                `FUNCT3_ORI:  ID_instID = `ID_ORI;
+                `FUNCT3_XORI: ID_instID = `ID_XORI;
+                `FUNCT3_SLTI: ID_instID = `ID_SLTI;
+                `FUNCT3_SLTIU:ID_instID = `ID_SLTIU;
+                `FUNCT3_SLLI: ID_instID = `ID_SLLI;
+                `FUNCT3_SRLI: ID_instID = inst[30] ? `ID_SRAI : `ID_SRLI;
             endcase
         end
 
         `OPCODE_R: begin
             {ID_rs1_vld, ID_rs2_vld, ID_rd_vld} = 3'b111;
             case (inst[14:12])
-                `FUNCT3_ADD: begin
-                    if (inst[30] == 1'b0)   ID_instID = `ID_ADD;
-                    else                    ID_instID = `ID_SUB;
-                end
+                `FUNCT3_ADD: ID_instID = inst[30] ? `ID_SUB : `ID_ADD;
                 `FUNCT3_AND: ID_instID = `ID_AND;
+                `FUNCT3_OR:  ID_instID = `ID_OR;
+                `FUNCT3_XOR: ID_instID = `ID_XOR;
+                `FUNCT3_SLL: ID_instID = `ID_SLL;
+                `FUNCT3_SRL: ID_instID = inst[30] ? `ID_SRA : `ID_SRL;
+                `FUNCT3_SLT: ID_instID = `ID_SLT;
+                `FUNCT3_SLTU:ID_instID = `ID_SLTU;
             endcase
         end
 
@@ -105,11 +109,11 @@ always @(*) begin
 
         `OPCODE_I_STORE: begin
             {ID_rs1_vld, ID_rs2_vld, ID_rd_vld} = 3'b110;
+            ID_imm = { {20{inst[31]}}, inst[31:25], inst[11:7] };
             case (inst[14:12])
-                `FUNCT3_SW: begin
-                    ID_imm = { {20{inst[31]}}, inst[31:25], inst[11:7] };
-                    ID_instID = `ID_SW;
-                end
+                `FUNCT3_SW: ID_instID = `ID_SW;
+                `FUNCT3_SB: ID_instID = `ID_SB;
+                `FUNCT3_SH: ID_instID = `ID_SH;
             endcase
         end
 

@@ -33,7 +33,7 @@ SIM = CWD + '/sim'
 IS_NEW_TEST = False
 
 if IS_NEW_TEST: path_dump = SIM + '/riscv-compliance/build_generated/rv32i/I-ADD-01.elf.objdump'
-else: path_dump = SIM + '/riscv-isa/generated/rv32ui-p-lh.dump'
+else: path_dump = SIM + '/riscv-isa/generated/rv32ui-p-fence_i.dump'
 
 used_ins = []                              # 存储所有用到的真实指令
 

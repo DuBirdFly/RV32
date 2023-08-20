@@ -102,11 +102,10 @@ wire [3:0]                  EX_MEMrden, EX_MEMwren;
 wire                        EX_MEMrden_SEXT;
 wire [31:0]                 EX_MEMwrdata;
 
-assign EX_rd = ID_rd_d2;
-
 Execute u_Execute(
     .clk              ( clk           ),
     .inst_vld         ( inst_vld_EX   ),
+    .rd               ( ID_rd_d1      ),
     .x_rs1            ( OF_x_rs1      ),
     .x_rs2            ( OF_x_rs2      ),
     .imm              ( ID_imm_d1     ),
@@ -114,6 +113,7 @@ Execute u_Execute(
     .pc               ( IF_pc_d1      ),
     .EX_jmp_vld       ( EX_jmp_vld    ),
     .EX_jmp_addr      ( EX_jmp_addr   ),
+    .EX_rd            ( EX_rd         ),
     .EX_x_rd          ( EX_x_rd       ),
     .EX_x_rd_vld      ( EX_x_rd_vld   ),
     .EX_MEMaddr       ( EX_MEMaddr    ),
