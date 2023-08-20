@@ -1,6 +1,9 @@
 // `include "../inc/defines.v"
 `include "defines.v"
 
+// 我tm迟早得把InstFetch这坨屎给重写了!!!!!
+
+
 module InstFetch(
     input               clk,
     input               rst,
@@ -16,7 +19,7 @@ module InstFetch(
 );
 
 reg     [31:0]  cnt;
-reg     [`InstCatchDepth-3:0]  rdaddr;   // addr[9:0] -> [11:2], 组合逻辑
+reg     [`InstCatchDepth-3:0]  rdaddr, rdaddr_d1;   // addr[9:0] -> [11:2], 组合逻辑
 wire    [31:0]  rddata;
 
 assign IF_inst = rddata;
@@ -32,11 +35,15 @@ always @(posedge clk) begin
         cnt <= cnt + 'd4;
 end
 
+always @(posedge clk) rdaddr_d1 <= rdaddr;
+
 always @(*) begin
     if (rst)
         rdaddr = 'd0;
     else if (jmp_vld)
         rdaddr = jmp_addr[`InstCatchDepth-1:2];
+    else if (hold)
+        rdaddr = rdaddr_d1;
     else
         rdaddr = cnt[`InstCatchDepth-1:2];
 end

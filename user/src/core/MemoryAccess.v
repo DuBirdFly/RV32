@@ -72,7 +72,7 @@ end
 
 // 打拍器
 always @(posedge clk) begin
-    MEM_x_rd_vld <= EX_x_rd_vld || (rden != 4'b0000);
+    MEM_x_rd_vld <= EX_x_rd_vld;
     EX_x_rd_d1 <= EX_x_rd;
     rden_d1 <= rden;
 end

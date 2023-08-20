@@ -40,7 +40,7 @@ def sim_all_inst(inst : str):
 insts = ["addi", "andi", "add", "sub", "and", "auipc", "lw", "sw", 
          "beq", "bne", "bge", "bgeu", "blt", "bltu", "jal", "jalr"]
 
-inst = "lw"
+inst = "lh"
 
 isSimAll = False
 

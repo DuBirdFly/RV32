@@ -13,7 +13,7 @@ module Execute(
     output reg                          EX_jmp_vld,
     output reg  [31:0]                  EX_jmp_addr,
     // x_rd
-    output reg                          EX_x_rd_vld,    // create by ALU or MEM
+    output reg                          EX_x_rd_vld,
     output reg  [31:0]                  EX_x_rd,        // create by ALU
     // MEM
     output reg  [31:0]                  EX_MEMaddr,
@@ -26,8 +26,8 @@ module Execute(
 
 always @(posedge clk) begin
     // 控制信号的一般值 (经过我的测试,这种写法是支持的)
-    EX_jmp_vld <= 1'b0;
     EX_x_rd_vld <= 1'b0;
+    EX_jmp_vld <= 1'b0;
     {EX_MEMrden, EX_MEMwren} <= 8'b0000_0000;
     EX_MEMrden_SEXT <= 1'b0;
     // 控制信号与数据信号的特殊值
@@ -97,11 +97,12 @@ always @(posedge clk) begin
                 EX_x_rd <= pc + imm;
             end
             `ID_LW: begin
-                // 虽然说确实 x_rd_vld, 但是这个vld不是EX造成的, 留给MEM阶段拉高EX_x_rd_vld
+                EX_x_rd_vld <= 1'b1;
                 {EX_MEMrden, EX_MEMwren} <= 8'b1111_0000;
                 EX_MEMaddr <= x_rs1 + imm;
             end
             `ID_LH: begin
+                EX_x_rd_vld <= 1'b1;
                 {EX_MEMrden, EX_MEMwren} <= 8'b0011_0000;
                 EX_MEMaddr <= x_rs1 + imm;
                 EX_MEMrden_SEXT <= 1'b1;

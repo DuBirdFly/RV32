@@ -26,16 +26,21 @@ InstFetch u_InstFetch(
 
 // Instruction Decode ------------------------------------
 wire [4:0]                  ID_rs1, ID_rs2, ID_rd;
+wire                        ID_rs1_vld, ID_rs2_vld, ID_rd_vld;
 wire [31:0]                 ID_imm;
 wire [`InstIDDepth-1:0]     ID_instID;
 wire                        ID_jmp_vld;
 
 InstructionDecode u_InstructionDecode(
-    // .clk            ( clk         ),
     .inst           ( IF_inst     ),
+    // regs_addr and regs addr vld
     .ID_rs1         ( ID_rs1      ),
     .ID_rs2         ( ID_rs2      ),
     .ID_rd          ( ID_rd       ),
+    .ID_rs1_vld     ( ID_rs1_vld  ),
+    .ID_rs2_vld     ( ID_rs2_vld  ),
+    .ID_rd_vld      ( ID_rd_vld   ),
+    //
     .ID_imm         ( ID_imm      ),
     .ID_instID      ( ID_instID   ),
     .ID_jmp_vld     ( ID_jmp_vld  )
@@ -105,8 +110,8 @@ Execute u_Execute(
     .pc               ( IF_pc_d1      ),
     .EX_jmp_vld       ( EX_jmp_vld    ),
     .EX_jmp_addr      ( EX_jmp_addr   ),
-    .EX_x_rd_vld      ( EX_x_rd_vld   ),
     .EX_x_rd          ( EX_x_rd       ),
+    .EX_x_rd_vld      ( EX_x_rd_vld   ),
     .EX_MEMaddr       ( EX_MEMaddr    ),
     .EX_MEMrden       ( EX_MEMrden    ),
     .EX_MEMrden_SEXT  ( EX_MEMrden_SEXT ),
@@ -155,6 +160,8 @@ Control u_Control(
     // input
     .ID_rs1           ( ID_rs1        ),
     .ID_rs2           ( ID_rs2        ),
+    .ID_rs1_vld       ( ID_rs1_vld    ),
+    .ID_rs2_vld       ( ID_rs2_vld    ),
     .ID_rd_d1         ( ID_rd_d1      ),
     .ID_instID_d1     ( ID_instID_d1  ),
     // output
