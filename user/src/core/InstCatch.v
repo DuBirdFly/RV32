@@ -19,6 +19,7 @@ ramGen #(
     .addr       ( addr      ),
     .wren       ( 1'b0      ),
     .wrdata     ( 32'd0     ),
+    .rden       ( 1'b1      ),
     .rddata     ( inst      )
 );
 

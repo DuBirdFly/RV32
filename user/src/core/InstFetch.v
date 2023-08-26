@@ -3,7 +3,6 @@
 
 // 我tm迟早得把InstFetch这坨屎给重写了!!!!!
 
-
 module InstFetch(
     input               clk,
     input               rst,
@@ -19,7 +18,7 @@ module InstFetch(
 );
 
 reg     [31:0]  cnt;
-reg     [`InstCatchDepth-3:0]  rdaddr, rdaddr_d1;   // addr[9:0] -> [11:2], 组合逻辑
+reg     [`InstCatchDepth-3:0]  rdaddr, rdaddr_d1;
 wire    [31:0]  rddata;
 
 assign IF_inst = rddata;

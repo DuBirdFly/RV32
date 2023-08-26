@@ -1,5 +1,5 @@
-// `include "../inc/defines.v"
-`include "defines.v"
+`include "../inc/defines.v"
+// `include "defines.v"
 
 module CoreTop(
     input  clk,
@@ -32,38 +32,62 @@ wire [31:0]                 ID_imm;
 wire [`InstIDDepth-1:0]     ID_instID;
 wire                        ID_jmp_vld;
 
-InstructionDecode u_InstructionDecode(
+InstDecode u_InstDecode(
     .inst           ( IF_inst     ),
+    // decode
     .ID_opcode      ( ID_opcode   ),
-    // regs_addr and regs addr vld
     .ID_rs1         ( ID_rs1      ),
     .ID_rs2         ( ID_rs2      ),
     .ID_rd          ( ID_rd       ),
     .ID_rs1_vld     ( ID_rs1_vld  ),
     .ID_rs2_vld     ( ID_rs2_vld  ),
     .ID_rd_vld      ( ID_rd_vld   ),
-    //
     .ID_imm         ( ID_imm      ),
+    // instID
     .ID_instID      ( ID_instID   ),
+    // jump for unconditonal jump
     .ID_jmp_vld     ( ID_jmp_vld  )
 );
 
-// Signal Delay ------------------------------------------
-reg [31:0]                  IF_pc_d1;
-reg [6:0]                   ID_opcode_d1;
-reg [4:0]                   ID_rs1_d1, ID_rs2_d1;
-reg [4:0]                   ID_rd_d1, ID_rd_d2, ID_rd_d3;
-reg [31:0]                  ID_imm_d1;
-reg [`InstIDDepth-1:0]      ID_instID_d1;
+// Instruction Decode Reg delay --------------------------
+wire [31:0]                 ID_REG_pc;
+wire [6:0]                  ID_REG_opcode;
+wire [4:0]                  ID_REG_rs1;
+wire [4:0]                  ID_REG_rs2;
+wire [4:0]                  ID_REG_rd;
+wire                        ID_REG_rs1_vld;
+wire                        ID_REG_rs2_vld;
+wire                        ID_REG_rd_vld;
+wire [31:0]                 ID_REG_imm;
+wire [`InstIDDepth-1:0]     ID_REG_instID;
+wire                        ID_REG_jmp_vld;
 
-always @(posedge clk) begin
-    IF_pc_d1 <= IF_pc;
-    ID_opcode_d1 <= ID_opcode;
-    {ID_rs1_d1, ID_rs2_d1} <= {ID_rs1, ID_rs2};
-    {ID_rd_d3, ID_rd_d2, ID_rd_d1} <= {ID_rd_d2, ID_rd_d1, ID_rd};
-    ID_imm_d1 <= ID_imm;
-    ID_instID_d1 <= ID_instID;
-end
+InstDecodeReg u_InstDecodeReg(
+    .clk                ( clk             ),
+    // from InstFetch, to Execute
+    .pc                 ( IF_pc           ),
+    .ID_REG_pc          ( ID_REG_pc       ),
+    // from InstDecode
+    .opcode             ( ID_opcode       ),
+    .rs1                ( ID_rs1          ),
+    .rs2                ( ID_rs2          ),
+    .rd                 ( ID_rd           ),
+    .rs1_vld            ( ID_rs1_vld      ),
+    .rs2_vld            ( ID_rs2_vld      ),
+    .rd_vld             ( ID_rd_vld       ),
+    .imm                ( ID_imm          ),
+    .instID             ( ID_instID       ),
+    // to Execute
+    .ID_REG_opcode      ( ID_REG_opcode   ),
+    .ID_REG_rs1         ( ID_REG_rs1      ),
+    .ID_REG_rs2         ( ID_REG_rs2      ),
+    .ID_REG_rd          ( ID_REG_rd       ),
+    .ID_REG_rs1_vld     ( ID_REG_rs1_vld  ),
+    .ID_REG_rs2_vld     ( ID_REG_rs2_vld  ),
+    .ID_REG_rd_vld      ( ID_REG_rd_vld   ),
+    .ID_REG_imm         ( ID_REG_imm      ),
+    .ID_REG_instID      ( ID_REG_instID   )
+);
 
 // Register File -----------------------------------------
 wire [4:0]                  REGS_rdaddr1, REGS_rdaddr2;
@@ -71,11 +95,11 @@ wire                        REGS_wen;
 wire [4:0]                  REGS_wraddr;
 wire [31:0]                 REGS_wrdata;
 
-wire [31:0]                 REGS_rddata1;
-wire [31:0]                 REGS_rddata2;
+wire [31:0]                 REGS_rddata1;// o
+wire [31:0]                 REGS_rddata2;// o
 
-assign REGS_rdaddr1 = ID_rs1_d1;
-assign REGS_rdaddr2 = ID_rs2_d1;
+assign REGS_rdaddr1 = ID_REG_rs1;
+assign REGS_rdaddr2 = ID_REG_rs2;
 
 Registers u_Registers(
     .clk              ( clk           ),
@@ -90,13 +114,14 @@ Registers u_Registers(
 
 // Execute -----------------------------------------------
 wire                        inst_vld_EX;
+
 wire [31:0]                 OF_x_rs1, OF_x_rs2;
 
-wire [4:0]                  EX_rd;
 wire                        EX_jmp_vld;
 wire [31:0]                 EX_jmp_addr;
-wire                        EX_x_rd_vld;
+wire [4:0]                  EX_rd;
 wire [31:0]                 EX_x_rd;
+wire                        EX_x_rd_vld;
 wire [31:0]                 EX_MEMaddr;
 wire [3:0]                  EX_MEMrden, EX_MEMwren;
 wire                        EX_MEMrden_SEXT;
@@ -105,17 +130,22 @@ wire [31:0]                 EX_MEMwrdata;
 Execute u_Execute(
     .clk              ( clk           ),
     .inst_vld         ( inst_vld_EX   ),
-    .rd               ( ID_rd_d1      ),
+
+    .instID           ( ID_REG_instID ),
+    .rd               ( ID_REG_rd     ),
     .x_rs1            ( OF_x_rs1      ),
     .x_rs2            ( OF_x_rs2      ),
-    .imm              ( ID_imm_d1     ),
-    .instID           ( ID_instID_d1  ),
-    .pc               ( IF_pc_d1      ),
+    .imm              ( ID_REG_imm    ),
+    .pc               ( ID_REG_pc     ),
+    .x_rd_vld         ( ID_REG_rd_vld ),
+
     .EX_jmp_vld       ( EX_jmp_vld    ),
     .EX_jmp_addr      ( EX_jmp_addr   ),
+
     .EX_rd            ( EX_rd         ),
     .EX_x_rd          ( EX_x_rd       ),
     .EX_x_rd_vld      ( EX_x_rd_vld   ),
+
     .EX_MEMaddr       ( EX_MEMaddr    ),
     .EX_MEMrden       ( EX_MEMrden    ),
     .EX_MEMrden_SEXT  ( EX_MEMrden_SEXT ),
@@ -126,23 +156,26 @@ Execute u_Execute(
 // Memory Access ------------------------------------------
 wire                        MEM_x_rd_vld;
 wire [31:0]                 MEM_x_rd;
+wire [4:0]                  MEM_rd;
 
-MemoryAccess u_MemoryAccess(
+MemAccess u_MemAccess(
     .clk              ( clk           ),
-    .EX_x_rd_vld      ( EX_x_rd_vld   ),
-    .EX_x_rd          ( EX_x_rd       ),
-    .rden             ( EX_MEMrden    ),
+    .rd               ( EX_rd         ),
+    .x_rd             ( EX_x_rd       ),
+    .x_rd_vld         ( EX_x_rd_vld   ),
+    .addr             ( EX_MEMaddr    ),
     .rden_SEXT        ( EX_MEMrden_SEXT ),
+    .rden             ( EX_MEMrden    ),
     .wren             ( EX_MEMwren    ),
     .wrdata           ( EX_MEMwrdata  ),
-    .addr             ( EX_MEMaddr    ),
-    .MEM_x_rd_vld     ( MEM_x_rd_vld  ),
-    .MEM_x_rd         ( MEM_x_rd      )
+    .MEM_rd           ( MEM_rd        ),
+    .MEM_x_rd         ( MEM_x_rd      ),
+    .MEM_x_rd_vld     ( MEM_x_rd_vld  )
 );
 
 // Write Back ---------------------------------------------
 assign REGS_wen = MEM_x_rd_vld;
-assign REGS_wraddr = ID_rd_d3;
+assign REGS_wraddr = MEM_rd;
 assign REGS_wrdata = MEM_x_rd;
 
 // Operand Forwarding -------------------------------------
@@ -166,8 +199,8 @@ Control u_Control(
     .ID_rs2           ( ID_rs2        ),
     .ID_rs1_vld       ( ID_rs1_vld    ),
     .ID_rs2_vld       ( ID_rs2_vld    ),
-    .ID_rd_d1         ( ID_rd_d1      ),
-    .ID_opcode_d1     ( ID_opcode_d1  ),
+    .ID_REG_rd        ( ID_REG_rd     ),
+    .ID_REG_opcode    ( ID_REG_opcode ),
     // output
     .hold_IF          ( hold_IF       ),
     // input

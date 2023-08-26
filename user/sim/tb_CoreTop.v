@@ -46,7 +46,7 @@ end
 
 // sim timeout, it means x26 never be 1'b1
 initial begin
-    #(PERIOD*1600);
+    #(PERIOD*768);
     $display("TEST SIM Time Out!!!!!!");
     for (r = 0; r < 64; r = r + 1)
         $display("ram[%2d] = 0x%x", r, u_CoreTop.u_InstFetch.u_InstCatch.u_ramGen.ram[r]);
@@ -62,10 +62,10 @@ initial begin
         u_CoreTop.u_InstFetch.u_InstCatch.u_ramGen.ram[r] = ram_bin[r];
     for (r = 0; r < 1024; r = r + 1) begin
         reg32 = ram_bin[r+1024];
-        u_CoreTop.u_MemoryAccess.u_DataCatch.u3_ramGen.ram[r] = reg32[31:24];
-        u_CoreTop.u_MemoryAccess.u_DataCatch.u2_ramGen.ram[r] = reg32[23:16];
-        u_CoreTop.u_MemoryAccess.u_DataCatch.u1_ramGen.ram[r] = reg32[15:8];
-        u_CoreTop.u_MemoryAccess.u_DataCatch.u0_ramGen.ram[r] = reg32[7:0];
+        u_CoreTop.u_MemAccess.u_DataCatch.u3_ramGen.ram[r] = reg32[31:24];
+        u_CoreTop.u_MemAccess.u_DataCatch.u2_ramGen.ram[r] = reg32[23:16];
+        u_CoreTop.u_MemAccess.u_DataCatch.u1_ramGen.ram[r] = reg32[15:8];
+        u_CoreTop.u_MemAccess.u_DataCatch.u0_ramGen.ram[r] = reg32[7:0];
     end
 end
 

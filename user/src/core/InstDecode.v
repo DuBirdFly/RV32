@@ -1,7 +1,7 @@
 // `include "../inc/defines.v"
 `include "defines.v"
 
-module InstructionDecode(
+module InstDecode(
     input       [31:0]              inst,                   // from IF
     // 正常输出
     output wire [6:0]               ID_opcode,
@@ -11,7 +11,7 @@ module InstructionDecode(
     output reg  [`InstIDDepth-1:0]  ID_instID,              // define的instID, 如: ID_ADDI=8'd2; ID_BNE=8'd33
 
     // 控制冒险: 无条件跳转 (只有 OPCODE_J_JAL 才会触发， 立即反馈到 IF， 此时的jmp_addr = imm)
-    output wire                     ID_jmp_vld               // 生成跳转信号, to IF
+    output wire                     ID_jmp_vld              // 生成跳转信号, to IF
 );
 
 // rs1, rs2, rd, opcode 都是固定位置的

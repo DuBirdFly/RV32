@@ -1,5 +1,5 @@
- `include "../inc/defines.v"
-//`include "defines.v"
+//  `include "../inc/defines.v"
+`include "defines.v"
 
 module Registers (
     input               clk,

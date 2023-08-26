@@ -44,7 +44,7 @@ insts = ["addi", "andi", "ori", "xori", "slti", "sltiu", "slli", "srli", "srai",
          "lui", "auipc"
          ]
 
-inst = "srai"
+inst = "sw"
 
 isSimAll = True
 

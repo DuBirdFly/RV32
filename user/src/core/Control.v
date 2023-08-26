@@ -7,8 +7,8 @@ module Control(
     // load-use型数据冒险
     input       [4:0]               ID_rs1, ID_rs2,
     input                           ID_rs1_vld, ID_rs2_vld,
-    input       [4:0]               ID_rd_d1,
-    input       [6:0]               ID_opcode_d1,
+    input       [4:0]               ID_REG_rd,
+    input       [6:0]               ID_REG_opcode,
     output wire                     hold_IF,
     // jmp型数据冒险-无条件跳转
     input                           ID_jmp_vld,
@@ -30,8 +30,8 @@ reg hold_IF_d1;
 // 第二条指令的某一个rs与第一条指令的rd相同, 且第一条指令是load类型
 // 这叫load-use型数据冒险, 必须有一次硬件阻塞.
 always @(posedge clk) hold_IF_d1 = hold_IF;
-assign hold_IF = ((ID_rs1 == ID_rd_d1 && ID_rs1_vld) || (ID_rs2 == ID_rd_d1 && ID_rs2_vld)) &&
-                 (ID_opcode_d1 == 7'b000_0011) &&
+assign hold_IF = ((ID_rs1 == ID_REG_rd && ID_rs1_vld) || (ID_rs2 == ID_REG_rd && ID_rs2_vld)) &&
+                 (ID_REG_opcode == 7'b000_0011) &&
                  (~hold_IF_d1);
  
 // 无条件跳转: 由于跳转的地址在IF2ID阶段就已经确定(我设计于ID的组合逻辑), 
@@ -61,9 +61,6 @@ assign jmp2nop = EX_jmp_vld | EX_jmp_vld_d1;
 // hold to nop; 由于load-use型数据冒险导致了1拍的nop
 reg hold2nop;
 always @(posedge clk) hold2nop <= hold_IF;
-
-// wire hold2nop;
-// assign hold2nop = hold_IF;
 
 assign inst_vld_EX = ~(jmp2nop | hold2nop);
 

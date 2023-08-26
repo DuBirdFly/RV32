@@ -20,28 +20,39 @@ A: 不完全一样。sh指令用于存储halfword，即16位（或者说2个字�
 // `include "../inc/defines.v"
 `include "defines.v"
 
-module MemoryAccess(
+module MemAccess(
     input               clk,
 
-    input               EX_x_rd_vld,
-    input       [31:0]  EX_x_rd,
+    input       [4:0]   rd,
+    input       [31:0]  x_rd,
+    input               x_rd_vld,
 
+    input       [31:0]  addr,
+    input               rden_SEXT,
     input       [3:0]   rden,
     input       [3:0]   wren,
-    input               rden_SEXT,
     input       [31:0]  wrdata,
-    input       [31:0]  addr,
 
-    output reg          MEM_x_rd_vld,           // 时序逻辑 (打1拍)
-    output reg  [31:0]  MEM_x_rd                // 组合逻辑 (从Catch中读出的数据后组合逻辑拼接)
+    output reg  [4:0]   MEM_rd,                 // 打1拍
+    output reg  [31:0]  MEM_x_rd,               // 组合逻辑 (从Catch中读出的数据后组合逻辑拼接)
+    output reg          MEM_x_rd_vld            // 打1拍
 
 );
 
-reg [31:0] EX_x_rd_d1;                      // EX_x_rd打一拍
-reg [3:0] rden_d1;                          // rden打一拍
 reg rden_SEXT_d1;
+reg [31:0] EX_x_rd_d1;
+reg [3:0] rden_d1;
 
 wire [31:0] oDataCatch;                     // output of DataCatch
+
+// 打拍器
+always @(posedge clk) begin
+    MEM_rd <= rd;
+    MEM_x_rd_vld <= x_rd_vld;
+    rden_SEXT_d1 <= rden_SEXT;
+    EX_x_rd_d1 <= x_rd;
+    rden_d1 <= rden;
+end
 
 // 组合逻辑(从Catch中读出的数据后组合逻辑拼接)
 always @(*) begin
@@ -71,19 +82,12 @@ always @(*) begin
     end
 end
 
-// 打拍器
-always @(posedge clk) begin
-    MEM_x_rd_vld <= EX_x_rd_vld;
-    EX_x_rd_d1 <= EX_x_rd;
-    rden_d1 <= rden;
-    rden_SEXT_d1 <= rden_SEXT;
-end
-
 DataCatch u_DataCatch(      
     .clk        ( clk           ),
+    .addr       ( addr          ),
     .wren       ( wren          ),
     .wrdata     ( wrdata        ),
-    .addr       ( addr          ),
+    .rden       ( rden          ),
     .rddata     ( oDataCatch    )
 );
 
