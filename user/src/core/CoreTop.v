@@ -58,8 +58,6 @@ wire [6:0]                  ID_REG_opcode;
 wire [4:0]                  ID_REG_rs1;
 wire [4:0]                  ID_REG_rs2;
 wire [4:0]                  ID_REG_rd;
-wire                        ID_REG_rs1_vld;
-wire                        ID_REG_rs2_vld;
 wire                        ID_REG_rd_vld;
 wire [31:0]                 ID_REG_imm;
 wire [`InstIDDepth-1:0]     ID_REG_instID;
@@ -75,8 +73,6 @@ InstDecodeReg u_InstDecodeReg(
     .rs1                ( ID_rs1          ),
     .rs2                ( ID_rs2          ),
     .rd                 ( ID_rd           ),
-    .rs1_vld            ( ID_rs1_vld      ),
-    .rs2_vld            ( ID_rs2_vld      ),
     .rd_vld             ( ID_rd_vld       ),
     .imm                ( ID_imm          ),
     .instID             ( ID_instID       ),
@@ -85,8 +81,6 @@ InstDecodeReg u_InstDecodeReg(
     .ID_REG_rs1         ( ID_REG_rs1      ),
     .ID_REG_rs2         ( ID_REG_rs2      ),
     .ID_REG_rd          ( ID_REG_rd       ),
-    .ID_REG_rs1_vld     ( ID_REG_rs1_vld  ),
-    .ID_REG_rs2_vld     ( ID_REG_rs2_vld  ),
     .ID_REG_rd_vld      ( ID_REG_rd_vld   ),
     .ID_REG_imm         ( ID_REG_imm      ),
     .ID_REG_instID      ( ID_REG_instID   )
@@ -124,7 +118,7 @@ wire                        EX_jmp_vld;
 wire [31:0]                 EX_jmp_addr;
 wire [4:0]                  EX_rd;
 wire [31:0]                 EX_x_rd;
-wire                        EX_x_rd_vld;
+wire                        EX_rd_vld;
 wire [31:0]                 EX_MEM_addr;
 wire [3:0]                  EX_MEM_rden;
 wire                        EX_MEM_rden_SEXT;
@@ -141,14 +135,14 @@ Execute u_Execute(
     .x_rs2            ( OF_x_rs2      ),
     .imm              ( ID_REG_imm    ),
     .pc               ( ID_REG_pc     ),
-    .x_rd_vld         ( ID_REG_rd_vld ),
+    .rd_vld           ( ID_REG_rd_vld ),
 
     .EX_jmp_vld       ( EX_jmp_vld    ),
     .EX_jmp_addr      ( EX_jmp_addr   ),
 
     .EX_rd            ( EX_rd         ),
+    .EX_rd_vld        ( EX_rd_vld     ),
     .EX_x_rd          ( EX_x_rd       ),
-    .EX_x_rd_vld      ( EX_x_rd_vld   ),
 
     .EX_MEM_addr      ( EX_MEM_addr   ),
     .EX_MEM_rden      ( EX_MEM_rden   ),
@@ -158,15 +152,15 @@ Execute u_Execute(
 );
 
 // Memory Access ------------------------------------------
-wire                        MEM_x_rd_vld;
+wire                        MEM_rd_vld;
 wire [31:0]                 MEM_x_rd;
 wire [4:0]                  MEM_rd;
 
 MemAccess u_MemAccess(
     .clk              ( clk           ),
     .rd               ( EX_rd         ),
+    .rd_vld           ( EX_rd_vld     ),
     .x_rd             ( EX_x_rd       ),
-    .x_rd_vld         ( EX_x_rd_vld   ),
     .addr             ( EX_MEM_addr   ),
     .rden_SEXT        ( EX_MEM_rden_SEXT ),
     .rden             ( EX_MEM_rden   ),
@@ -174,11 +168,11 @@ MemAccess u_MemAccess(
     .wrdata           ( EX_MEM_wrdata ),
     .MEM_rd           ( MEM_rd        ),
     .MEM_x_rd         ( MEM_x_rd      ),
-    .MEM_x_rd_vld     ( MEM_x_rd_vld  )
+    .MEM_rd_vld       ( MEM_rd_vld    )
 );
 
 // Write Back ---------------------------------------------
-assign REGS_wen = MEM_x_rd_vld;
+assign REGS_wen = MEM_rd_vld;
 assign REGS_wraddr = MEM_rd;
 assign REGS_wrdata = MEM_x_rd;
 
@@ -186,7 +180,7 @@ assign REGS_wrdata = MEM_x_rd;
 OpdForward u_OpdForward(
     .EX_rd            ( EX_rd         ),
     .EX_x_rd          ( EX_x_rd       ),
-    .EX_x_rd_vld      ( EX_x_rd_vld   ),
+    .EX_rd_vld        ( EX_rd_vld   ),
     .REGS_rdaddr1     ( REGS_rdaddr1  ),
     .REGS_rdaddr2     ( REGS_rdaddr2  ),
     .REGS_rddata1     ( REGS_rddata1  ),

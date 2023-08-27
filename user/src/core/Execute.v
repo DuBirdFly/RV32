@@ -7,15 +7,15 @@ module Execute(
     input       [`InstIDDepth-1:0]      instID,
     input       [4:0]                   rd,
     input       [31:0]                  x_rs1, x_rs2, imm, pc,
-    input                               x_rd_vld,
+    input                               rd_vld,
 
     // jump
     output reg                          EX_jmp_vld,
     output reg  [31:0]                  EX_jmp_addr,
     // x_rd
     output reg  [4:0]                   EX_rd,
+    output reg                          EX_rd_vld,
     output reg  [31:0]                  EX_x_rd,
-    output reg                          EX_x_rd_vld,
     // MEM
     output reg  [31:0]                  EX_MEM_addr,
     output reg  [3:0]                   EX_MEM_rden,
@@ -28,13 +28,13 @@ module Execute(
 wire [31:0] EX_MEM_addr_comb;
 assign EX_MEM_addr_comb = x_rs1 + imm;
 
+always @(posedge clk) EX_rd <= rd;
+
 always @(posedge clk) begin
     if (inst_vld)
-        EX_x_rd_vld <= x_rd_vld;
+        EX_rd_vld <= rd_vld;
     else
-        EX_x_rd_vld <= 1'b0;
-
-    EX_rd <= rd;
+        EX_rd_vld <= 1'b0;
 end
 
 always @(posedge clk) begin

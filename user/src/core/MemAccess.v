@@ -25,7 +25,7 @@ module MemAccess(
 
     input       [4:0]   rd,
     input       [31:0]  x_rd,
-    input               x_rd_vld,
+    input               rd_vld,
 
     input       [31:0]  addr,
     input               rden_SEXT,
@@ -33,10 +33,9 @@ module MemAccess(
     input       [3:0]   wren,
     input       [31:0]  wrdata,
 
-    output reg  [4:0]   MEM_rd,                 // 打1拍
-    output reg  [31:0]  MEM_x_rd,               // 组合逻辑 (从Catch中读出的数据后组合逻辑拼接)
-    output reg          MEM_x_rd_vld            // 打1拍
-
+    output reg  [4:0]   MEM_rd,             // 打1拍
+    output reg          MEM_rd_vld,         // 打1拍
+    output reg  [31:0]  MEM_x_rd            // 组合逻辑 (从Catch中读出的数据后组合逻辑拼接)
 );
 
 reg rden_SEXT_d1;
@@ -48,7 +47,7 @@ wire [31:0] oDataCatch;                     // output of DataCatch
 // 打拍器
 always @(posedge clk) begin
     MEM_rd <= rd;
-    MEM_x_rd_vld <= x_rd_vld;
+    MEM_rd_vld <= rd_vld;
     rden_SEXT_d1 <= rden_SEXT;
     EX_x_rd_d1 <= x_rd;
     rden_d1 <= rden;
