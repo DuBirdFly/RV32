@@ -37,9 +37,7 @@ end
 always @(posedge clk) rdaddr_d1 <= rdaddr;
 
 always @(*) begin
-    if (rst)
-        rdaddr = 'd0;
-    else if (jmp_vld)
+    if (jmp_vld)
         rdaddr = jmp_addr[`InstCatchDepth-1:2];
     else if (hold)
         rdaddr = rdaddr_d1;

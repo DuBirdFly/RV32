@@ -17,16 +17,16 @@ module Execute(
     output reg  [31:0]                  EX_x_rd,
     output reg                          EX_x_rd_vld,
     // MEM
-    output reg  [31:0]                  EX_MEMaddr,
-    output reg  [3:0]                   EX_MEMrden,
-    output reg                          EX_MEMrden_SEXT,// lb/lbu, lh/lhu, 区分是否需要符号拓展
-    output reg  [3:0]                   EX_MEMwren,
-    output reg  [31:0]                  EX_MEMwrdata
+    output reg  [31:0]                  EX_MEM_addr,
+    output reg  [3:0]                   EX_MEM_rden,
+    output reg                          EX_MEM_rden_SEXT,// lb/lbu, lh/lhu, 区分是否需要符号拓展
+    output reg  [3:0]                   EX_MEM_wren,
+    output reg  [31:0]                  EX_MEM_wrdata
 
 );
 
-wire [31:0] EX_MEMaddr_comb;
-assign EX_MEMaddr_comb = x_rs1 + imm;
+wire [31:0] EX_MEM_addr_comb;
+assign EX_MEM_addr_comb = x_rs1 + imm;
 
 always @(posedge clk) begin
     if (inst_vld)
@@ -40,8 +40,8 @@ end
 always @(posedge clk) begin
     // 控制信号的一般值 (经过我的测试,这种写法是支持的)
     EX_jmp_vld <= 1'b0;
-    {EX_MEMrden, EX_MEMwren} <= 8'b0000_0000;
-    EX_MEMrden_SEXT <= 1'b0;
+    {EX_MEM_rden, EX_MEM_wren} <= 8'b0000_0000;
+    EX_MEM_rden_SEXT <= 1'b0;
     // 控制信号与数据信号的特殊值
     if (inst_vld) begin
         case (instID)
@@ -104,56 +104,56 @@ always @(posedge clk) begin
                 EX_x_rd <= pc + imm;
             end
             `ID_LW: begin
-                {EX_MEMrden, EX_MEMwren} <= 8'b1111_0000;
-                EX_MEMaddr <= EX_MEMaddr_comb;
+                {EX_MEM_rden, EX_MEM_wren} <= 8'b1111_0000;
+                EX_MEM_addr <= EX_MEM_addr_comb;
             end
             `ID_LH: begin
-                {EX_MEMrden, EX_MEMwren} <= EX_MEMaddr_comb[1] ? 8'b1100_0000 : 8'b0011_0000;
-                EX_MEMaddr <= EX_MEMaddr_comb;
-                EX_MEMrden_SEXT <= 1'b1;
+                {EX_MEM_rden, EX_MEM_wren} <= EX_MEM_addr_comb[1] ? 8'b1100_0000 : 8'b0011_0000;
+                EX_MEM_addr <= EX_MEM_addr_comb;
+                EX_MEM_rden_SEXT <= 1'b1;
             end
             `ID_LHU: begin
-                {EX_MEMrden, EX_MEMwren} <= EX_MEMaddr_comb[1] ? 8'b1100_0000 : 8'b0011_0000;
-                EX_MEMaddr <= EX_MEMaddr_comb;
+                {EX_MEM_rden, EX_MEM_wren} <= EX_MEM_addr_comb[1] ? 8'b1100_0000 : 8'b0011_0000;
+                EX_MEM_addr <= EX_MEM_addr_comb;
             end
             `ID_LB: begin
-                case(EX_MEMaddr_comb[1:0])
-                    3'b00: {EX_MEMrden, EX_MEMwren} <= 8'b0001_0000;
-                    3'b01: {EX_MEMrden, EX_MEMwren} <= 8'b0010_0000;
-                    3'b10: {EX_MEMrden, EX_MEMwren} <= 8'b0100_0000;
-                    3'b11: {EX_MEMrden, EX_MEMwren} <= 8'b1000_0000;
+                case(EX_MEM_addr_comb[1:0])
+                    3'b00: {EX_MEM_rden, EX_MEM_wren} <= 8'b0001_0000;
+                    3'b01: {EX_MEM_rden, EX_MEM_wren} <= 8'b0010_0000;
+                    3'b10: {EX_MEM_rden, EX_MEM_wren} <= 8'b0100_0000;
+                    3'b11: {EX_MEM_rden, EX_MEM_wren} <= 8'b1000_0000;
                 endcase
-                EX_MEMaddr <= EX_MEMaddr_comb;
-                EX_MEMrden_SEXT <= 1'b1;
+                EX_MEM_addr <= EX_MEM_addr_comb;
+                EX_MEM_rden_SEXT <= 1'b1;
             end
             `ID_LBU: begin
-                case(EX_MEMaddr_comb[1:0])
-                    3'b00: {EX_MEMrden, EX_MEMwren} <= 8'b0001_0000;
-                    3'b01: {EX_MEMrden, EX_MEMwren} <= 8'b0010_0000;
-                    3'b10: {EX_MEMrden, EX_MEMwren} <= 8'b0100_0000;
-                    3'b11: {EX_MEMrden, EX_MEMwren} <= 8'b1000_0000;
+                case(EX_MEM_addr_comb[1:0])
+                    3'b00: {EX_MEM_rden, EX_MEM_wren} <= 8'b0001_0000;
+                    3'b01: {EX_MEM_rden, EX_MEM_wren} <= 8'b0010_0000;
+                    3'b10: {EX_MEM_rden, EX_MEM_wren} <= 8'b0100_0000;
+                    3'b11: {EX_MEM_rden, EX_MEM_wren} <= 8'b1000_0000;
                 endcase
-                EX_MEMaddr <= EX_MEMaddr_comb;
+                EX_MEM_addr <= EX_MEM_addr_comb;
             end
             `ID_SW: begin
-                {EX_MEMrden, EX_MEMwren} <= 8'b0000_1111;
-                EX_MEMaddr <= EX_MEMaddr_comb;
-                EX_MEMwrdata <= x_rs2;
+                {EX_MEM_rden, EX_MEM_wren} <= 8'b0000_1111;
+                EX_MEM_addr <= EX_MEM_addr_comb;
+                EX_MEM_wrdata <= x_rs2;
             end
             `ID_SB: begin
-                case(EX_MEMaddr_comb[1:0])
-                    3'b00: {EX_MEMrden, EX_MEMwren} <= 8'b0000_0001;
-                    3'b01: {EX_MEMrden, EX_MEMwren} <= 8'b0000_0010;
-                    3'b10: {EX_MEMrden, EX_MEMwren} <= 8'b0000_0100;
-                    3'b11: {EX_MEMrden, EX_MEMwren} <= 8'b0000_1000;
+                case(EX_MEM_addr_comb[1:0])
+                    3'b00: {EX_MEM_rden, EX_MEM_wren} <= 8'b0000_0001;
+                    3'b01: {EX_MEM_rden, EX_MEM_wren} <= 8'b0000_0010;
+                    3'b10: {EX_MEM_rden, EX_MEM_wren} <= 8'b0000_0100;
+                    3'b11: {EX_MEM_rden, EX_MEM_wren} <= 8'b0000_1000;
                 endcase
-                EX_MEMaddr <= EX_MEMaddr_comb;
-                EX_MEMwrdata <= {4{x_rs2[7:0]}};
+                EX_MEM_addr <= EX_MEM_addr_comb;
+                EX_MEM_wrdata <= {4{x_rs2[7:0]}};
             end
             `ID_SH: begin
-                {EX_MEMrden, EX_MEMwren} <= EX_MEMaddr_comb[1] ? 8'b0000_1100 : 8'b0000_0011;
-                EX_MEMaddr <= EX_MEMaddr_comb;
-                EX_MEMwrdata <= {2{x_rs2[15:0]}};
+                {EX_MEM_rden, EX_MEM_wren} <= EX_MEM_addr_comb[1] ? 8'b0000_1100 : 8'b0000_0011;
+                EX_MEM_addr <= EX_MEM_addr_comb;
+                EX_MEM_wrdata <= {2{x_rs2[15:0]}};
             end
         endcase
     end

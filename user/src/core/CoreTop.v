@@ -25,6 +25,7 @@ InstFetch u_InstFetch(
 );
 
 // Instruction Decode ------------------------------------
+wire [31:0]                 ID_pc;
 wire [6:0]                  ID_opcode;
 wire [4:0]                  ID_rs1, ID_rs2, ID_rd;
 wire                        ID_rs1_vld, ID_rs2_vld, ID_rd_vld;
@@ -34,6 +35,8 @@ wire                        ID_jmp_vld;
 
 InstDecode u_InstDecode(
     .inst           ( IF_inst     ),
+    .pc             ( IF_pc       ),
+    .ID_pc          ( ID_pc       ),
     // decode
     .ID_opcode      ( ID_opcode   ),
     .ID_rs1         ( ID_rs1      ),
@@ -65,7 +68,7 @@ wire                        ID_REG_jmp_vld;
 InstDecodeReg u_InstDecodeReg(
     .clk                ( clk             ),
     // from InstFetch, to Execute
-    .pc                 ( IF_pc           ),
+    .pc                 ( ID_pc           ),
     .ID_REG_pc          ( ID_REG_pc       ),
     // from InstDecode
     .opcode             ( ID_opcode       ),
@@ -122,10 +125,11 @@ wire [31:0]                 EX_jmp_addr;
 wire [4:0]                  EX_rd;
 wire [31:0]                 EX_x_rd;
 wire                        EX_x_rd_vld;
-wire [31:0]                 EX_MEMaddr;
-wire [3:0]                  EX_MEMrden, EX_MEMwren;
-wire                        EX_MEMrden_SEXT;
-wire [31:0]                 EX_MEMwrdata;
+wire [31:0]                 EX_MEM_addr;
+wire [3:0]                  EX_MEM_rden;
+wire                        EX_MEM_rden_SEXT;
+wire [3:0]                  EX_MEM_wren;
+wire [31:0]                 EX_MEM_wrdata;
 
 Execute u_Execute(
     .clk              ( clk           ),
@@ -146,11 +150,11 @@ Execute u_Execute(
     .EX_x_rd          ( EX_x_rd       ),
     .EX_x_rd_vld      ( EX_x_rd_vld   ),
 
-    .EX_MEMaddr       ( EX_MEMaddr    ),
-    .EX_MEMrden       ( EX_MEMrden    ),
-    .EX_MEMrden_SEXT  ( EX_MEMrden_SEXT ),
-    .EX_MEMwren       ( EX_MEMwren    ),
-    .EX_MEMwrdata     ( EX_MEMwrdata  )
+    .EX_MEM_addr      ( EX_MEM_addr   ),
+    .EX_MEM_rden      ( EX_MEM_rden   ),
+    .EX_MEM_rden_SEXT ( EX_MEM_rden_SEXT ),
+    .EX_MEM_wren      ( EX_MEM_wren   ),
+    .EX_MEM_wrdata    ( EX_MEM_wrdata )
 );
 
 // Memory Access ------------------------------------------
@@ -163,11 +167,11 @@ MemAccess u_MemAccess(
     .rd               ( EX_rd         ),
     .x_rd             ( EX_x_rd       ),
     .x_rd_vld         ( EX_x_rd_vld   ),
-    .addr             ( EX_MEMaddr    ),
-    .rden_SEXT        ( EX_MEMrden_SEXT ),
-    .rden             ( EX_MEMrden    ),
-    .wren             ( EX_MEMwren    ),
-    .wrdata           ( EX_MEMwrdata  ),
+    .addr             ( EX_MEM_addr   ),
+    .rden_SEXT        ( EX_MEM_rden_SEXT ),
+    .rden             ( EX_MEM_rden   ),
+    .wren             ( EX_MEM_wren   ),
+    .wrdata           ( EX_MEM_wrdata ),
     .MEM_rd           ( MEM_rd        ),
     .MEM_x_rd         ( MEM_x_rd      ),
     .MEM_x_rd_vld     ( MEM_x_rd_vld  )
@@ -206,7 +210,7 @@ Control u_Control(
     // input
     .ID_jmp_vld       ( ID_jmp_vld    ),
     .ID_imm           ( ID_imm        ),
-    .ID_pc            ( IF_pc         ),
+    .ID_pc            ( ID_pc         ),
     .EX_jmp_vld       ( EX_jmp_vld    ),
     .EX_jmp_addr      ( EX_jmp_addr   ),
     // output

@@ -2,8 +2,11 @@
 `include "defines.v"
 
 module InstDecode(
-    input       [31:0]              inst,                   // from IF
-    // 正常输出
+    // from IF
+    input       [31:0]              inst,                   
+    input       [31:0]              pc,
+    output      [31:0]              ID_pc,
+    // 译码输出
     output wire [6:0]               ID_opcode,
     output wire [4:0]               ID_rs1, ID_rs2, ID_rd,  // 读32位寄存器地址1, 2; 写32位寄存器地址
     output reg                      ID_rs1_vld, ID_rs2_vld, ID_rd_vld,
@@ -13,6 +16,9 @@ module InstDecode(
     // 控制冒险: 无条件跳转 (只有 OPCODE_J_JAL 才会触发， 立即反馈到 IF， 此时的jmp_addr = imm)
     output wire                     ID_jmp_vld              // 生成跳转信号, to IF
 );
+
+// ID的pc = IF的pc
+assign ID_pc = pc;
 
 // rs1, rs2, rd, opcode 都是固定位置的
 assign ID_rs2 = inst[24:20];
