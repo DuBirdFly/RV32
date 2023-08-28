@@ -50,7 +50,7 @@ def sim_all_inst(inst : str):
 ###############################################################################
 inst = "fence_i"
 
-isSimAll = False
+isSimAll = True
 
 if isSimAll:
     for inst in find_all_insts():
