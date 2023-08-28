@@ -2,6 +2,7 @@ import os
 
 from packages.Bin2Mem import Bin2Mem
 from packages.Sim import Sim
+from packages.MyFuc import find_all_insts
 
 def sim_all_inst(inst : str):
     # 固定路径
@@ -12,7 +13,17 @@ def sim_all_inst(inst : str):
 
     # 可改路径
     DIR_PH_REF = f"{DIR_PH_SIM}/riscv-isa"
-    FILE_PH_BIN = f"{DIR_PH_REF}/generated/rv32ui-p-{inst}.bin"
+    DIR_PH_BIN = f"{DIR_PH_REF}/generated"
+
+    FILE_PH_BIN = ""
+    for root, dirs, files in os.walk(DIR_PH_BIN):
+        for file in files:
+            if file.endswith(".bin") and inst in file:
+                FILE_PH_BIN = f"{DIR_PH_BIN}/{file}"
+                break
+
+    if FILE_PH_BIN == "None":
+        raise Exception(f"sim_all_inst(): 指令{inst}不存在\n")
 
     # 指令: Bin2Mem.py
     Bin2Mem(FILE_PH_BIN, FILE_PH_MEM).run()
@@ -37,19 +48,12 @@ def sim_all_inst(inst : str):
     return str
 
 ###############################################################################
-insts = ["addi", "andi", "ori", "xori", "slti", "sltiu", "slli", "srli", "srai",
-         "add", "sub", "and", "or", "xor", "sll", "srl", "sra", "slt", "sltu",
-         "lb", "lbu", "lh", "lhu", "lw", "sb", "sh", "sw", 
-         "beq", "bne", "bge", "bgeu", "blt", "bltu", "jal", "jalr",
-         "lui", "auipc"
-         ]
+inst = "fence_i"
 
-inst = "sw"
-
-isSimAll = True
+isSimAll = False
 
 if isSimAll:
-    for inst in insts:
+    for inst in find_all_insts():
         for line in sim_all_inst(inst).splitlines():
             if line.startswith("TEST SIM"):
                 print(inst.ljust(8) + ": " + line)
