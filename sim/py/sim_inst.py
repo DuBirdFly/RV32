@@ -22,7 +22,7 @@ def sim_all_inst(inst : str):
                 FILE_PH_BIN = f"{DIR_PH_BIN}/{file}"
                 break
 
-    if FILE_PH_BIN == "None":
+    if FILE_PH_BIN == "":
         raise Exception(f"sim_all_inst(): 指令{inst}不存在\n")
 
     # 指令: Bin2Mem.py
