@@ -29,4 +29,9 @@ def find_all_insts():
 
     return insts
 
-print(find_all_insts())
+# list去重
+def list_unique(lst):
+    return list(set(lst))
+
+if __name__ == "__main__":
+    print(find_all_insts())

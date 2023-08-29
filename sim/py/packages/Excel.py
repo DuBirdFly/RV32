@@ -35,12 +35,11 @@ IS_NEW_TEST = True
 if IS_NEW_TEST: path_dump = SIM + '/riscv-compliance/build_generated/rv32i/I-ADD-01.elf.objdump'
 else: path_dump = SIM + '/riscv-isa/generated/rv32ui-p-sw.dump'
 
-used_ins = []                              # 存储所有用到的真实指令
+used_ins = []                              # 存储所有用到的指令
 
 with open(path_dump, 'r') as f:
     lines = f.readlines()
     # (任意长度' ''\t')(任意长度hex)(:)((任意长度' ''\t'))(长度为8的hex)(任意ASCII码)
-    # 具体分析"正则匹配"的话问问ChatGPT
     pattern = r'^\s*\w+:\s*([0-9a-fA-F]{8})\s*(.*)$'
     for line in lines:
         match = re.match(pattern, line)         # 找出所有指令行
