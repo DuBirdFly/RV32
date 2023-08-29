@@ -1,85 +1,109 @@
 import openpyxl, os, re
+from MyFuc import list_unique
 
-CWD = os.getcwd().replace('\\', '/')
-path_excel = CWD + '/doc/ins_set.xlsx'
+class MyExcel:
 
-############################################################
-workbook = openpyxl.load_workbook(path_excel)   # 打开Excel文件
-sheet = workbook.active                         # 获取工作表
+    def __init__(self, xls_path: str, sheet_name: str):
+        self.workbook = openpyxl.load_workbook(xls_path)
+        self.sheet = self.workbook[sheet_name]
+        self.last_row = self.sheet.max_row
 
-# 获取指定列的值，并将其存储到列表中
-ins_true = []                                   # 存储所有有效指令
-ins_has_code = []                               # 已经写好代码的指令
-pseu2true = {}                                  # 构建伪指令到真指令的映射字典
+    # read col
+    def rdCol(self, col: str, rows: list):
+        data = []
+        for row in rows:
+            cell_value = self.sheet[col + str(row)].value         # type: ignore
+            data.append(cell_value)
 
-for i in range(1, 86):
-    if (i < 49):
-        ins_true.append(sheet['C'][i].value)        # type: ignore
-        if (sheet['D'][i].value == 'Y'):            # type: ignore
-            ins_has_code.append(sheet['C'][i].value)# type: ignore
-    else:
-        val1 = sheet['C'][i].value                  # type: ignore
-        val2 = sheet['N'][i].value.split(" ")[0]    # type: ignore
-        pseu2true[val1] = val2
+        return data
 
-# print(f"所有真指令: \n{ins_true}")
-# print(f"所有已经写好代码的指令: \n{ins_has_code}")
-# print(f"伪指令到真指令的映射字典: \n{pseu2true}\n")
+    # find valid row, return list
+    def fdVldRow(self, col, start_row, end_row, target=""):
+        data = []
+        for row in range(start_row, end_row + 1):
+            cell_value = self.sheet[col + str(row)].value         # type: ignore
+            if cell_value:
+                if target == "": data.append(row)
+                elif cell_value == target: data.append(row)
 
-############################################################
-# True: 使用新的测试文件(riscv-compliance)
-# False: 使用旧的测试文件(riscv-isa)
-SIM = CWD + '/sim'
-IS_NEW_TEST = True
+        return data
 
-if IS_NEW_TEST: path_dump = SIM + '/riscv-compliance/build_generated/rv32i/I-ADD-01.elf.objdump'
-else: path_dump = SIM + '/riscv-isa/generated/rv32ui-p-sw.dump'
+    # build dictioanry
+    def bdDict(self, col1, col2, start_row, end_row):
+        data = {}
+        for row in range(start_row, end_row + 1):
+            key = self.sheet[col1 + str(row)].value               # type: ignore
+            val = self.sheet[col2 + str(row)].value               # type: ignore
+            data[key] = val
 
-used_ins = []                              # 存储所有用到的指令
+        return data
 
-with open(path_dump, 'r') as f:
-    lines = f.readlines()
-    # (任意长度' ''\t')(任意长度hex)(:)((任意长度' ''\t'))(长度为8的hex)(任意ASCII码)
-    pattern = r'^\s*\w+:\s*([0-9a-fA-F]{8})\s*(.*)$'
-    for line in lines:
-        match = re.match(pattern, line)         # 找出所有指令行
-        if match:
-            last_part = match.group(2).strip()  # 获取第二个捕获组并去除空格或制表符
-            first_word = last_part.split()[0]   # 切分字符串并获取第一个非空字符串
-            used_ins.append(first_word)
+if __name__ == "__main__":
 
-used_ins = list(set(used_ins))
-print(f"dump文件用到的指令(含伪指令): \n{used_ins}\n")
+    NAME_XLS = 'ins_set_plus.xlsx'
+    NAME_DUMP = 'I-ADD-01.elf.objdump'
 
-############################################################
+    CWD = os.getcwd().replace('\\', '/')
+    PH_EXCEL = CWD + '/doc/' + NAME_XLS
+    PH_DUMP = CWD + '/sim/riscv-compliance/build_generated/rv32i/' + NAME_DUMP
 
-used_ins_true = []          # 存储所有用到的真指令的列表
-used_ins_pseu = set()       # 存储所有用到的伪指令的集合
-used_ins_unkonw = []        # 存储所有未知指令的列表
-used_ins_final = []         # 存储所有用到的指令的列表，包括真指令和伪指令
+    #################################################################################
+    s1 = MyExcel(PH_EXCEL, 'Sheet1')
+    s2 = MyExcel(PH_EXCEL, 'Sheet2')
 
-for ins in used_ins:
-    if ins in ins_true:     # 如果是真指令
-        used_ins_true.append(ins)
-    elif ins in pseu2true:  # 如果是伪指令
-        used_ins_true.append(pseu2true[ins])
-        used_ins_pseu.add(ins)
-    else:                   # 如果是未知指令
-        used_ins_unkonw.append(ins)
+    inst_ok_row = s1.fdVldRow('B', 2, s1.last_row, 'Y')  # 所有已经写好代码的指令 - 行号
+    inst_ok = s1.rdCol('C', inst_ok_row)                 # 所有已经写好代码的指令 - 指令
+    inst_true_row = s1.fdVldRow('C', 2, s1.last_row)     # 所有真指令的行号  - 行号
+    inst_true = s1.rdCol('C', inst_true_row)             # 所有真指令       - 指令
+    pseu2true = s2.bdDict('A', 'C', 2, s2.last_row)      # 构建伪指令到真指令的映射字典 -1
 
-# 统计所有用到的真指令，包括used_ins_true[]和used_ins_pseu{}中的真指令部分
-used_ins_final = used_ins_true + [pseu2true[ins_pseu] for ins_pseu in used_ins_pseu]
-used_ins_final = list(set(used_ins_final))  # 去重
+    for key, value in pseu2true.items():                 # 构建伪指令到真指令的映射字典 -2
+        if value is not None:
+            # 获取第一个token
+            value = value.split()[0]
+            pseu2true[key] = value
 
-print(f"所有实际用到的真指令: \n{used_ins_final}\n")
-print(f"所有用到的未知指令: \n{used_ins_unkonw}\n")
+    # print(f"所有已经写好代码的指令: \n{inst_ok}")
+    # print(f"所有真指令: \n{inst_true}")
+    # print(f"伪指令到真指令的映射字典: \n{pseu2true}")
 
-############################################################
-ins_uncode = []
+    inst_used = []                                       # dump文件拆解: 所有指令
+    inst_used_true = []                                  # dump文件拆解: 真指令
+    inst_used_pseu = []                                  # dump文件拆解: 伪指令
+    inst_used_unkonw = []                                # dump文件拆解: 未知指令
 
-for ins in used_ins_final:
-    if ins not in ins_has_code:
-        ins_uncode.append(ins)
+    with open(PH_DUMP, 'r') as f:
+        for line in f.readlines():
+            # (任意长度' ''\t')(任意长度hex)(:)((任意长度' ''\t'))(长度为8的hex)(任意ASCII码)
+            match = re.match(r'^\s*\w+:\s*([0-9a-fA-F]{8})\s*(.*)$', line)
+            if match:
+                last_part = match.group(2).strip()       # 获取第二个捕获组并去除空格或制表符
+                inst_used.append(last_part.split()[0])   # 切分字符串并获取第一个非空字符串
 
-print(f"所有未写代码的指令: \n{ins_uncode}\n")
+    inst_used = list_unique(inst_used)
 
+    for inst in inst_used:
+        if inst in inst_true:
+            inst_used_true.append(inst)
+        elif inst in pseu2true:
+            inst_used_pseu.append(inst)
+        else:
+            inst_used_unkonw.append(inst)
+
+    # print(f"dump文件拆解: 所有指令(含伪指令和未知指令): \n{inst_used}")
+    # print(f"dump文件拆解: 真指令: \n{inst_used_true}")
+    # print(f"dump文件拆解: 伪指令: \n{inst_used_pseu}")
+    # print(f"dump文件拆解: 未知指令: \n{inst_used_unkonw}")
+
+    used_ins_final = inst_used_true             # dump文件用到的所有真指令 (伪指令 -> 真指令)
+    for inst in inst_used_pseu: used_ins_final.append(pseu2true[inst])
+    used_ins_final = list_unique(used_ins_final)
+
+    inst_uncode = []
+
+    for inst in used_ins_final:
+        if inst not in inst_ok:
+            inst_uncode.append(inst)
+
+    print(f"dump文件用到的所有真指令 (伪指令 -> 真指令): \n{used_ins_final}")
+    print(f"所有未写代码的指令+未知指令: \n{inst_uncode + inst_used_unkonw}")
