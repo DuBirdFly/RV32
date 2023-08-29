@@ -86,29 +86,6 @@ InstDecodeReg u_InstDecodeReg(
     .ID_REG_instID      ( ID_REG_instID   )
 );
 
-// Register File -----------------------------------------
-wire [4:0]                  REGS_rdaddr1, REGS_rdaddr2;
-wire                        REGS_wen;
-wire [4:0]                  REGS_wraddr;
-wire [31:0]                 REGS_wrdata;
-
-wire [31:0]                 REGS_rddata1;// o
-wire [31:0]                 REGS_rddata2;// o
-
-assign REGS_rdaddr1 = ID_REG_rs1;
-assign REGS_rdaddr2 = ID_REG_rs2;
-
-Registers u_Registers(
-    .clk              ( clk           ),
-    .REGS_rdaddr1     ( REGS_rdaddr1  ),
-    .REGS_rddata1     ( REGS_rddata1  ),// o
-    .REGS_rdaddr2     ( REGS_rdaddr2  ),
-    .REGS_rddata2     ( REGS_rddata2  ),// o
-    .REGS_wen         ( REGS_wen      ),
-    .REGS_wraddr      ( REGS_wraddr   ),
-    .REGS_wrdata      ( REGS_wrdata   )
-);
-
 // Execute -----------------------------------------------
 wire                        inst_vld_EX;
 
@@ -171,18 +148,28 @@ MemAccess u_MemAccess(
     .MEM_rd_vld       ( MEM_rd_vld    )
 );
 
-// Write Back ---------------------------------------------
-assign REGS_wen = MEM_rd_vld;
-assign REGS_wraddr = MEM_rd;
-assign REGS_wrdata = MEM_x_rd;
+// Register File -----------------------------------------
+wire [31:0]                 REGS_rddata1;// o
+wire [31:0]                 REGS_rddata2;// o
+
+Registers u_Registers(
+    .clk              ( clk           ),
+    .rdaddr1          ( ID_REG_rs1    ),
+    .REGS_rddata1     ( REGS_rddata1  ),// o
+    .rdaddr2          ( ID_REG_rs2    ),
+    .REGS_rddata2     ( REGS_rddata2  ),// o
+    .wen              ( MEM_rd_vld    ),
+    .wraddr           ( MEM_rd        ),
+    .wrdata           ( MEM_x_rd      )
+);
 
 // Operand Forwarding -------------------------------------
 OpdForward u_OpdForward(
     .EX_rd            ( EX_rd         ),
     .EX_x_rd          ( EX_x_rd       ),
-    .EX_rd_vld        ( EX_rd_vld   ),
-    .REGS_rdaddr1     ( REGS_rdaddr1  ),
-    .REGS_rdaddr2     ( REGS_rdaddr2  ),
+    .EX_rd_vld        ( EX_rd_vld     ),
+    .ID_REG_rs1       ( ID_REG_rs1    ),
+    .ID_REG_rs2       ( ID_REG_rs2    ),
     .REGS_rddata1     ( REGS_rddata1  ),
     .REGS_rddata2     ( REGS_rddata2  ),
     .OF_x_rs1         ( OF_x_rs1      ),

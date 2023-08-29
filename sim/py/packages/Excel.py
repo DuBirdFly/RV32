@@ -30,7 +30,7 @@ for i in range(1, 86):
 # True: 使用新的测试文件(riscv-compliance)
 # False: 使用旧的测试文件(riscv-isa)
 SIM = CWD + '/sim'
-IS_NEW_TEST = False
+IS_NEW_TEST = True
 
 if IS_NEW_TEST: path_dump = SIM + '/riscv-compliance/build_generated/rv32i/I-ADD-01.elf.objdump'
 else: path_dump = SIM + '/riscv-isa/generated/rv32ui-p-sw.dump'
