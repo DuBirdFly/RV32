@@ -154,9 +154,9 @@ wire [31:0]                 REGS_rddata2;// o
 
 Registers u_Registers(
     .clk              ( clk           ),
-    .rdaddr1          ( ID_REG_rs1    ),
+    .rdaddr1          ( ID_rs1        ),
     .REGS_rddata1     ( REGS_rddata1  ),// o
-    .rdaddr2          ( ID_REG_rs2    ),
+    .rdaddr2          ( ID_rs2        ),
     .REGS_rddata2     ( REGS_rddata2  ),// o
     .wen              ( MEM_rd_vld    ),
     .wraddr           ( MEM_rd        ),
@@ -165,13 +165,21 @@ Registers u_Registers(
 
 // Operand Forwarding -------------------------------------
 OpdForward u_OpdForward(
+    // from EX
     .EX_rd            ( EX_rd         ),
     .EX_x_rd          ( EX_x_rd       ),
     .EX_rd_vld        ( EX_rd_vld     ),
+    // from MEM
+    .MEM_rd           ( MEM_rd        ),
+    .MEM_x_rd         ( MEM_x_rd      ),
+    .MEM_rd_vld       ( MEM_rd_vld    ),
+    // from ID_REG
     .ID_REG_rs1       ( ID_REG_rs1    ),
     .ID_REG_rs2       ( ID_REG_rs2    ),
+    // from REGS
     .REGS_rddata1     ( REGS_rddata1  ),
     .REGS_rddata2     ( REGS_rddata2  ),
+    // output
     .OF_x_rs1         ( OF_x_rs1      ),
     .OF_x_rs2         ( OF_x_rs2      )
 );

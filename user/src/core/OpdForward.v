@@ -6,6 +6,10 @@ module OpdForward(
     input      [ 4:0]   EX_rd,
     input               EX_rd_vld,
     input      [31:0]   EX_x_rd,                // mabye not used
+    // from MEM
+    input      [ 4:0]   MEM_rd,
+    input               MEM_rd_vld,
+    input      [31:0]   MEM_x_rd,               // mabye not used
     // from REGS
     input      [ 4:0]   ID_REG_rs1, ID_REG_rs2,
     input      [31:0]   REGS_rddata1, REGS_rddata2,
@@ -17,6 +21,8 @@ module OpdForward(
 always @(*) begin
     if (EX_rd_vld && EX_rd == ID_REG_rs1 && EX_rd != 5'd0)
         OF_x_rs1 = EX_x_rd;
+    else if (MEM_rd_vld && MEM_rd == ID_REG_rs1 && MEM_rd != 5'd0)
+        OF_x_rs1 = MEM_x_rd;
     else
         OF_x_rs1 = REGS_rddata1;
 end
@@ -25,6 +31,8 @@ end
 always @(*) begin
     if (EX_rd_vld && EX_rd == ID_REG_rs2 && EX_rd != 5'd0)
         OF_x_rs2 = EX_x_rd;
+    else if (MEM_rd_vld && MEM_rd == ID_REG_rs2 && MEM_rd != 5'd0)
+        OF_x_rs2 = MEM_x_rd;
     else
         OF_x_rs2 = REGS_rddata2;
 end

@@ -48,7 +48,7 @@ def sim_all_inst(inst : str):
     return str
 
 ###############################################################################
-inst = "fence_i"
+inst = "addi"
 
 isSimAll = True
 

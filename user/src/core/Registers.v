@@ -36,16 +36,16 @@ always @(posedge clk) begin
 end
 
 // 同步读
-always @(*) begin
-    if (rdaddr1 == wraddr && wen)
+always @(posedge clk) begin
+    if (rdaddr1 == wraddr && wen && wraddr != 5'd0)
         REGS_rddata1 = wrdata;
     else
         REGS_rddata1 = regfile[rdaddr1];
 end
 
 // 同步读
-always @(*) begin
-    if (rdaddr2 == wraddr && wen)
+always @(posedge clk) begin
+    if (rdaddr2 == wraddr && wen && wraddr != 5'd0)
         REGS_rddata2 = wrdata;
     else 
         REGS_rddata2 = regfile[rdaddr2];
