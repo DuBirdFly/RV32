@@ -4,5 +4,6 @@ prj/xilinx
 prj/quartus
 sim/output
 sim/py/packages/__pycache__
+sim/python/packages/__pycache__
 *.str
 .Xil
