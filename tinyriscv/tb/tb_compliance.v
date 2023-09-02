@@ -17,9 +17,9 @@ module tinyriscv_soc_tb;
 
     always #10 clk = ~clk;     // 50MHz
 
-    wire[31:0] begin_signature = tinyriscv_soc_top_0.u_ram._ram[2];     // 也就是 ram_addr[11:8]
-    wire[31:0] end_signature = tinyriscv_soc_top_0.u_ram._ram[3];       // 也就是 ram_addr[15:12]
-    wire[31:0] ex_end_flag = tinyriscv_soc_top_0.u_ram._ram[4];         // 也就是 ram_addr[19:16]
+    wire[31:0] begin_signature = tinyriscv_soc_top_0.u_ram._ram[2];     // 也就是 ram_addr[11:8]  ---- addr = 0x10000008
+    wire[31:0] end_signature = tinyriscv_soc_top_0.u_ram._ram[3];       // 也就是 ram_addr[15:12] ---- addr = 0x1000000c
+    wire[31:0] ex_end_flag = tinyriscv_soc_top_0.u_ram._ram[4];         // 也就是 ram_addr[19:16] ---- addr = 0x10000010
 
     integer r;
     integer fd;
