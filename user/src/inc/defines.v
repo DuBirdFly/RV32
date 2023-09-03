@@ -21,10 +21,20 @@
       使用 4 个 8bit 宽度的 BRAM, 每一个 BRAM 的地址宽度是 [11:2] --> [9:0] (10位)
       [注: 8bit * 2**10 = 1Byte * 1024 = 1KB]
       [注: 4 * 1KB = 4KB]
+
+ICatch地址范围 = 0x0 ~ 0xffc
+DCatch地址范围 = 2**ICatchDepth ~ 2**ICatchDepth + 2**DCatchDepth - 1
+              = 0x1000 ~ 0x1fff
+
 综上, 定义的宏如下:
-*/
 `define ICatchDepth 12
 `define DCatchDepth 12
+*/
+
+`define ICatchDepth 12      // 此时 ICatch 的addr深度为 2 ** 10 = 1024
+`define DCatchDepth 13
+
+`define DCatchStartAddr (2**`ICatchDepth)       // 此时 DCatch 的addr深度为 2 ** 12 = 0x1000
 
 `define InstIDDepth 8
 

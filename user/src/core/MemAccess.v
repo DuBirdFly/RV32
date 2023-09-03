@@ -38,17 +38,21 @@ module MemAccess(
     output reg  [31:0]  MEM_x_rd            // 组合逻辑 (从Catch中读出的数据后组合逻辑拼接)
 );
 
-wire [ 3:0] DCatch_wren, DCatch_rden;
-wire [31:0] DCatch_rdata;
+wire [`DCatchDepth-3:0] DCatch_addr;
+wire [ 3:0]             DCatch_wren, DCatch_rden;
+wire [31:0]             DCatch_wrdata;
+wire [31:0]             DCatch_rdata;
 
+assign DCatch_addr = addr[`DCatchDepth-1:2];
 assign DCatch_wren = addr[28] ? 4'b0000 : wren;
 assign DCatch_rden = addr[28] ? 4'b0000 : rden;
+assign DCatch_wrdata = wrdata;
 
 DataCatch u_DataCatch(      
     .clk        ( clk           ),
-    .addr       ( addr          ),
+    .addr       ( DCatch_addr   ),
     .wren       ( DCatch_wren   ),
-    .wrdata     ( wrdata        ),
+    .wrdata     ( DCatch_wrdata ),
     .rden       ( DCatch_rden   ),
     .rddata     ( DCatch_rdata  )
 );
@@ -93,5 +97,28 @@ always @(*) begin
         endcase
     end
 end
+
+wire    [ 3:0]  ram_addr;
+wire            ram_wren;
+wire    [31:0]  ram_wrdata;
+wire            ram_rden;
+wire    [31:0]  ram_rddata;
+
+assign ram_addr = addr[5:2];
+assign ram_wren = |wren;
+assign ram_wrdata = wrdata;
+assign ram_rden = |rden;
+
+ramGen #(
+    .Width      ( 32            ),
+    .Depth      ( 4             )
+)u_ramGen(
+    .clk        ( clk           ),
+    .addr       ( ram_addr      ),
+    .wren       ( ram_wren      ),
+    .wrdata     ( ram_wrdata    ),
+    .rden       ( ram_rden      ),
+    .rddata     ( ram_rddata    )
+);
 
 endmodule

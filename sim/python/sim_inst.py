@@ -14,6 +14,8 @@ def sim_all_inst(inst : str):
     # 可改路径
     DIR_PH_REF = f"{DIR_PH_SIM}/riscv-isa"
     DIR_PH_BIN = f"{DIR_PH_REF}/generated"
+    # FILE_PH_TBTOP = f"{DIR_PH_CWD}/user/sim/tb_CoreTop_Old.v"
+    FILE_PH_TBTOP = f"{DIR_PH_CWD}/user/sim/tb_CoreTop_New.v"
 
     FILE_PH_BIN = ""
     for root, dirs, files in os.walk(DIR_PH_BIN):
@@ -40,7 +42,6 @@ def sim_all_inst(inst : str):
     # 指令: Sim.py 
     FILE_PH_VVP = f"{DIR_PH_OUT}/vvp_script.vvp"
     DIR_PH_INC = f"{DIR_PH_CWD}/user/src/inc"
-    FILE_PH_TBTOP = f"{DIR_PH_CWD}/user/sim/tb_CoreTop.v"
     DIR_PH_RTL = f"{DIR_PH_CWD}/user/src/core"
 
     str = Sim(FILE_PH_VVP, DIR_PH_INC, FILE_PH_TBTOP, DIR_PH_RTL).run()
@@ -48,7 +49,7 @@ def sim_all_inst(inst : str):
     return str
 
 ###############################################################################
-inst = "lh"
+inst = "lw"
 
 isSimAll = True
 
