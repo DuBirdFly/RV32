@@ -38,11 +38,24 @@ module MemAccess(
     output reg  [31:0]  MEM_x_rd            // 组合逻辑 (从Catch中读出的数据后组合逻辑拼接)
 );
 
+wire [ 3:0] DCatch_wren, DCatch_rden;
+wire [31:0] DCatch_rdata;
+
+assign DCatch_wren = addr[28] ? 4'b0000 : wren;
+assign DCatch_rden = addr[28] ? 4'b0000 : rden;
+
+DataCatch u_DataCatch(      
+    .clk        ( clk           ),
+    .addr       ( addr          ),
+    .wren       ( DCatch_wren   ),
+    .wrdata     ( wrdata        ),
+    .rden       ( DCatch_rden   ),
+    .rddata     ( DCatch_rdata  )
+);
+
 reg rden_SEXT_d1;
 reg [31:0] EX_x_rd_d1;
-reg [3:0] rden_d1;
-
-wire [31:0] oDataCatch;                     // output of DataCatch
+reg [3:0] DCatch_rden_d1;
 
 // 打拍器
 always @(posedge clk) begin
@@ -50,44 +63,35 @@ always @(posedge clk) begin
     MEM_rd_vld <= rd_vld;
     rden_SEXT_d1 <= rden_SEXT;
     EX_x_rd_d1 <= x_rd;
-    rden_d1 <= rden;
+    DCatch_rden_d1 <= DCatch_rden;
 end
 
 // 组合逻辑(从Catch中读出的数据后组合逻辑拼接)
 always @(*) begin
     if (rden_SEXT_d1) begin
-        case (rden_d1)
-            4'b0001: MEM_x_rd = {{24{oDataCatch[7]}},  oDataCatch[7:0]};
-            4'b0010: MEM_x_rd = {{24{oDataCatch[15]}}, oDataCatch[15:8]};
-            4'b0100: MEM_x_rd = {{24{oDataCatch[23]}}, oDataCatch[23:16]};
-            4'b1000: MEM_x_rd = {{24{oDataCatch[31]}}, oDataCatch[31:24]};
-            4'b0011: MEM_x_rd = {{16{oDataCatch[15]}}, oDataCatch[15:0]};
-            4'b1100: MEM_x_rd = {{16{oDataCatch[31]}}, oDataCatch[31:16]};
-            4'b1111: MEM_x_rd = oDataCatch;
+        case (DCatch_rden_d1)
+            4'b0001: MEM_x_rd = {{24{DCatch_rdata[7]}},  DCatch_rdata[7:0]};
+            4'b0010: MEM_x_rd = {{24{DCatch_rdata[15]}}, DCatch_rdata[15:8]};
+            4'b0100: MEM_x_rd = {{24{DCatch_rdata[23]}}, DCatch_rdata[23:16]};
+            4'b1000: MEM_x_rd = {{24{DCatch_rdata[31]}}, DCatch_rdata[31:24]};
+            4'b0011: MEM_x_rd = {{16{DCatch_rdata[15]}}, DCatch_rdata[15:0]};
+            4'b1100: MEM_x_rd = {{16{DCatch_rdata[31]}}, DCatch_rdata[31:16]};
+            4'b1111: MEM_x_rd = DCatch_rdata;
             default: MEM_x_rd = EX_x_rd_d1;
         endcase
     end
     else begin
-        case (rden_d1)
-            4'b0001: MEM_x_rd = {{24{1'b0}}, oDataCatch[7:0]};
-            4'b0010: MEM_x_rd = {{24{1'b0}}, oDataCatch[15:8]};
-            4'b0100: MEM_x_rd = {{24{1'b0}}, oDataCatch[23:16]};
-            4'b1000: MEM_x_rd = {{24{1'b0}}, oDataCatch[31:24]};
-            4'b0011: MEM_x_rd = {{16{1'b0}}, oDataCatch[15:0]};
-            4'b1100: MEM_x_rd = {{16{1'b0}}, oDataCatch[31:16]};
-            4'b1111: MEM_x_rd = oDataCatch;
+        case (DCatch_rden_d1)
+            4'b0001: MEM_x_rd = {{24{1'b0}}, DCatch_rdata[7:0]};
+            4'b0010: MEM_x_rd = {{24{1'b0}}, DCatch_rdata[15:8]};
+            4'b0100: MEM_x_rd = {{24{1'b0}}, DCatch_rdata[23:16]};
+            4'b1000: MEM_x_rd = {{24{1'b0}}, DCatch_rdata[31:24]};
+            4'b0011: MEM_x_rd = {{16{1'b0}}, DCatch_rdata[15:0]};
+            4'b1100: MEM_x_rd = {{16{1'b0}}, DCatch_rdata[31:16]};
+            4'b1111: MEM_x_rd = DCatch_rdata;
             default: MEM_x_rd = EX_x_rd_d1;
         endcase
     end
 end
-
-DataCatch u_DataCatch(      
-    .clk        ( clk           ),
-    .addr       ( addr          ),
-    .wren       ( wren          ),
-    .wrdata     ( wrdata        ),
-    .rden       ( rden          ),
-    .rddata     ( oDataCatch    )
-);
 
 endmodule

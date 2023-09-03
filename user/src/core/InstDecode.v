@@ -135,9 +135,9 @@ always @(*) begin
                 `FUNCT3_ECALL: begin
                     {ID_rs1_vld, ID_rs2_vld, ID_rd_vld} = 3'b000;
                     case (inst[31:20])
-                        `FUNCT12_ECALL: ID_instID = `ID_ECALL;
-                        `FUNCT12_EBREAK: ID_instID = `ID_EBREAK;
-                        `FUNCT12_MRET: begin
+                        `IMM12_ECALL: ID_instID = `ID_ECALL;
+                        `IMM12_EBREAK: ID_instID = `ID_EBREAK;
+                        `IMM12_MRET: begin
                             ID_csr = `CSRs_ADDR_MEPC;
                             ID_csr_vld = 1'b1;
                             ID_instID = `ID_MRET;

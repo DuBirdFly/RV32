@@ -13,14 +13,21 @@ module DataCatch (
 
 );
 
-// 由于rv32是以1Byte为最小内存访问粒度的, 所以32bits被拆成了4个8bits (u0/1/2/3_ramGen)
-// 所以每个ramGen的深度是访存深度的1/4
-localparam RAM_DEPTH = `DCatchDepth - 2;         // = 12-2 = 10
+/*
+由于rv32是以1Byte为最小内存访问粒度的, 所以32bits被拆成了4个8bits (u0/1/2/3_ramGen)
+所以每个ramGen的深度是访存深度的1/4
 
-wire [`DCatchDepth - 3:0] ram_addr;              // [9:0]
+以 `DCatchDepth = 12为例
+期望的 DCatch 的存储空间为 2^12 * 8bit = 4KB
+但由于有时需要访问最多 32bit 的数据
+所以实际的存储空间为 (2^(12-2)) * 32bit = 4KB
+*/
 
-// 这里最低位只到2是因为32bits被拆成了4个8bits
-assign ram_addr = addr[`DCatchDepth - 1 : 2];    // [11:2]
+localparam RAM_DEPTH = `DCatchDepth - 2;
+
+wire [RAM_DEPTH - 1:0] ram_addr;
+
+assign ram_addr = addr[`DCatchDepth - 1 : 2];
 
 ramGen #(
     .Width      ( 8             ),
