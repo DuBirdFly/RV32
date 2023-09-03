@@ -3,7 +3,7 @@
 
 module InstCatch (
     input                               clk,
-    input       [`InstCatchDepth-3:0]   addr,  // addr[9:0] = pc[11:2]
+    input       [`ICatchDepth-3:0]   addr,  // addr[9:0] = pc[11:2]
     // write
     // TODO: add "wren", "wrdata", jtag bin download
 
@@ -13,7 +13,7 @@ module InstCatch (
 
 ramGen #(
     .Width 	    ( 32        ),
-    .Depth 	    ( `InstCatchDepth - 2 )
+    .Depth 	    ( `ICatchDepth - 2 )
 )u_ramGen(
     .clk        ( clk       ),
     .addr       ( addr      ),

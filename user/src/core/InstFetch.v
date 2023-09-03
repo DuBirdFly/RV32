@@ -18,7 +18,7 @@ module InstFetch(
 );
 
 reg     [31:0]  cnt;
-reg     [`InstCatchDepth-3:0]  rdaddr, rdaddr_d1;
+reg     [`ICatchDepth-3:0]  rdaddr, rdaddr_d1;
 wire    [31:0]  rddata;
 
 assign IF_inst = rddata;
@@ -38,11 +38,11 @@ always @(posedge clk) rdaddr_d1 <= rdaddr;
 
 always @(*) begin
     if (jmp_vld)
-        rdaddr = jmp_addr[`InstCatchDepth-1:2];
+        rdaddr = jmp_addr[`ICatchDepth-1:2];
     else if (hold)
         rdaddr = rdaddr_d1;
     else
-        rdaddr = cnt[`InstCatchDepth-1:2];
+        rdaddr = cnt[`ICatchDepth-1:2];
 end
 
 always @(posedge clk) begin
