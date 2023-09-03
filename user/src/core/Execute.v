@@ -2,12 +2,16 @@
 `include "defines.v"
 module Execute(
     input                               clk,
-    input                               inst_vld,
+    input                               en,
 
     input       [`InstIDDepth-1:0]      instID,
     input       [4:0]                   rd,
     input       [31:0]                  x_rs1, x_rs2, imm, pc,
     input                               rd_vld,
+
+    input       [11:0]                  csr,
+    input                               csr_vld,
+    input       [31:0]                  x_csr,
 
     // jump
     output reg                          EX_jmp_vld,
@@ -21,20 +25,30 @@ module Execute(
     output reg  [3:0]                   EX_MEM_rden,
     output reg                          EX_MEM_rden_SEXT,// lb/lbu, lh/lhu, 区分是否需要符号拓展
     output reg  [3:0]                   EX_MEM_wren,
-    output reg  [31:0]                  EX_MEM_wrdata
-
+    output reg  [31:0]                  EX_MEM_wrdata,
+    // CSRs
+    output reg  [11:0]                  EX_csr,
+    output reg                          EX_csr_vld,
+    output reg  [31:0]                  EX_x_csr
 );
 
 wire [31:0] EX_MEM_addr_comb;
 assign EX_MEM_addr_comb = x_rs1 + imm;
 
-always @(posedge clk) EX_rd <= rd;
+always @(posedge clk) begin
+    EX_rd <= rd;
+    EX_csr <= csr;
+end
 
 always @(posedge clk) begin
-    if (inst_vld)
+    if (en) begin
         EX_rd_vld <= rd_vld;
-    else
+        EX_csr_vld <= csr_vld;
+    end
+    else begin
         EX_rd_vld <= 1'b0;
+        EX_csr_vld <= 1'b0;
+    end   
 end
 
 always @(posedge clk) begin
@@ -43,7 +57,7 @@ always @(posedge clk) begin
     {EX_MEM_rden, EX_MEM_wren} <= 8'b0000_0000;
     EX_MEM_rden_SEXT <= 1'b0;
     // 控制信号与数据信号的特殊值
-    if (inst_vld) begin
+    if (en) begin
         case (instID)
             `ID_ADDI: EX_x_rd <= x_rs1 + imm;
             `ID_ANDI: EX_x_rd <= x_rs1 & imm;
@@ -154,6 +168,30 @@ always @(posedge clk) begin
                 {EX_MEM_rden, EX_MEM_wren} <= EX_MEM_addr_comb[1] ? 8'b0000_1100 : 8'b0000_0011;
                 EX_MEM_addr <= EX_MEM_addr_comb;
                 EX_MEM_wrdata <= {2{x_rs2[15:0]}};
+            end
+            `ID_CSRRW: begin
+                EX_x_rd <= x_csr;
+                EX_x_csr <= x_rs1;
+            end
+            `ID_CSRRS: begin
+                EX_x_rd <= x_csr;
+                EX_x_csr <= x_csr | x_rs1;
+            end
+            `ID_CSRRC: begin
+                EX_x_rd <= x_csr;
+                EX_x_csr <= x_csr & (~x_rs1);
+            end
+            `ID_CSRRWI: begin
+                EX_x_rd <= x_csr;
+                EX_x_csr <= imm;
+            end
+            `ID_CSRRSI: begin
+                EX_x_rd <= x_csr;
+                EX_x_csr <= x_csr | imm;
+            end
+            `ID_CSRRCI: begin
+                EX_x_rd <= x_csr;
+                EX_x_csr <= x_csr & (~imm);
             end
         endcase
     end

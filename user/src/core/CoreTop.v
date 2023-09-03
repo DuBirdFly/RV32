@@ -8,20 +8,20 @@ module CoreTop(
 
 // Instruction Fetch -------------------------------------
 wire                        hold_IF;
-wire                        jmp_vld_IF;
-wire [31:0]                 jmp_addr_IF;
+wire                        CTRL_IF_jmp_vld;
+wire [31:0]                 CTRL_IF_jmp_addr;
 
 wire [31:0]                 IF_pc;
 wire [31:0]                 IF_inst;
 
 InstFetch u_InstFetch(
-    .clk         ( clk          ),
-    .rst         ( rst          ),
-    .hold        ( hold_IF      ),
-    .jmp_vld     ( jmp_vld_IF   ),
-    .jmp_addr    ( jmp_addr_IF  ),
-    .IF_pc       ( IF_pc        ),
-    .IF_inst     ( IF_inst      )
+    .clk         ( clk              ),
+    .rst         ( rst              ),
+    .hold        ( hold_IF          ),
+    .jmp_vld     ( CTRL_IF_jmp_vld  ),
+    .jmp_addr    ( CTRL_IF_jmp_addr ),
+    .IF_pc       ( IF_pc            ),
+    .IF_inst     ( IF_inst          )
 );
 
 // Instruction Decode ------------------------------------
@@ -87,7 +87,7 @@ InstDecodeReg u_InstDecodeReg(
 );
 
 // Execute -----------------------------------------------
-wire                        inst_vld_EX;
+wire                        CTRL_EX_en;
 
 wire [31:0]                 OF_x_rs1, OF_x_rs2;
 
@@ -104,7 +104,7 @@ wire [31:0]                 EX_MEM_wrdata;
 
 Execute u_Execute(
     .clk              ( clk           ),
-    .inst_vld         ( inst_vld_EX   ),
+    .en               ( CTRL_EX_en   ),
 
     .instID           ( ID_REG_instID ),
     .rd               ( ID_REG_rd     ),
@@ -203,9 +203,9 @@ Control u_Control(
     .EX_jmp_vld       ( EX_jmp_vld    ),
     .EX_jmp_addr      ( EX_jmp_addr   ),
     // output
-    .jmp_vld_IF       ( jmp_vld_IF    ),
-    .jmp_addr_IF      ( jmp_addr_IF   ),
-    .inst_vld_EX      ( inst_vld_EX   )
+    .CTRL_IF_jmp_vld  ( CTRL_IF_jmp_vld  ),
+    .CTRL_IF_jmp_addr ( CTRL_IF_jmp_addr ),
+    .CTRL_EX_en       ( CTRL_EX_en       )
 );
 
 

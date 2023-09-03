@@ -18,10 +18,10 @@ module Control(
     input                           EX_jmp_vld,
     input       [31:0]              EX_jmp_addr,
     // jmp型数据冒险-跳转信号的输出
-    output reg                      jmp_vld_IF,
-    output reg  [31:0]              jmp_addr_IF,
+    output reg                      CTRL_IF_jmp_vld,
+    output reg  [31:0]              CTRL_IF_jmp_addr,
     // 屏蔽下EX指令的执行
-    output wire                     inst_vld_EX
+    output wire                     CTRL_EX_en
 );
 
 reg EX_jmp_vld_d1;
@@ -40,16 +40,16 @@ assign hold_IF = ((ID_rs1 == ID_REG_rd && ID_rs1_vld) || (ID_rs2 == ID_REG_rd &&
 // 优先级: 条件跳转 > 无条件跳转 > 无跳转
 always @(*) begin
     if (EX_jmp_vld) begin
-        jmp_vld_IF = 1'b1;
-        jmp_addr_IF = EX_jmp_addr;
+        CTRL_IF_jmp_vld = 1'b1;
+        CTRL_IF_jmp_addr = EX_jmp_addr;
     end
     else if (ID_jmp_vld) begin
-        jmp_vld_IF = 1'b1;
-        jmp_addr_IF = ID_imm + ID_pc;
+        CTRL_IF_jmp_vld = 1'b1;
+        CTRL_IF_jmp_addr = ID_imm + ID_pc;
     end
     else begin
-        jmp_vld_IF = 1'b0;
-        jmp_addr_IF = 32'h0;
+        CTRL_IF_jmp_vld = 1'b0;
+        CTRL_IF_jmp_addr = 32'h0;
     end
 end
 
@@ -62,6 +62,6 @@ assign jmp2nop = EX_jmp_vld | EX_jmp_vld_d1;
 reg hold2nop;
 always @(posedge clk) hold2nop <= hold_IF;
 
-assign inst_vld_EX = ~(jmp2nop | hold2nop);
+assign CTRL_EX_en = ~(jmp2nop | hold2nop);
 
 endmodule

@@ -3,28 +3,31 @@
 
 module InstDecode(
     // from IF
-    input       [31:0]              inst,                   
-    input       [31:0]              pc,
-    output      [31:0]              ID_pc,
-    // 译码输出
-    output wire [6:0]               ID_opcode,
-    output wire [4:0]               ID_rs1, ID_rs2, ID_rd,  // 读32位寄存器地址1, 2; 写32位寄存器地址
-    output reg                      ID_rs1_vld, ID_rs2_vld, ID_rd_vld,
-    output reg  [31:0]              ID_imm,                 // 32位的立即数 (大概率要符号拓展)
-    output reg  [`InstIDDepth-1:0]  ID_instID,              // define的instID, 如: ID_ADDI=8'd2; ID_BNE=8'd33
-
+    input       [31:0]             inst,                   
+    input       [31:0]             pc,
+    output      [31:0]             ID_pc,
+    // 译码输出1
+    output wire [6:0]              ID_opcode,
+    output wire [4:0]              ID_rs1, ID_rs2, ID_rd,  // 读32位寄存器地址1, 2; 写32位寄存器地址
+    output reg                     ID_rs1_vld, ID_rs2_vld, ID_rd_vld,
+    output reg  [31:0]             ID_imm,                 // 32位的立即数 (大概率要符号拓展)
+    output reg  [`InstIDDepth-1:0] ID_instID,              // define的instID, 如: ID_ADDI=8'd2; ID_BNE=8'd33
+    // 译码输出2
+    output reg  [11:0]             ID_csr,                 // 读写CSR的地址
+    output reg                     ID_csr_vld,             // 读写CSR的使能信号
     // 控制冒险: 无条件跳转 (只有 OPCODE_J_JAL 才会触发， 立即反馈到 IF， 此时的jmp_addr = imm)
-    output wire                     ID_jmp_vld              // 生成跳转信号, to IF
+    output wire                    ID_jmp_vld              // 生成跳转信号, to IF
 );
 
 // ID的pc = IF的pc
 assign ID_pc = pc;
 
-// rs1, rs2, rd, opcode 都是固定位置的
+// opcode, rs1, rs2, rd 都是固定位置的
+assign ID_opcode = inst[6:0];
 assign ID_rs2 = inst[24:20];
 assign ID_rs1 = inst[19:15];
 assign ID_rd = inst[11:7];
-assign ID_opcode = inst[6:0];
+
 
 // 处理无条件跳转型数据冒险: 立即反馈到 IF， 执行跳转
 assign ID_jmp_vld = (ID_opcode == `OPCODE_J_JAL);
@@ -123,6 +126,32 @@ always @(*) begin
             endcase
         end
 
+        `OPCODE_I_SYS: begin
+            {ID_rs1_vld, ID_rs2_vld, ID_rd_vld} = 3'b101;
+            ID_imm = { 27'd0, inst[19:15] };
+            ID_csr = inst[31:20];
+            ID_csr_vld = 1'b1;
+            case (inst[14:12])
+                `FUNCT3_ECALL: begin
+                    {ID_rs1_vld, ID_rs2_vld, ID_rd_vld} = 3'b000;
+                    case (inst[31:20])
+                        `FUNCT12_ECALL: ID_instID = `ID_ECALL;
+                        `FUNCT12_EBREAK: ID_instID = `ID_EBREAK;
+                        `FUNCT12_MRET: begin
+                            ID_csr = `CSRs_ADDR_MEPC;
+                            ID_csr_vld = 1'b1;
+                            ID_instID = `ID_MRET;
+                        end
+                    endcase
+                end
+                `FUNCT3_CSRRW: ID_instID = `ID_CSRRW;
+                `FUNCT3_CSRRS: ID_instID = `ID_CSRRS;
+                `FUNCT3_CSRRC: ID_instID = `ID_CSRRC;
+                `FUNCT3_CSRRWI: ID_instID = `ID_CSRRWI;
+                `FUNCT3_CSRRSI: ID_instID = `ID_CSRRSI;
+                `FUNCT3_CSRRCI: ID_instID = `ID_CSRRCI;
+            endcase
+        end
     endcase
 end
 
