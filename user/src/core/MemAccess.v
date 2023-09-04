@@ -43,14 +43,15 @@ wire [ 3:0]             DCatch_wren, DCatch_rden;
 wire [31:0]             DCatch_wrdata;
 wire [31:0]             DCatch_rdata;
 
-assign DCatch_addr = addr[`DCatchDepth-1:2];
+// assign DCatch_addr = addr[`DCatchDepth-1:2];
+assign DCatch_addr = addr - `DCatchStartAddr;
 assign DCatch_wren = addr[28] ? 4'b0000 : wren;
 assign DCatch_rden = addr[28] ? 4'b0000 : rden;
 assign DCatch_wrdata = wrdata;
 
-DataCatch u_DataCatch(      
+DataCatch u_DataCatch(
     .clk        ( clk           ),
-    .addr       ( DCatch_addr   ),
+    .addr       ( DCatch_addr[`DCatchDepth-1:2] ),
     .wren       ( DCatch_wren   ),
     .wrdata     ( DCatch_wrdata ),
     .rden       ( DCatch_rden   ),

@@ -2,7 +2,7 @@ import os
 
 from packages.Bin2Mem import Bin2Mem
 from packages.Sim import Sim
-from packages.MyFuc import find_all_insts
+from packages.MyFuc import find_all_insts_old
 
 def sim_all_inst(inst : str):
     # 固定路径
@@ -49,12 +49,12 @@ def sim_all_inst(inst : str):
     return str
 
 ###############################################################################
-inst = "lw"
+inst = "lb"
 
-isSimAll = True
+isSimAll = False
 
 if isSimAll:
-    for inst in find_all_insts():
+    for inst in find_all_insts_old():
         for line in sim_all_inst(inst).splitlines():
             if line.startswith("TEST SIM"):
                 print(inst.ljust(8) + ": " + line)

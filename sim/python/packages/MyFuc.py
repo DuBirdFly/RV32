@@ -14,7 +14,7 @@ def run_cmd(cmd):
         exit(0)
 
 
-def find_all_insts():
+def find_all_insts_old():
     DIR_PH_CWD = os.getcwd().replace('\\', '/')
     DIR_PH_SIM = f"{DIR_PH_CWD}/sim"
     DIR_PH_REF = f"{DIR_PH_SIM}/riscv-isa"
@@ -34,4 +34,4 @@ def list_unique(lst):
     return list(set(lst))
 
 if __name__ == "__main__":
-    print(find_all_insts())
+    print(find_all_insts_old())
