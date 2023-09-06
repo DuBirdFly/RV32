@@ -106,9 +106,9 @@ wire            ram_rden;
 wire    [31:0]  ram_rddata;
 
 assign ram_addr = addr[5:2];
-assign ram_wren = |wren;
+assign ram_wren = addr[28]  & (|wren);
 assign ram_wrdata = wrdata;
-assign ram_rden = |rden;
+assign ram_rden = addr[28] & (|rden);
 
 ramGen #(
     .Width      ( 32            ),
