@@ -1,5 +1,4 @@
-// `include "../inc/defines.v"
-`include "defines.v"
+`include "../inc/defines.v"
 
 // 我tm迟早得把InstFetch这坨屎给重写了!!!!!
 
@@ -37,7 +36,9 @@ end
 always @(posedge clk) rdaddr_d1 <= rdaddr;
 
 always @(*) begin
-    if (jmp_vld)
+    if (rst)
+        rdaddr = 'd0;
+    else if (jmp_vld)
         rdaddr = jmp_addr[`ICatchDepth-1:2];
     else if (hold)
         rdaddr = rdaddr_d1;

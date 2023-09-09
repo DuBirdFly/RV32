@@ -1,5 +1,4 @@
-// `include "../inc/defines.v"
-`include "defines.v"
+`include "../inc/defines.v"
 
 module OpdForward(
     /************************* rd *************************/

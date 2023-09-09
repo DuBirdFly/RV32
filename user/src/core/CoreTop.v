@@ -1,9 +1,18 @@
 `include "../inc/defines.v"
-// `include "defines.v"
 
 module CoreTop(
     input  clk,
     input  rst
+);
+
+// Rstn Generator ----------------------------------------
+// outports wire
+wire                        srst_n;
+
+RstnGen u_RstnGen(
+    .clk         ( clk      ),
+    .asrst_n     ( ~rst     ),
+    .srst_n      ( srst_n   )
 );
 
 // Instruction Fetch -------------------------------------
@@ -16,7 +25,7 @@ wire [31:0]                 IF_inst;
 
 InstFetch u_InstFetch(
     .clk         ( clk              ),
-    .rst         ( rst              ),
+    .rst         ( ~srst_n          ),
     .hold        ( hold_IF          ),
     .jmp_vld     ( CTRL_IF_jmp_vld  ),
     .jmp_addr    ( CTRL_IF_jmp_addr ),

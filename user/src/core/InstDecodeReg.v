@@ -1,5 +1,4 @@
-// `include "../inc/defines.v"
-`include "defines.v"
+`include "../inc/defines.v"
 
 // 给组合逻辑输出的译码结果进行1拍寄存器的存储
 

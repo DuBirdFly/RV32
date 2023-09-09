@@ -1,5 +1,4 @@
-// `include "../inc/defines.v"
-`include "defines.v"
+`include "../inc/defines.v"
 
 /*
 当`ICatchDepth = 12时, 2**`ICatchDepth = 4096 = 0x1000

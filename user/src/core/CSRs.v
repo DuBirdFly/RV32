@@ -1,3 +1,5 @@
+`include "../inc/defines.v"
+
 module CSRs (
     input                clk,
     input                rst,

@@ -1,5 +1,4 @@
-// `include "../inc/defines.v"
-`include "defines.v"
+`include "../inc/defines.v"
 
 /*
 由于rv32是以1Byte为最小内存访问粒度的, 所以32bits被拆成了4个8bits (u0/1/2/3_ramGen)

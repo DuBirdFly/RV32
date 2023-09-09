@@ -50,7 +50,7 @@ integer r;
 integer fd;
 
 initial begin
-    // =================================================
+    ///////////////////////////////////////////////////////////////////
     $readmemh (`ROM_DATA_FILE, ram_bin);
     // ram of ICatch 
     for (r = 0; r < 1024; r = r + 1) begin
@@ -77,13 +77,16 @@ initial begin
         reg32 = 32'h0;
         u_CoreTop.u_MemAccess.u_ramGen.ram[r] = reg32;
     end
-    //=================================================
+    ///////////////////////////////////////////////////////////////////
     #200;
-    //=================================================
+    ///////////////////////////////////////////////////////////////////
     wait(ex_end_flag == 32'h1);  // wait sim end
     // begin_signature = 0x2000 (I-ADD-01.elf.objdump)
     // end_signature   = 0x2090 (I-ADD-01.elf.objdump)
     // `DCatchStartAddr = 2**12 = 0x1000
+    $display("TEST SIM Finished!!!!!!");
+    $display("begin_signature = 0x%x", begin_signature);
+    $display("end_signature   = 0x%x", end_signature);
     fd = $fopen(`SIGNATURE_OUTPUT);
     for (r = (begin_signature-`DCatchStartAddr)/4; r < (end_signature-`DCatchStartAddr)/4; r = r + 1) begin
         reg3 = u_CoreTop.u_MemAccess.u_DataCatch.u3_ramGen.ram[r];
@@ -93,27 +96,28 @@ initial begin
         $fdisplay(fd, "%x", {reg3, reg2, reg1, reg0});
     end
     $fclose(fd);
-    //=================================================
-    $display("TEST SIM Finished!!!!!!");
+    ///////////////////////////////////////////////////////////////////
     $finish;
 end
 
 ///////////////////////////////////////////////////////////////////
 initial begin
     #(PERIOD*1024);
+    $display("TEST SIM Time Out!!!!!!");
     // begin_signature = 0x2000 (I-ADD-01.elf.objdump)
     // end_signature   = 0x2090 (I-ADD-01.elf.objdump)
     // `DCatchStartAddr = 2**12 = 0x1000
     fd = $fopen(`SIGNATURE_OUTPUT);
+    $display("begin_signature = 0x%x", begin_signature);
+    $display("end_signature   = 0x%x", end_signature);
     for (r = (begin_signature-`DCatchStartAddr)/4; r < (end_signature-`DCatchStartAddr)/4; r = r + 1) begin
         reg3 = u_CoreTop.u_MemAccess.u_DataCatch.u3_ramGen.ram[r];
         reg2 = u_CoreTop.u_MemAccess.u_DataCatch.u2_ramGen.ram[r];
         reg1 = u_CoreTop.u_MemAccess.u_DataCatch.u1_ramGen.ram[r];
         reg0 = u_CoreTop.u_MemAccess.u_DataCatch.u0_ramGen.ram[r];
-        print("%x", {reg3, reg2, reg1, reg0});
     end
     $fclose(fd);
-    $display("TEST SIM Time Out!!!!!!");
+
     $finish;
 end
 
