@@ -6,7 +6,7 @@
 `define ROM_DATA_FILE "sim/output/inst.data"
 `define VCD_FILE "sim/output/dubirdCore_tb.vcd"
 
-module tb_CoreTop();
+module tb_CoreTop_Old();
 
 parameter  SYS_CLK_FRE   = 100;                 // 100MHz
 localparam PERIOD = (1000 / SYS_CLK_FRE);       // 10ns
@@ -72,7 +72,7 @@ end
 // generate wave file, used by gtkwave or vscode-WaveTrace
 initial begin
     $dumpfile(`VCD_FILE);
-    $dumpvars(0, tb_CoreTop);
+    $dumpvars(0, tb_CoreTop_Old);
 end
 
 CoreTop u_CoreTop(

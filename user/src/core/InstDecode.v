@@ -35,6 +35,7 @@ assign ID_jmp_vld = (ID_opcode == `OPCODE_J_JAL);
 always @(*) begin
     ID_imm = 32'b0;
     ID_instID = 'd0;
+    {ID_rs1_vld, ID_rs2_vld, ID_rd_vld} = 3'b000;
 
     case (ID_opcode)
         `OPCODE_I_COMPU:begin
@@ -88,6 +89,7 @@ always @(*) begin
                 `FUNCT3_BGEU: ID_instID = `ID_BGEU;
                 `FUNCT3_BLT:  ID_instID = `ID_BLT;
                 `FUNCT3_BLTU: ID_instID = `ID_BLTU;
+                default: ID_instID = 'd0;
             endcase
         end
 
@@ -112,6 +114,7 @@ always @(*) begin
                 `FUNCT3_LB: ID_instID = `ID_LB;
                 `FUNCT3_LHU: ID_instID = `ID_LHU;
                 `FUNCT3_LBU: ID_instID = `ID_LBU;
+                default: ID_instID = 'd0;
             endcase
         end
 
@@ -122,6 +125,7 @@ always @(*) begin
                 `FUNCT3_SW: ID_instID = `ID_SW;
                 `FUNCT3_SB: ID_instID = `ID_SB;
                 `FUNCT3_SH: ID_instID = `ID_SH;
+                default: ID_instID = 'd0;
             endcase
         end
 

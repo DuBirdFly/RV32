@@ -1,12 +1,15 @@
 `timescale  1ns / 1ns
 
-`include "defines.v"
+// `include "../src/inc/defines.v"
+// `include "defines.v"
+
+`define DCatchStartAddr 'h1000
 
 `define SIGNATURE_OUTPUT "sim/output/signature.txt"
 `define ROM_DATA_FILE "sim/output/inst.data"
 `define VCD_FILE "sim/output/dubirdCore_tb.vcd"
 
-module tb_CoreTop();
+module tb_CoreTop_New();
 
 ///////////////////////////////////////////////////////////////////
 parameter  SYS_CLK_FRE   = 100;                 // 100MHz
@@ -122,10 +125,10 @@ initial begin
 end
 
 ///////////////////////////////////////////////////////////////////
-initial begin
-    $dumpfile(`VCD_FILE);
-    $dumpvars(0, tb_CoreTop);
-end
+// initial begin
+//     $dumpfile(`VCD_FILE);
+//     $dumpvars(0, tb_CoreTop_New);
+// end
 
 ///////////////////////////////////////////////////////////////////
 CoreTop u_CoreTop(
