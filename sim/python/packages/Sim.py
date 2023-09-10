@@ -48,13 +48,14 @@ class Sim:
         process = subprocess.run(cmd, capture_output=True)
         if process.stdout:
             # ivg和vvp指令输出自带一个'\n',所以不用再加一个'\n'
-            return process.stdout.decode('utf-8')
+            out = process.stdout.decode('utf-8')
+            return out
         if process.stderr:
-            raise Exception(process.stderr.decode('utf-8'))
+            raise Exception(f"{process.stderr.decode('utf-8')}")
 
     def run(self):
-        str1 = self.run_cmd(self.ivg_cmd)
-        str2 = self.run_cmd(self.vvp_cmd)
+        str1 = f'{self.run_cmd(self.ivg_cmd)}\n'
+        str2 = f'{self.run_cmd(self.vvp_cmd)}\n'
         return str(str1) + str(str2)
 
 if __name__ == "__main__":

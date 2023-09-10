@@ -88,8 +88,6 @@ initial begin
     // end_signature   = 0x2090 (I-ADD-01.elf.objdump)
     // `DCatchStartAddr = 2**12 = 0x1000
     $display("TEST SIM Finished!!!!!!");
-    $display("begin_signature = 0x%x", begin_signature);
-    $display("end_signature   = 0x%x", end_signature);
     fd = $fopen(`SIGNATURE_OUTPUT);
     for (r = (begin_signature-`DCatchStartAddr)/4; r < (end_signature-`DCatchStartAddr)/4; r = r + 1) begin
         reg3 = u_CoreTop.u_MemAccess.u_DataCatch.u3_ramGen.ram[r];
