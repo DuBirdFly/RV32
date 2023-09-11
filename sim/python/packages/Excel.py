@@ -1,5 +1,4 @@
 import openpyxl, os, re
-from MyFuc import list_unique
 
 class MyExcel:
 
@@ -9,7 +8,7 @@ class MyExcel:
         self.last_row = self.sheet.max_row
 
     # read col
-    def rdCol(self, col: str, rows: list):
+    def rdCol(self, col: str, rows: list) -> list:
         data = []
         for row in rows:
             cell_value = self.sheet[col + str(row)].value         # type: ignore
@@ -18,7 +17,7 @@ class MyExcel:
         return data
 
     # find valid row, return list
-    def fdVldRow(self, col, start_row, end_row, target=""):
+    def fdVldRow(self, col, start_row, end_row, target="") -> list:
         data = []
         for row in range(start_row, end_row + 1):
             cell_value = self.sheet[col + str(row)].value         # type: ignore
@@ -29,7 +28,7 @@ class MyExcel:
         return data
 
     # build dictioanry
-    def bdDict(self, col1, col2, start_row, end_row):
+    def bdDict(self, col1, col2, start_row, end_row) -> dict:
         data = {}
         for row in range(start_row, end_row + 1):
             key = self.sheet[col1 + str(row)].value               # type: ignore
@@ -80,7 +79,7 @@ if __name__ == "__main__":
                 last_part = match.group(2).strip()       # 获取第二个捕获组并去除空格或制表符
                 inst_used.append(last_part.split()[0])   # 切分字符串并获取第一个非空字符串
 
-    inst_used = list_unique(inst_used)
+    inst_used = list(set((inst_used)))
 
     for inst in inst_used:
         if inst in inst_true:
@@ -97,7 +96,7 @@ if __name__ == "__main__":
 
     used_ins_final = inst_used_true             # dump文件用到的所有真指令 (伪指令 -> 真指令)
     for inst in inst_used_pseu: used_ins_final.append(pseu2true[inst])
-    used_ins_final = list_unique(used_ins_final)
+    used_ins_final = list(set((used_ins_final)))
 
     inst_uncode = []
 

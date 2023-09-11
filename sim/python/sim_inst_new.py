@@ -5,8 +5,7 @@ from packages.Sim import Sim
 from packages.FileSimilar import FileSimilar
 
 
-# CWD = Current Working Directory
-# PH = Path, F = File, D = Directory
+# CWD = Current Working Directory, PH = Path, F = File, D = Directory
 # MEM = Memory, VVP = Verilog VVP, SIG = Signature
 # BIN = Binary, REF = Reference
 # TBTOP = TestBench Top, INC = Include, RTL = RTL
@@ -43,19 +42,27 @@ def sim_inst(bin_name : str):
             for i in range(3072 - line_count): file.write('00000000\n')
 
     # 指令: Sim.py
-    Sim(PH_F_VVP, PH_D_INC, PH_F_TBTOP, PH_D_RTL).run()
+    LIST_FILE = []
+    for root, dirnames, filenames in os.walk(PH_D_RTL):
+        for filename in filenames:
+            if filename.endswith(".v") or filename.endswith(".sv"):
+                LIST_FILE.append(os.path.join(root, filename))
+
+    sim = Sim(PH_F_VVP, PH_D_INC, PH_F_TBTOP, LIST_FILE)
 
     # FileSimilar.py
-    return FileSimilar(PH_F_SIG, PH_F_REF).similarity
+    similarity =  FileSimilar(PH_F_SIG, PH_F_REF).similarity
+
+    XXXX = "PASS" if similarity > 0.99999 else "FAIL"
+    return f"{inst:<20}{XXXX},  similarity: {similarity:.2%}\nvvp_stdout: {sim.vvp_stdout}"
 
 ###################################################################
 
-isSimAll = True
+isSimAll = False
 
 if not isSimAll:
     inst = "I-EBREAK-01"
-    if sim_inst(inst) > 0.9999: print(f"{inst:<20}pass")
-    else: print(f"{inst:<20}NOT PASS")
+    print(sim_inst(inst))
 
 else:
     insts = []
@@ -66,5 +73,5 @@ else:
     print(f"全体指令测试 ---> 共 {len(insts)} 条指令 :")
 
     for inst in insts:
-        if sim_inst(inst) > 0.9999: print(f"{inst:<20}pass")
-        else: print(f"{inst:<20}NOT PASS")
+        if "PASS" in sim_inst(inst): print(f"{inst:<20}PASS")
+        else: print(f"{inst:<20}FAIL!!!")
