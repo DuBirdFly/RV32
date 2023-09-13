@@ -40,7 +40,7 @@ class MyExcel:
 if __name__ == "__main__":
 
     NAME_XLS = 'ins_set_plus.xlsx'
-    NAME_DUMP = 'I-ADD-01.elf.objdump'
+    NAME_DUMP = 'I-ECALL-01.elf.objdump'
 
     CWD = os.getcwd().replace('\\', '/')
     PH_EXCEL = CWD + '/doc/' + NAME_XLS

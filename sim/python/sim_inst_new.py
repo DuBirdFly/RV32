@@ -61,7 +61,7 @@ def sim_inst(bin_name : str):
 isSimAll = False
 
 if not isSimAll:
-    inst = "I-EBREAK-01"
+    inst = "I-ECALL-01"
     print(sim_inst(inst))
 
 else:
