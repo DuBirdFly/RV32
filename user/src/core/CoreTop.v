@@ -40,12 +40,15 @@ wire [4:0]                  ID_rs1, ID_rs2, ID_rd;
 wire                        ID_rs1_vld, ID_rs2_vld, ID_rd_vld;
 wire [31:0]                 ID_imm;
 wire [`InstIDDepth-1:0]     ID_instID;
+wire [11:0]                 ID_csr;
 wire                        ID_jmp_vld;
 
 InstDecode u_InstDecode(
     .inst           ( IF_inst     ),
     .pc             ( IF_pc       ),
+    // instID
     .ID_pc          ( ID_pc       ),
+    .ID_instID      ( ID_instID   ),
     // decode
     .ID_opcode      ( ID_opcode   ),
     .ID_rs1         ( ID_rs1      ),
@@ -55,8 +58,7 @@ InstDecode u_InstDecode(
     .ID_rs2_vld     ( ID_rs2_vld  ),
     .ID_rd_vld      ( ID_rd_vld   ),
     .ID_imm         ( ID_imm      ),
-    // instID
-    .ID_instID      ( ID_instID   ),
+    .ID_csr         ( ID_csr      ),
     // jump for unconditonal jump
     .ID_jmp_vld     ( ID_jmp_vld  )
 );
@@ -71,6 +73,7 @@ wire                        ID_REG_rd_vld;
 wire [31:0]                 ID_REG_imm;
 wire [`InstIDDepth-1:0]     ID_REG_instID;
 wire                        ID_REG_jmp_vld;
+wire [11:0]                 ID_REG_csr;
 
 InstDecodeReg u_InstDecodeReg(
     .clk                ( clk             ),
@@ -85,20 +88,23 @@ InstDecodeReg u_InstDecodeReg(
     .rd_vld             ( ID_rd_vld       ),
     .imm                ( ID_imm          ),
     .instID             ( ID_instID       ),
-    // to Execute
+    .csr                ( ID_csr          ),
+    // to Execute / OpdForward
     .ID_REG_opcode      ( ID_REG_opcode   ),
     .ID_REG_rs1         ( ID_REG_rs1      ),
     .ID_REG_rs2         ( ID_REG_rs2      ),
     .ID_REG_rd          ( ID_REG_rd       ),
     .ID_REG_rd_vld      ( ID_REG_rd_vld   ),
     .ID_REG_imm         ( ID_REG_imm      ),
-    .ID_REG_instID      ( ID_REG_instID   )
+    .ID_REG_instID      ( ID_REG_instID   ),
+    .ID_REG_csr         ( ID_REG_csr      )
 );
 
 // Execute -----------------------------------------------
 wire                        CTRL_EX_en;
 
 wire [31:0]                 OF_x_rs1, OF_x_rs2;
+wire [31:0]                 OF_x_csr;
 
 wire                        EX_jmp_vld;
 wire [31:0]                 EX_jmp_addr;
@@ -110,12 +116,16 @@ wire [3:0]                  EX_MEM_rden;
 wire                        EX_MEM_rden_SEXT;
 wire [3:0]                  EX_MEM_wren;
 wire [31:0]                 EX_MEM_wrdata;
+wire [11:0]                 EX_csr;
+wire [31:0]                 EX_x_csr;
+wire                        EX_csr_vld;
 
 Execute u_Execute(
     .clk              ( clk           ),
     .en               ( CTRL_EX_en   ),
 
     .instID           ( ID_REG_instID ),
+    .rs1              ( ID_REG_rs1    ),
     .rd               ( ID_REG_rd     ),
     .x_rs1            ( OF_x_rs1      ),
     .x_rs2            ( OF_x_rs2      ),
@@ -126,6 +136,9 @@ Execute u_Execute(
     .EX_jmp_vld       ( EX_jmp_vld    ),
     .EX_jmp_addr      ( EX_jmp_addr   ),
 
+    .csr              ( ID_REG_csr    ),
+    .x_csr            ( OF_x_csr      ),
+
     .EX_rd            ( EX_rd         ),
     .EX_rd_vld        ( EX_rd_vld     ),
     .EX_x_rd          ( EX_x_rd       ),
@@ -134,7 +147,11 @@ Execute u_Execute(
     .EX_MEM_rden      ( EX_MEM_rden   ),
     .EX_MEM_rden_SEXT ( EX_MEM_rden_SEXT ),
     .EX_MEM_wren      ( EX_MEM_wren   ),
-    .EX_MEM_wrdata    ( EX_MEM_wrdata )
+    .EX_MEM_wrdata    ( EX_MEM_wrdata ),
+
+    .EX_csr           ( EX_csr        ),
+    .EX_x_csr         ( EX_x_csr      ),
+    .EX_csr_vld       ( EX_csr_vld    )
 );
 
 // Memory Access ------------------------------------------
@@ -158,18 +175,32 @@ MemAccess u_MemAccess(
 );
 
 // Register File -----------------------------------------
-wire [31:0]                 REGS_rddata1;// o
-wire [31:0]                 REGS_rddata2;// o
+wire [31:0]                 REGs_rddata1;// o
+wire [31:0]                 REGs_rddata2;// o
 
-Registers u_Registers(
+Registers u_REGs(
     .clk              ( clk           ),
     .rdaddr1          ( ID_rs1        ),
-    .REGS_rddata1     ( REGS_rddata1  ),// o
+    .REGs_rddata1     ( REGs_rddata1  ),// o
     .rdaddr2          ( ID_rs2        ),
-    .REGS_rddata2     ( REGS_rddata2  ),// o
+    .REGs_rddata2     ( REGs_rddata2  ),// o
     .wen              ( MEM_rd_vld    ),
     .wraddr           ( MEM_rd        ),
     .wrdata           ( MEM_x_rd      )
+);
+
+// CSRs --------------------------------------------------
+wire [31:0]                 CSRs_rddata;
+
+CSRs u_CSRs(
+    .clk              ( clk         ),
+    .rst              ( rst         ),
+    .rdaddr           ( ID_csr      ),
+    .CSRs_rddata      ( CSRs_rddata ),// o
+    .wren             ( EX_csr_vld  ),
+    .wraddr           ( EX_csr      ),
+    .wrdata           ( EX_x_csr    ),
+    .CSRs_glb_int_en  (             ) // o
 );
 
 // Operand Forwarding -------------------------------------
@@ -178,6 +209,9 @@ OpdForward u_OpdForward(
     .EX_rd            ( EX_rd         ),
     .EX_x_rd          ( EX_x_rd       ),
     .EX_rd_vld        ( EX_rd_vld     ),
+    .EX_csr           ( EX_csr        ),
+    .EX_x_csr         ( EX_x_csr      ),
+    .EX_csr_vld       ( EX_csr_vld    ),
     // from MEM
     .MEM_rd           ( MEM_rd        ),
     .MEM_x_rd         ( MEM_x_rd      ),
@@ -185,12 +219,15 @@ OpdForward u_OpdForward(
     // from ID_REG
     .ID_REG_rs1       ( ID_REG_rs1    ),
     .ID_REG_rs2       ( ID_REG_rs2    ),
-    // from REGS
-    .REGS_rddata1     ( REGS_rddata1  ),
-    .REGS_rddata2     ( REGS_rddata2  ),
+    .ID_REG_csr       ( ID_REG_csr    ),
+    // from REGS / CSRs
+    .REGs_rddata1     ( REGs_rddata1  ),
+    .REGs_rddata2     ( REGs_rddata2  ),
+    .CSRs_rddata      ( CSRs_rddata   ),
     // output
     .OF_x_rs1         ( OF_x_rs1      ),
-    .OF_x_rs2         ( OF_x_rs2      )
+    .OF_x_rs2         ( OF_x_rs2      ),
+    .OF_x_csr         ( OF_x_csr      )
 );
 
 // Control -----------------------------------------------

@@ -14,15 +14,13 @@ module InstDecodeReg(
     input       [31:0]              imm,
     input       [`InstIDDepth-1:0]  instID,
     input       [11:0]              csr,
-    input                           csr_vld,
     // output to Execute
     output reg  [6:0]               ID_REG_opcode,
     output reg  [4:0]               ID_REG_rs1, ID_REG_rs2, ID_REG_rd,
     output reg                      ID_REG_rd_vld,
     output reg  [31:0]              ID_REG_imm,
     output reg  [`InstIDDepth-1:0]  ID_REG_instID,
-    output reg  [11:0]              ID_REG_csr,
-    output reg                      ID_REG_csr_vld
+    output reg  [11:0]              ID_REG_csr
 );
 
 always @(posedge clk) begin
@@ -35,7 +33,6 @@ always @(posedge clk) begin
     ID_REG_imm          <= imm;
     ID_REG_instID       <= instID;
     ID_REG_csr          <= csr;
-    ID_REG_csr_vld      <= csr_vld;
 end
 
 endmodule

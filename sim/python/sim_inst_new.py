@@ -4,7 +4,6 @@ from packages.Bin2Mem import Bin2Mem
 from packages.Sim import Sim
 from packages.FileSimilar import FileSimilar
 
-
 # CWD = Current Working Directory, PH = Path, F = File, D = Directory
 # MEM = Memory, VVP = Verilog VVP, SIG = Signature
 # BIN = Binary, REF = Reference

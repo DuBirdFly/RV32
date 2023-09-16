@@ -5,12 +5,11 @@ module Execute(
     input                               en,
 
     input       [`InstIDDepth-1:0]      instID,
-    input       [4:0]                   rd,
+    input       [4:0]                   rs1, rd,
     input       [31:0]                  x_rs1, x_rs2, imm, pc,
     input                               rd_vld,
 
     input       [11:0]                  csr,
-    input                               csr_vld,
     input       [31:0]                  x_csr,
 
     // jump
@@ -28,12 +27,15 @@ module Execute(
     output reg  [31:0]                  EX_MEM_wrdata,
     // CSRs
     output reg  [11:0]                  EX_csr,
-    output reg                          EX_csr_vld,
-    output reg  [31:0]                  EX_x_csr
+    output reg  [31:0]                  EX_x_csr,
+    output reg                          EX_csr_vld
 );
 
 wire [31:0] EX_MEM_addr_comb;
 assign EX_MEM_addr_comb = x_rs1 + imm;
+
+wire [31:0] zimm;
+assign zimm = {27'd0, rs1};
 
 always @(posedge clk) begin
     EX_rd <= rd;
@@ -43,11 +45,9 @@ end
 always @(posedge clk) begin
     if (en) begin
         EX_rd_vld <= rd_vld;
-        EX_csr_vld <= csr_vld;
     end
     else begin
         EX_rd_vld <= 1'b0;
-        EX_csr_vld <= 1'b0;
     end   
 end
 
@@ -56,6 +56,7 @@ always @(posedge clk) begin
     EX_jmp_vld <= 1'b0;
     {EX_MEM_rden, EX_MEM_wren} <= 8'b0000_0000;
     EX_MEM_rden_SEXT <= 1'b0;
+    EX_csr_vld <= 1'b0;
     // 控制信号与数据信号的特殊值
     if (en) begin
         case (instID)
@@ -172,26 +173,42 @@ always @(posedge clk) begin
             `ID_CSRRW: begin
                 EX_x_rd <= x_csr;
                 EX_x_csr <= x_rs1;
+                EX_csr_vld <= 1'b1;
             end
             `ID_CSRRS: begin
                 EX_x_rd <= x_csr;
                 EX_x_csr <= x_csr | x_rs1;
+                EX_csr_vld <= 1'b1;
             end
             `ID_CSRRC: begin
                 EX_x_rd <= x_csr;
                 EX_x_csr <= x_csr & (~x_rs1);
+                EX_csr_vld <= 1'b1;
             end
             `ID_CSRRWI: begin
                 EX_x_rd <= x_csr;
-                EX_x_csr <= imm;
+                EX_x_csr <= zimm;
+                EX_csr_vld <= 1'b1;
             end
             `ID_CSRRSI: begin
                 EX_x_rd <= x_csr;
-                EX_x_csr <= x_csr | imm;
+                EX_x_csr <= x_csr | zimm;
+                EX_csr_vld <= 1'b1;
             end
             `ID_CSRRCI: begin
                 EX_x_rd <= x_csr;
-                EX_x_csr <= x_csr & (~imm);
+                EX_x_csr <= x_csr & (~zimm);
+                EX_csr_vld <= 1'b1;
+            end
+            `ID_ECALL: begin
+                EX_jmp_vld <= 1'b1;
+                EX_jmp_addr <= x_csr;
+                // EX_csr_vld <= 1'b0;
+            end
+            `ID_MRET: begin
+                EX_jmp_vld <= 1'b1;
+                EX_jmp_addr <= x_csr;
+                // EX_csr_vld <= 1'b0;
             end
         endcase
     end
