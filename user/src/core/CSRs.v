@@ -29,6 +29,7 @@ end
 always @(posedge clk) begin
     if (rst) begin
         {mtvec, mepc, mcause, mie, mip, mtval, mstatus, mscratch} <= 'd0;
+        // mcause <= 32'd80000007;
     end 
     else if (wren) begin
         case (wraddr)

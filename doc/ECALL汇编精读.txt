@@ -1,0 +1,87 @@
+00000000 <_start>:
+   0: j     4c          -> pc      = 4c
+
+0000004c <reset_vector>:
+  4c: li     gp,0        -> x3      = 0x0
+  50: auipc  t0,0x0      -> x5      = 0x50 + 0x0<<12 = 0x50
+  54: addi   t0,t0,-76   -> x5      = x5 - 76 = 0x50 - 76 = 0x4
+  58: csrw   mtvec,t0    -> mtvec   = x5 = 0x4    # <machine trap vector>: 发生异常时, pc = mtvec
+  5c: csrwi  mstatus,0   -> mstatus = 0x0
+  60: auipc  t0,0x0      -> x5      = 0x60 + 0x0<<12 = 0x60
+  64: addi   t0,t0,32    -> x5      = x5 + 32 = 0x60 + 32 = 0x80
+  68: csrw   mepc,t0     -> mepc    = x5 = 0x80   # <machine exception pc>: 指向异常指令的地址的下一条指令
+  6c: li     t0,0        -> x5      = 0x0
+  70: lui    t1,0x10000  -> x6      = 0x10000<<12 = 0x10000000
+  74: addi   t1,t1,16    -> x6      = x6 + 16 = 0x10000010
+  78: sw     t0,0(t1)    -> M[x6]   = M[0x10000010] = x5 = 0x0              # <ex_end_flag>
+  7c: mret               -> pc      = mepc = 0x80
+                        mstatus.MIE = mstatus.MPIE = 0
+
+00000080 <begin_testcode> 的第一段:
+  80: auipc  ra,0x0      -> x1      = 0x80 + 0x0<<12 = 0x80
+  84: addi   ra,ra,44    -> x1      = x1 + 44 = 0x80 + 44 = 0xac
+  88: csrrw  t6,mtvec,ra -> x31     = mtvec = 0x4
+                            mtvec   = x1 = 0xac
+  8c: auipc  ra,0x2      -> x1      = 0x8c + 0x2<<12 = 0x208c
+  90: addi   ra,ra,-140  -> x1      = x1 - 140 = 0x208c - 140 = 0x2000      # <begin_signature>
+  94: lui    sp,0x11111  -> x2      = 0x11111<<12 = 0x11111000
+  98: addi   sp,sp,273   -> x2      = x2 + 273 = 0x11111000 + 273 = 0x11111111
+  9c: ecall              -> pc      = mtvec = 0xac
+                            mepc    = pc = 0x9c
+                            mcause  = 0xb         # <machine cause>: 0xb = ecall
+
+000000ac <_trap_handler>:
+  ac: csrr   t5,mepc     -> x30     = mepc = 0x9c
+  b0: addi   t5,t5,4     -> x30     = x30 + 4 = 0x9c + 4 = 0xa0
+  b4: csrw   mepc,t5     -> mepc    = x30 = 0xa0
+  b8: csrr   t5,mcause   -> x30     = mcause = 0xb
+  bc: sw     t5,0(ra)    -> M[x1]   = M[0x2000] = x30 = 0xb
+  c0: sw     sp,4(ra)    -> M[x1+4] = M[0x2004] = x2 = 0x11111111
+  c4: sw     zero,8(ra)  -> M[x1+8] = M[0x2008] = x0 = 0x0
+  c8: addi   ra,ra,12    -> x1      = x1 + 12 = 0x2000 + 12 = 0x200c
+  cc: mret               -> pc      = mepc = 0xa0
+                        mstatus.MIE = mstatus.MPIE = 0
+
+000000a0 <begin_testcode> 的第二段:
+  a0: sw     zero,0(ra)  -> M[x1]   = M[0x200c] = x0 = 0x0
+  a4: csrw   mtvec,t6    -> mtvec   = x31 = 0x4
+  a8: j      d0          -> pc      = d0
+
+000000d0 <test_end>:
+  d0: auipc  t0,0x2      -> x5      = 0xd0 + 0x2<<12 = 0x20d0
+  d4: addi   t0,t0,-208  -> x5      = x5 - 208 = 0x20d0 - 208 = 0x2000
+  d8: lui    t1,0x10000  -> x6      = 0x10000<<12 = 0x10000000
+  dc: addi   t1,t1,8     -> x6      = x6 + 8 = 0x10000000 + 8 = 0x10000008
+  e0: sw     t0,0(t1)    -> M[x6]   = M[0x10000008] = x5 = 0x2000           # <begin_signature>
+  e4: auipc  t0,0x2      -> x5      = 0xe4 + 0x2<<12 = 0x20e4
+  e8: addi   t0,t0,-212  -> x5      = x5 - 212 = 0x20e4 - 212 = 0x2010
+  ec: lui    t1,0x10000  -> x6      = 0x10000<<12 = 0x10000000
+  f0: addi   t1,t1,12    -> x6      = x6 + 12 = 0x10000000 + 12 = 0x1000000c
+  f4: sw     t0,0(t1)    -> M[x6]   = M[0x1000000c] = x5 = 0x2010           # <end_signature>
+  f8: li     t0,1        -> x5      = 0x1
+  fc: lui    t1,0x10000  -> x6      = 0x10000<<12 = 0x10000000
+ 100: addi   t1,t1,16    -> x6      = x6 + 16 = 0x10000000 + 16 = 0x10000010
+ 104: sw     t0,0(t1)    -> M[x6]   = M[0x10000010] = x5 = 0x1              # <ex_end_flag>
+################################################################################################
+ 108: nop
+ 10c: li     gp,1        -> x3      = 0x1
+ 110: ecall              -> pc      = mtvec = 0x4
+                            mepc    = pc = 0x110
+                            mcause  = 0xb         # <machine cause>: 0xb = ecall
+
+00000004 <trap_vector>:
+   4: csrr   t5,mcause   -> x30     = mcause = 0xb
+   8: li     t6,8        -> x31     = 0x8         # if (mcause == 8),  means "ecall from U-mode"
+   c: beq    t5,t6,40    -> pc      = pc + 4 = 0x10 # (x30 != x31)
+  10: li     t6,9        -> x31     = 0x9         # if (mcause == 9),  means "ecall from S-mode"
+  14: beq    t5,t6,40    -> pc      = pc + 4 = 0x18 # (x30 != x31)
+  18: li     t6,11       -> x31     = 0xb         # if (mcause == 11), means "ecall from M-mode"
+  1c: beq    t5,t6,40    -> pc      = 40 = 0x28
+  20:
+  24:
+  28: beqz   t5,30       -> pc      = pc + 4 = 0x2c # (x30 != 0)
+  2c: jr     t5          -> pc      = pc + (x30 & ~1) = 0x2c + (0xb & 0xfffffffe) = 0x2c + 0b1010 = 0x36
+############### 似乎 pc 跳转到了 misaligned address, 这种情况我不会处理捏 ###############
+  30: .......
+  34:
+  38:

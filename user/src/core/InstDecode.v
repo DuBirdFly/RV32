@@ -138,27 +138,35 @@ always @(*) begin
         end
 
         `OPCODE_I_SYS: begin
-            {ID_rs1_vld, ID_rs2_vld, ID_rd_vld} = 3'b101;
-            ID_csr = inst[31:20];
-            case (inst[14:12])
-                `FUNCT3_ECALL: begin
-                    {ID_rs1_vld, ID_rs2_vld, ID_rd_vld} = 3'b000;
-                    case (inst[31:20])
-                        `IMM12_ECALL: ID_instID = `ID_ECALL;
-                        `IMM12_EBREAK: ID_instID = `ID_EBREAK;
-                        `IMM12_MRET: begin
-                            ID_csr = `CSRs_ADDR_MEPC;
-                            ID_instID = `ID_MRET;
-                        end
-                    endcase
-                end
-                `FUNCT3_CSRRW: ID_instID = `ID_CSRRW;
-                `FUNCT3_CSRRS: ID_instID = `ID_CSRRS;
-                `FUNCT3_CSRRC: ID_instID = `ID_CSRRC;
-                `FUNCT3_CSRRWI: ID_instID = `ID_CSRRWI;
-                `FUNCT3_CSRRSI: ID_instID = `ID_CSRRSI;
-                `FUNCT3_CSRRCI: ID_instID = `ID_CSRRCI;
-            endcase
+            if (inst[14:12] == `FUNCT3_ECALL) begin
+                {ID_rs1_vld, ID_rs2_vld, ID_rd_vld} = 3'b000;
+                case (inst[31:20])
+                    `IMM12_ECALL: begin
+                        ID_instID = `ID_ECALL;
+                        ID_csr = `CSRs_ADDR_MTVEC;
+                    end
+                    `IMM12_EBREAK: begin
+                        ID_instID = `ID_EBREAK;
+                        ID_csr = `CSRs_ADDR_MTVEC;
+                    end
+                    `IMM12_MRET: begin
+                        ID_instID = `ID_MRET;
+                        ID_csr = `CSRs_ADDR_MEPC;
+                    end
+                endcase
+            end
+            else begin
+                {ID_rs1_vld, ID_rs2_vld, ID_rd_vld} = 3'b101;
+                ID_csr = inst[31:20];
+                case (inst[14:12])
+                    `FUNCT3_CSRRW: ID_instID = `ID_CSRRW;
+                    `FUNCT3_CSRRS: ID_instID = `ID_CSRRS;
+                    `FUNCT3_CSRRC: ID_instID = `ID_CSRRC;
+                    `FUNCT3_CSRRWI: ID_instID = `ID_CSRRWI;
+                    `FUNCT3_CSRRSI: ID_instID = `ID_CSRRSI;
+                    `FUNCT3_CSRRCI: ID_instID = `ID_CSRRCI;
+                endcase
+            end
         end
     endcase
 end

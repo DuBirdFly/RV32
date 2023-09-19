@@ -123,10 +123,10 @@ initial begin
 end
 
 ///////////////////////////////////////////////////////////////////
-// initial begin
-//     $dumpfile(`VCD_FILE);
-//     $dumpvars(0, tb_CoreTop_New);
-// end
+initial begin
+    $dumpfile(`VCD_FILE);
+    $dumpvars(0, tb_CoreTop_New);
+end
 
 ///////////////////////////////////////////////////////////////////
 CoreTop u_CoreTop(
