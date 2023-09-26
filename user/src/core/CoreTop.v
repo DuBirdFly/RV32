@@ -44,23 +44,23 @@ wire [11:0]                 ID_csr;
 wire                        ID_jmp_vld;
 
 InstDecode u_InstDecode(
-    .inst           ( IF_inst     ),
-    .pc             ( IF_pc       ),
-    // instID
-    .ID_pc          ( ID_pc       ),
-    .ID_instID      ( ID_instID   ),
-    // decode
-    .ID_opcode      ( ID_opcode   ),
-    .ID_rs1         ( ID_rs1      ),
-    .ID_rs2         ( ID_rs2      ),
-    .ID_rd          ( ID_rd       ),
-    .ID_rs1_vld     ( ID_rs1_vld  ),
-    .ID_rs2_vld     ( ID_rs2_vld  ),
-    .ID_rd_vld      ( ID_rd_vld   ),
-    .ID_imm         ( ID_imm      ),
-    .ID_csr         ( ID_csr      ),
+    .inst           ( IF_inst       ),
+    .pc             ( IF_pc         ),
+    // instID   
+    .ID_pc          ( ID_pc         ),
+    .ID_instID      ( ID_instID     ),
+    // decode   
+    .ID_opcode      ( ID_opcode     ),
+    .ID_rs1         ( ID_rs1        ),
+    .ID_rs2         ( ID_rs2        ),
+    .ID_rd          ( ID_rd         ),
+    .ID_rs1_vld     ( ID_rs1_vld    ),
+    .ID_rs2_vld     ( ID_rs2_vld    ),
+    .ID_rd_vld      ( ID_rd_vld     ),
+    .ID_imm         ( ID_imm        ),
+    .ID_csr         ( ID_csr        ),
     // jump for unconditonal jump
-    .ID_jmp_vld     ( ID_jmp_vld  )
+    .ID_jmp_vld     ( ID_jmp_vld    )
 );
 
 // Instruction Decode Reg delay --------------------------
@@ -76,28 +76,28 @@ wire                        ID_REG_jmp_vld;
 wire [11:0]                 ID_REG_csr;
 
 InstDecodeReg u_InstDecodeReg(
-    .clk                ( clk             ),
+    .clk                ( clk           ),
     // from InstFetch, to Execute
-    .pc                 ( ID_pc           ),
-    .ID_REG_pc          ( ID_REG_pc       ),
+    .pc                 ( ID_pc         ),
+    .ID_REG_pc          ( ID_REG_pc     ),
     // from InstDecode
-    .opcode             ( ID_opcode       ),
-    .rs1                ( ID_rs1          ),
-    .rs2                ( ID_rs2          ),
-    .rd                 ( ID_rd           ),
-    .rd_vld             ( ID_rd_vld       ),
-    .imm                ( ID_imm          ),
-    .instID             ( ID_instID       ),
-    .csr                ( ID_csr          ),
+    .opcode             ( ID_opcode     ),
+    .rs1                ( ID_rs1        ),
+    .rs2                ( ID_rs2        ),
+    .rd                 ( ID_rd         ),
+    .rd_vld             ( ID_rd_vld     ),
+    .imm                ( ID_imm        ),
+    .instID             ( ID_instID     ),
+    .csr                ( ID_csr        ),
     // to Execute / OpdForward
-    .ID_REG_opcode      ( ID_REG_opcode   ),
-    .ID_REG_rs1         ( ID_REG_rs1      ),
-    .ID_REG_rs2         ( ID_REG_rs2      ),
-    .ID_REG_rd          ( ID_REG_rd       ),
-    .ID_REG_rd_vld      ( ID_REG_rd_vld   ),
-    .ID_REG_imm         ( ID_REG_imm      ),
-    .ID_REG_instID      ( ID_REG_instID   ),
-    .ID_REG_csr         ( ID_REG_csr      )
+    .ID_REG_opcode      ( ID_REG_opcode ),
+    .ID_REG_rs1         ( ID_REG_rs1    ),
+    .ID_REG_rs2         ( ID_REG_rs2    ),
+    .ID_REG_rd          ( ID_REG_rd     ),
+    .ID_REG_rd_vld      ( ID_REG_rd_vld ),
+    .ID_REG_imm         ( ID_REG_imm    ),
+    .ID_REG_instID      ( ID_REG_instID ),
+    .ID_REG_csr         ( ID_REG_csr    )
 );
 
 // Execute -----------------------------------------------
@@ -120,10 +120,16 @@ wire [11:0]                 EX_csr;
 wire [31:0]                 EX_x_csr;
 wire                        EX_csr_vld;
 
+wire [31:0]                 CSRs_mepc, CSRs_mstatus, CSRs_mcause;
+
+wire                        EX_mepc_vld, EX_mcause_vld, EX_mstatus_vld;
+wire [31:0]                 EX_mepc,     EX_mcause,     EX_mstatus;
+
 Execute u_Execute(
     .clk              ( clk           ),
-    .en               ( CTRL_EX_en   ),
+    .en               ( CTRL_EX_en    ),
 
+    // IN -> Caculate Data
     .instID           ( ID_REG_instID ),
     .rs1              ( ID_REG_rs1    ),
     .rd               ( ID_REG_rd     ),
@@ -133,25 +139,38 @@ Execute u_Execute(
     .pc               ( ID_REG_pc     ),
     .rd_vld           ( ID_REG_rd_vld ),
 
+    // OUT -> jump
     .EX_jmp_vld       ( EX_jmp_vld    ),
     .EX_jmp_addr      ( EX_jmp_addr   ),
-
-    .csr              ( ID_REG_csr    ),
-    .x_csr            ( OF_x_csr      ),
-
+    // OUT -> EX_rd
     .EX_rd            ( EX_rd         ),
     .EX_rd_vld        ( EX_rd_vld     ),
     .EX_x_rd          ( EX_x_rd       ),
-
+    // OUT -> MEM
     .EX_MEM_addr      ( EX_MEM_addr   ),
     .EX_MEM_rden      ( EX_MEM_rden   ),
     .EX_MEM_rden_SEXT ( EX_MEM_rden_SEXT ),
     .EX_MEM_wren      ( EX_MEM_wren   ),
     .EX_MEM_wrdata    ( EX_MEM_wrdata ),
-
+    // Read Normal CSRs
+    // CSRR 系列的指令都是 对同一个 csr 进行读写操作的
+    .csr              ( ID_REG_csr    ),
+    .x_csr            ( OF_x_csr      ),
+    // Read Special CSRs
+    .mepc             ( CSRs_mepc     ),
+    .mcause           ( CSRs_mcause   ),
+    .mstatus          ( CSRs_mstatus   ),
+    // Write Normal CSRs
     .EX_csr           ( EX_csr        ),
     .EX_x_csr         ( EX_x_csr      ),
-    .EX_csr_vld       ( EX_csr_vld    )
+    .EX_csr_vld       ( EX_csr_vld    ),
+    // Write Special CSRs
+    .EX_mepc_vld      ( EX_mepc_vld   ),
+    .EX_mcause_vld    ( EX_mcause_vld ),
+    .EX_mstatus_vld   ( EX_mstatus_vld ),
+    .EX_mepc          ( EX_mepc       ),
+    .EX_mcause        ( EX_mcause     ),
+    .EX_mstatus       ( EX_mstatus    )
 );
 
 // Memory Access ------------------------------------------
@@ -193,41 +212,53 @@ Registers u_REGs(
 wire [31:0]                 CSRs_rddata;
 
 CSRs u_CSRs(
-    .clk              ( clk         ),
-    .rst              ( rst         ),
-    .rdaddr           ( ID_csr      ),
-    .CSRs_rddata      ( CSRs_rddata ),// o
-    .wren             ( EX_csr_vld  ),
-    .wraddr           ( EX_csr      ),
-    .wrdata           ( EX_x_csr    ),
-    .CSRs_glb_int_en  (             ) // o
+    .clk              ( clk             ),
+    .rst              ( rst             ),
+    // Normal CSRs: Write
+    .wren             ( EX_csr_vld      ),
+    .wraddr           ( EX_csr          ),
+    .wrdata           ( EX_x_csr        ),
+    // Normal CSRs: Read
+    .rdaddr           ( ID_csr          ),
+    .CSRs_rddata      ( CSRs_rddata     ),
+    // Special CSRs: Write
+    .EX_mepc_vld      ( EX_mepc_vld     ),
+    .EX_mcause_vld    ( EX_mcause_vld   ),
+    .EX_mstatus_vld   ( EX_mstatus_vld  ),
+    .EX_mepc          ( EX_mepc         ),
+    .EX_mcause        ( EX_mcause       ),
+    .EX_mstatus       ( EX_mstatus      ),
+    // Special CSRs: Read
+    .CSRs_mepc        ( CSRs_mepc       ),
+    .CSRs_mstatus     ( CSRs_mstatus    ),
+    .CSRs_mcause      ( CSRs_mcause     )
 );
 
 // Operand Forwarding -------------------------------------
 OpdForward u_OpdForward(
     // from EX
-    .EX_rd            ( EX_rd         ),
-    .EX_x_rd          ( EX_x_rd       ),
-    .EX_rd_vld        ( EX_rd_vld     ),
-    .EX_csr           ( EX_csr        ),
-    .EX_x_csr         ( EX_x_csr      ),
-    .EX_csr_vld       ( EX_csr_vld    ),
+    .EX_rd             ( EX_rd         ),
+    .EX_x_rd           ( EX_x_rd       ),
+    .EX_rd_vld         ( EX_rd_vld     ),
+    .EX_csr            ( EX_csr        ),
+    .EX_x_csr          ( EX_x_csr      ),
+    .EX_csr_vld        ( EX_csr_vld    ),
     // from MEM
-    .MEM_rd           ( MEM_rd        ),
-    .MEM_x_rd         ( MEM_x_rd      ),
-    .MEM_rd_vld       ( MEM_rd_vld    ),
+    .MEM_rd            ( MEM_rd        ),
+    .MEM_x_rd          ( MEM_x_rd      ),
+    .MEM_rd_vld        ( MEM_rd_vld    ),
     // from ID_REG
-    .ID_REG_rs1       ( ID_REG_rs1    ),
-    .ID_REG_rs2       ( ID_REG_rs2    ),
-    .ID_REG_csr       ( ID_REG_csr    ),
+    .ID_REG_rs1        ( ID_REG_rs1    ),
+    .ID_REG_rs2        ( ID_REG_rs2    ),
+    .ID_REG_csr        ( ID_REG_csr    ),
     // from REGS / CSRs
-    .REGs_rddata1     ( REGs_rddata1  ),
-    .REGs_rddata2     ( REGs_rddata2  ),
-    .CSRs_rddata      ( CSRs_rddata   ),
+    .REGs_rddata1      ( REGs_rddata1  ),
+    .REGs_rddata2      ( REGs_rddata2  ),
+    .CSRs_rddata       ( CSRs_rddata   ),
     // output
-    .OF_x_rs1         ( OF_x_rs1      ),
-    .OF_x_rs2         ( OF_x_rs2      ),
-    .OF_x_csr         ( OF_x_csr      )
+    .OF_x_rs1          ( OF_x_rs1      ),
+    .OF_x_rs2          ( OF_x_rs2      ),
+    .OF_x_csr          ( OF_x_csr      )
 );
 
 // Control -----------------------------------------------

@@ -6,16 +6,19 @@
   50: auipc  t0,0x0      -> x5      = 0x50 + 0x0<<12 = 0x50
   54: addi   t0,t0,-76   -> x5      = x5 - 76 = 0x50 - 76 = 0x4
   58: csrw   mtvec,t0    -> mtvec   = x5 = 0x4    # <machine trap vector>: 发生异常时, pc = mtvec
-  5c: csrwi  mstatus,0   -> mstatus = 0x0
+  5c: csrwi  mstatus,0   -> mstatus = 0x0         # mstatus.MPIE = 0 -> 禁用所有中断 (Interruption)
+                                                                        但是此时 Exception 仍然可用
+                                                  # mstatus.MPP = 2'b00 -> 当前处于 U-mode
   60: auipc  t0,0x0      -> x5      = 0x60 + 0x0<<12 = 0x60
   64: addi   t0,t0,32    -> x5      = x5 + 32 = 0x60 + 32 = 0x80
   68: csrw   mepc,t0     -> mepc    = x5 = 0x80   # <machine exception pc>: 指向异常指令的地址的下一条指令
   6c: li     t0,0        -> x5      = 0x0
   70: lui    t1,0x10000  -> x6      = 0x10000<<12 = 0x10000000
   74: addi   t1,t1,16    -> x6      = x6 + 16 = 0x10000010
-  78: sw     t0,0(t1)    -> M[x6]   = M[0x10000010] = x5 = 0x0              # <ex_end_flag>
+  78: sw     t0,0(t1)    -> M[x6]   = M[0x10000010] = x5 = 0x0    # <ex_end_flag>
   7c: mret               -> pc      = mepc = 0x80
-                        mstatus.MIE = mstatus.MPIE = 0
+                        mstatus.MIE = mstatus.MPIE (= 0)          # 将 mstatus.MPIE 复制到 mstatus.MIE 来恢复之前的中断使能设置 (依旧禁止中断)
+                        mstatus.MPP = 2'b00                       # 已经是 U-mode, 不需要改变
 
 00000080 <begin_testcode> 的第一段:
   80: auipc  ra,0x0      -> x1      = 0x80 + 0x0<<12 = 0x80
@@ -28,10 +31,12 @@
   98: addi   sp,sp,273   -> x2      = x2 + 273 = 0x11111000 + 273 = 0x11111111
   9c: ecall              -> pc      = mtvec = 0xac
                             mepc    = pc = 0x9c
-                            mcause  = 0xb         # <machine cause>: 0xb = ecall
+                            mcause  = 0xb         # <machine cause>: 0xb -> enverionment call from M-mode
+                        mstatus.MPP = 2'b11       # ecall 将使得 mode 标志位从 2'b00 (U-mode) 变为 2'b11 (M-mode)
 
 000000ac <_trap_handler>:
   ac: csrr   t5,mepc     -> x30     = mepc = 0x9c
+                            mepc    = mepc | x0 = 0
   b0: addi   t5,t5,4     -> x30     = x30 + 4 = 0x9c + 4 = 0xa0
   b4: csrw   mepc,t5     -> mepc    = x30 = 0xa0
   b8: csrr   t5,mcause   -> x30     = mcause = 0xb
@@ -41,6 +46,7 @@
   c8: addi   ra,ra,12    -> x1      = x1 + 12 = 0x2000 + 12 = 0x200c
   cc: mret               -> pc      = mepc = 0xa0
                         mstatus.MIE = mstatus.MPIE = 0
+                        mstatus.MPP = 2'b11       # mstatus.MPP 从 2'b11 (M-mode) 变为 2'b00 (U-mode)
 
 000000a0 <begin_testcode> 的第二段:
   a0: sw     zero,0(ra)  -> M[x1]   = M[0x200c] = x0 = 0x0
@@ -67,7 +73,8 @@
  10c: li     gp,1        -> x3      = 0x1
  110: ecall              -> pc      = mtvec = 0x4
                             mepc    = pc = 0x110
-                            mcause  = 0xb         # <machine cause>: 0xb = ecall
+                            mcause  = 0xb         # <machine cause>: 0xb -> enverionment call from M-mode
+                        mstatus.MPP = 2'b11       # ecall 将使得 mode 标志位从 2'b00 (U-mode) 变为 2'b11 (M-mode)
 
 00000004 <trap_vector>:
    4: csrr   t5,mcause   -> x30     = mcause = 0xb

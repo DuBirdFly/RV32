@@ -57,7 +57,7 @@ def sim_inst(bin_name : str):
 
 ###################################################################
 
-isSimAll = False
+isSimAll = True
 
 if not isSimAll:
     inst = "I-ECALL-01"

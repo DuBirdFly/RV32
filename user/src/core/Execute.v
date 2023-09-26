@@ -9,9 +9,6 @@ module Execute(
     input       [31:0]                  x_rs1, x_rs2, imm, pc,
     input                               rd_vld,
 
-    input       [11:0]                  csr,
-    input       [31:0]                  x_csr,
-
     // jump
     output reg                          EX_jmp_vld,
     output reg  [31:0]                  EX_jmp_addr,
@@ -25,11 +22,23 @@ module Execute(
     output reg                          EX_MEM_rden_SEXT,// lb/lbu, lh/lhu, 区分是否需要符号拓展
     output reg  [3:0]                   EX_MEM_wren,
     output reg  [31:0]                  EX_MEM_wrdata,
-    // CSRs
+
+    // Read Normal CSRs
+    input       [11:0]                  csr,            // CSRR 系列的指令都是 对同一个 csr 进行读写操作的
+    input       [31:0]                  x_csr,
+    // Read Special CSRs
+    input       [31:0]                  mepc, mcause, mstatus,
+    // Write Normal CSRs
     output reg  [11:0]                  EX_csr,
     output reg  [31:0]                  EX_x_csr,
-    output reg                          EX_csr_vld
+    output reg                          EX_csr_vld,
+    // Write Special CSRs
+    output reg                          EX_mepc_vld, EX_mcause_vld, EX_mstatus_vld,
+    output reg  [31:0]                  EX_mepc,     EX_mcause,     EX_mstatus
 );
+
+wire [ 1:0] MPP;
+assign MPP = mstatus[12:11];
 
 wire [31:0] EX_MEM_addr_comb;
 assign EX_MEM_addr_comb = x_rs1 + imm;
@@ -57,6 +66,7 @@ always @(posedge clk) begin
     {EX_MEM_rden, EX_MEM_wren} <= 8'b0000_0000;
     EX_MEM_rden_SEXT <= 1'b0;
     EX_csr_vld <= 1'b0;
+    {EX_mepc_vld, EX_mcause_vld, EX_mstatus_vld} <= 3'b000;
     // 控制信号与数据信号的特殊值
     if (en) begin
         case (instID)
@@ -172,43 +182,52 @@ always @(posedge clk) begin
             end
             `ID_CSRRW: begin
                 EX_x_rd <= x_csr;
-                EX_x_csr <= x_rs1;
                 EX_csr_vld <= 1'b1;
+                EX_x_csr <= x_rs1;
             end
             `ID_CSRRS: begin
                 EX_x_rd <= x_csr;
-                EX_x_csr <= x_csr | x_rs1;
                 EX_csr_vld <= 1'b1;
+                EX_x_csr <= x_csr | x_rs1;
             end
             `ID_CSRRC: begin
                 EX_x_rd <= x_csr;
-                EX_x_csr <= x_csr & (~x_rs1);
                 EX_csr_vld <= 1'b1;
+                EX_x_csr <= x_csr & (~x_rs1);
             end
             `ID_CSRRWI: begin
                 EX_x_rd <= x_csr;
-                EX_x_csr <= zimm;
                 EX_csr_vld <= 1'b1;
+                EX_x_csr <= zimm;
             end
             `ID_CSRRSI: begin
                 EX_x_rd <= x_csr;
-                EX_x_csr <= x_csr | zimm;
                 EX_csr_vld <= 1'b1;
+                EX_x_csr <= x_csr | zimm;
             end
             `ID_CSRRCI: begin
                 EX_x_rd <= x_csr;
-                EX_x_csr <= x_csr & (~zimm);
                 EX_csr_vld <= 1'b1;
+                EX_x_csr <= x_csr & (~zimm);
             end
             `ID_ECALL: begin
                 EX_jmp_vld <= 1'b1;
                 EX_jmp_addr <= x_csr;
-                // EX_csr_vld <= 1'b0;
+                {EX_mepc_vld, EX_mcause_vld, EX_mstatus_vld} <= 3'b111;
+                EX_mepc <= pc;
+                // 由于只有 U-mode 和 M-mode, 而 M-mode 不允许再 ecall
+                // 所以 ecall 只有 "enveronment call from M-mode" 这一种情况
+                EX_mcause <= 32'hb;
+                EX_mstatus <= {mstatus[31:13], 2'b11, mstatus[10:4], mstatus[7], mstatus[2:0]};
             end
             `ID_MRET: begin
                 EX_jmp_vld <= 1'b1;
-                EX_jmp_addr <= x_csr;
-                // EX_csr_vld <= 1'b0;
+                EX_jmp_addr <= mepc;
+                {EX_mepc_vld, EX_mcause_vld, EX_mstatus_vld} <= 3'b001;
+                // msatatus.MIE[3] <= mstatus.MPIE[7];
+                // MPP 在 只有 U-mode 和 M-mode 的情况下, 只能 return 到 U-mode (MPP = 2'b11)
+                // mstatus.MPP[12:11] <= 2'b00;
+                EX_mstatus <= {mstatus[31:13], 2'b00, mstatus[10:4], mstatus[7], mstatus[2:0]};
             end
         endcase
     end

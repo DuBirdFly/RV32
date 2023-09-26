@@ -13,7 +13,7 @@ module InstDecode(
     output reg                     ID_rs1_vld, ID_rs2_vld, ID_rd_vld,
     output reg  [31:0]             ID_imm,                 // 32位的立即数 (大概率要符号拓展)
     // 译码输出2
-    output reg  [11:0]             ID_csr,                 // 读CSR的地址
+    output reg  [11:0]             ID_csr,          // 读/写 CSR的地址 (CSRR 系列指令都是对同一个地址进行读写操作的)
     // 控制冒险: 无条件跳转 (只有 OPCODE_J_JAL 才会触发， 立即反馈到 IF， 此时的jmp_addr = imm)
     output wire                    ID_jmp_vld              // 生成跳转信号, to IF
 );
@@ -145,13 +145,8 @@ always @(*) begin
                         ID_instID = `ID_ECALL;
                         ID_csr = `CSRs_ADDR_MTVEC;
                     end
-                    `IMM12_EBREAK: begin
-                        ID_instID = `ID_EBREAK;
-                        ID_csr = `CSRs_ADDR_MTVEC;
-                    end
                     `IMM12_MRET: begin
                         ID_instID = `ID_MRET;
-                        ID_csr = `CSRs_ADDR_MEPC;
                     end
                 endcase
             end
