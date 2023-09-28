@@ -145,6 +145,10 @@ always @(*) begin
                         ID_instID = `ID_ECALL;
                         ID_csr = `CSRs_ADDR_MTVEC;
                     end
+                    `IMM12_EBREAK: begin
+                        ID_instID = `ID_EBREAK;
+                        ID_csr = `CSRs_ADDR_MTVEC;
+                    end
                     `IMM12_MRET: begin
                         ID_instID = `ID_MRET;
                     end

@@ -220,6 +220,14 @@ always @(posedge clk) begin
                 EX_mcause <= 32'hb;
                 EX_mstatus <= {mstatus[31:13], 2'b11, mstatus[10:4], mstatus[7], mstatus[2:0]};
             end
+            `ID_EBREAK: begin
+                EX_jmp_vld <= 1'b1;
+                EX_jmp_addr <= x_csr;
+                {EX_mepc_vld, EX_mcause_vld, EX_mstatus_vld} <= 3'b111;
+                EX_mepc <= pc;
+                EX_mcause <= 32'h3;
+                EX_mstatus <= {mstatus[31:13], 2'b11, mstatus[10:4], mstatus[7], mstatus[2:0]};
+            end
             `ID_MRET: begin
                 EX_jmp_vld <= 1'b1;
                 EX_jmp_addr <= mepc;
