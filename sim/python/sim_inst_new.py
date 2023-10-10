@@ -1,4 +1,4 @@
-import os
+import os, shutil
 
 from packages.Bin2Mem import Bin2Mem
 from packages.Sim import Sim
@@ -57,10 +57,18 @@ def sim_inst(bin_name : str):
 
 ###################################################################
 
-isSimAll = True
+isSimAll = False
 
 if not isSimAll:
-    inst = "I-ECALL-01"
+    inst = "I-SH-01"
+    
+    for root, dirs, files in os.walk(f'{CWD}/sim/output'):
+        for file in files:
+            if file.endswith(".elf.objdump") or file.endswith(".reference_output"):
+                os.remove(os.path.join(root, file))
+
+    shutil.copy2(f'{PH_D_BIN}/{inst}.elf.objdump', f'{CWD}/sim/output/{inst}.elf.objdump')
+    shutil.copy2(f"{PH_D_REF}/{inst}.reference_output", f'{CWD}/sim/output/{os.path.basename(inst)}.reference_output')
     print(sim_inst(inst))
 
 else:
