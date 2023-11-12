@@ -2,6 +2,15 @@ import subprocess, os
 
 class Sim:
 
+    # PH_F_VVP = f"sim/output/vvp_script.vvp"
+    # PH_D_INC = f"user/src/inc"
+    # PH_F_TBTOP = f"{CWD}/user/sim/tb_CoreTop_New.v"
+    # LIST_FILE = []
+    # for root, dirnames, filenames in os.walk(PH_D_RTL):
+    #     for filename in filenames:
+    #         if filename.endswith(".v") or filename.endswith(".sv"):
+    #             LIST_FILE.append(os.path.join(root, filename))
+
     def __init__(
         self,
         # 路径均为绝对路径, 注意 filepath 与 dirpath 的区别
