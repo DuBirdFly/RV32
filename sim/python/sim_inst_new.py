@@ -57,7 +57,7 @@ def sim_inst(bin_name : str):
 
 ###################################################################
 
-isSimAll = False
+isSimAll = True
 
 if not isSimAll:
     inst = "I-SH-01"
@@ -77,7 +77,7 @@ else:
         for file in files:
             if file.endswith(".bin"): insts.append(file.split('.')[0])
 
-    print(f"全体指令测试 ---> 共 {len(insts)} 条指令 :")
+    print(f"全体 RV32-I 的指令测试 ---> 共 {len(insts)} 条指令 :")
 
     for inst in insts:
         if "PASS" in sim_inst(inst): print(f"{inst:<20}PASS")
