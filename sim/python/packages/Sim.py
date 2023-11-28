@@ -4,7 +4,7 @@ class Sim:
 
     # PH_F_VVP = f"sim/output/vvp_script.vvp"
     # PH_D_INC = f"user/src/inc"
-    # PH_F_TBTOP = f"{CWD}/user/sim/tb_CoreTop_New.v"
+    # PH_F_TBTOP = f"user/sim/tb_CoreTop_New.v"
     # LIST_FILE = []
     # for root, dirnames, filenames in os.walk(PH_D_RTL):
     #     for filename in filenames:
@@ -22,12 +22,12 @@ class Sim:
 
         # 判断'文件/文件夹'是否存在且为绝对路径
         self.exists(os.path.dirname(filepath_vvp_script))
-        self.exists(dirpath_defines)
+        if dirpath_defines: self.exists(dirpath_defines)
         self.exists(filepath_tb_top)
         for filepath in filelist: self.exists(filepath)
 
         # 生成 iverilog 指令, 要求 iverilog 必须处于环境变量中
-        self.ivg_cmd = (["iverilog", "-o", filepath_vvp_script])            # '-o' --> output
+        self.ivg_cmd = (["iverilog", "-g2005-sv", "-o", filepath_vvp_script])            # '-o' --> output
         if dirpath_defines: self.ivg_cmd.extend(["-I", dirpath_defines])    # '-I' --> includedir
 
         # 指定顶层模块 (如果没有用'-s'显示指定的话, 顶层模块被视为第一个file文件, 也就是此处做法)
