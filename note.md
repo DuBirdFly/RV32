@@ -25,6 +25,19 @@ fence_i, div, divu, mul, mulh, mulhsu, mulhu, rem, remu
 
 **如果你已经把不想上传的文件上传到了git仓库**，那么你必须先从远程仓库删了它，==我们可以从远程仓库直接删除然后pull代码到本地仓库这些文件就会本删除==，或者从本地删除这些文件并且在.gitignore文件中添加这些你想忽略的文件，<font color=red>然后再push到远程仓库</font>。
 
+### git代理无法连接的操作
+
+如果使用了VPN, 会导致代理地址变化, 如clash的代理端口为 <http://127.0.0.1:7890>
+
+所以需要在Git Bash中执行以下两条命令:
+
+```bash
+git config --global http.proxy http://127.0.0.1:7890
+git config --global https.proxy http://127.0.0.1:7890
+```
+
+具体看文档 <https://zhuanlan.zhihu.com/p/636418854>
+
 ## Python相关
 
 `sys.stdout.write`指令不自带"\n"
